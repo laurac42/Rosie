@@ -1,2 +1,32 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+ 
+:root {
+    --ion-background-color: #FDE8E8;
+
+	--ion-text-color: #5e0808;
+
+    --ion-toolbar-color: #5e0808;
+
+    --ion-tab-bar-color: #5e0808;
+
+    --ion-border-color: #FDE8e8;
+
+    --ion-tab-bar-color-selected: #460606;
+}
+
+/* change the background colour of the selected tab */
+ion-tab-button.tab-selected {
+    --background: #f7a1a1;
+}
+
+/* Center the title */
+ion-title {
+    &.md {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      height: 0;
+      text-align: center;
+    }
+  }
