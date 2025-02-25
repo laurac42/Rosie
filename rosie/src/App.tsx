@@ -10,10 +10,11 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import { ellipse, radioButtonOff, square, triangle, calendar, clipboard, trendingUp } from 'ionicons/icons';
+import Rosie from './pages/Rosie';
+import Calendar from './pages/Calendar';
+import Track from './pages/Track';
+import Analysis from './pages/Analysis';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -40,7 +41,7 @@ import '@ionic/react/css/display.css';
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
+/*import '@ionic/react/css/palettes/dark.system.css';*/
 
 /* Theme variables */
 import './theme/variables.css';
@@ -52,31 +53,38 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
+          <Route exact path="/Rosie">
+            <Rosie />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/Calendar">
+            <Calendar />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/Track">
+            <Track />
+          </Route>
+          <Route exact path="/Analysis">
+            <Analysis/>
           </Route>
           <Route exact path="/">
-            <Redirect to="/tab1" />
+            <Redirect to="/Rosie" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
+          <IonTabButton tab="Rosie" href="/Rosie">
+            <IonIcon aria-hidden="true" icon={radioButtonOff} />
+            <IonLabel>Cycle</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+          <IonTabButton tab="Calendar" href="/Calendar">
+            <IonIcon aria-hidden="true" icon={calendar} />
+            <IonLabel>Calendar</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+          <IonTabButton tab="Track" href="/Track">
+            <IonIcon aria-hidden="true" icon={clipboard} />
+            <IonLabel>Track</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="Analysis" href="/Analysis">
+            <IonIcon aria-hidden="true" icon={trendingUp} />
+            <IonLabel>Analysis</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
