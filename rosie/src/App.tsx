@@ -53,36 +53,34 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/Rosie">
-            <Rosie />
+          <Route exact path="/Rosie/Cycle">
+            <Rosie/>
           </Route>
-          <Route exact path="/Calendar">
+          <Route exact path="/Rosie/Calendar">
             <Calendar />
           </Route>
-          <Route path="/Track">
+          <Route path="/Rosie/Track">
             <Track />
           </Route>
-          <Route exact path="/Analysis">
+          <Route exact path="/Rosie/Analysis">
             <Analysis/>
           </Route>
-          <Route exact path="/">
-            <Redirect to="/Rosie" />
-          </Route>
+          
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="Rosie" href="/Rosie">
+          <IonTabButton tab="Rosie" href="/Rosie/Cycle">
             <IonIcon aria-hidden="true" icon={radioButtonOff} />
             <IonLabel>Cycle</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Calendar" href="/Calendar">
+          <IonTabButton tab="Calendar" href="/Rosie/Calendar">
             <IonIcon aria-hidden="true" icon={calendar} />
             <IonLabel>Calendar</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Track" href="/Track">
+          <IonTabButton tab="Track" href="/Rosie/Track">
             <IonIcon aria-hidden="true" icon={clipboard} />
             <IonLabel>Track</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Analysis" href="/Analysis">
+          <IonTabButton tab="Analysis" href="/Rosie/Analysis">
             <IonIcon aria-hidden="true" icon={trendingUp} />
             <IonLabel>Analysis</IonLabel>
           </IonTabButton>
