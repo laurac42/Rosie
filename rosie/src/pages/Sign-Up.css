@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap');
+
+h1
+{
+    font-family: "Playwrite IT Moderna", serif;
+}
+
+ion-button {
+    --background: #f7a1a1;
+   
+  
+    --color: #5e0808;
+  
+    --border-radius: 15px;
+    --border-color: #5e0808;
+    --border-style: solid;
+    --border-width: 1px;
+    
+
+    --ripple-color: #5e0808;
+    
+    --box-shadow: 0 0 0 0;
+
+    font-family: "Playwrite IT Moderna", serif;
+  }
+
+  /*Hovered and clicked buttons will change colour*/
+  ion-button:active, ion-button:hover{
+    --background: #F15B5B;
+  }
+
+  .icons {
+    color: #F15B5B;
+  }
+
+  .center-h {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .welcome {
+    padding-top: 50px;
+    padding-bottom: 20px;
+  }
+
+  .sign-up {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  ion-grid {
+    --ion-grid-width: 50%;
+  
+    --ion-grid-width-xs: 90%; 
+    --ion-grid-width-sm: 288px;
+    --ion-grid-width-md: 384px;
+    --ion-grid-width-lg: 480px;
+    --ion-grid-width-xl: 570px;
+  }
