@@ -6,14 +6,10 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/Rosie/Sign-Up",
   plugins: [
     react(),
     legacy()
   ],
-  build: {
-    outDir: "dist", // This should be the correct build directory
-  },
   test: {
     globals: true,
     environment: 'jsdom',

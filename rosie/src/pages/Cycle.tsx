@@ -1,9 +1,9 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon } from '@ionic/react';
 import { personCircle } from 'ionicons/icons';
 import ExploreContainer from '../components/ExploreContainer';
-import './Rosie.css';
+import './Cycle.css';
 
-const Rosie: React.FC = () => {
+const Cycle: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -31,4 +31,4 @@ const Rosie: React.FC = () => {
   );
 };
 
-export default Rosie;
+export default Cycle;

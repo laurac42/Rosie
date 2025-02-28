@@ -1,6 +1,21 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+/* other darker pink: F15B5B*/
  
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Delius&family=Playwrite+IT+Moderna:wght@100..400&display=swap');
+
+h1 {
+    font-family: "Playwrite IT Moderna", serif;
+}
+
+p {
+    font-family: "Delius", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 :root {
     --ion-background-color: #FDE8E8;
 
@@ -22,6 +37,7 @@ ion-tab-button.tab-selected {
 
 /* Center the title */
 ion-title {
+    font-family: "Playwrite IT Moderna", serif;
     &.md {
       width: 100%;
       position: absolute;
