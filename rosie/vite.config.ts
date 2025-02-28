@@ -6,7 +6,7 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/Rosie/Cycle",
+  base: "/Rosie/Sign-Up",
   plugins: [
     react(),
     legacy()

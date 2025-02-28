@@ -11,10 +11,11 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, radioButtonOff, square, triangle, calendar, clipboard, trendingUp } from 'ionicons/icons';
-import Rosie from './pages/Rosie';
+import Cycle from './pages/Cycle';
 import Calendar from './pages/Calendar';
 import Track from './pages/Track';
 import Analysis from './pages/Analysis';
+import SignUp from './pages/Analysis';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,7 +55,7 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/Rosie/Cycle">
-            <Rosie/>
+            <Cycle/>
           </Route>
           <Route exact path="/Rosie/Calendar">
             <Calendar />
@@ -65,7 +66,9 @@ const App: React.FC = () => (
           <Route exact path="/Rosie/Analysis">
             <Analysis/>
           </Route>
-          
+          <Route path="/Rosie/Sign-Up">
+            <SignUp />
+          </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="Rosie" href="/Rosie/Cycle">
