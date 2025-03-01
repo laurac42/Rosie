@@ -18,6 +18,7 @@ import Analysis from './pages/Analysis';
 import SignUp from './pages/Sign-Up';
 import Details from './pages/Enter-Details';
 import Preferences from './pages/Preferences';
+import Privacy from './pages/Privacy-Policy';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -98,6 +99,9 @@ const App: React.FC = () => (
       </Route>
       <Route path="/Rosie/Sign-Up/Preferences">
         <Preferences />
+      </Route>
+      <Route path="/Rosie/Sign-Up/Privacy-Policy">
+        <Privacy />
       </Route>
       
     </IonReactRouter>
