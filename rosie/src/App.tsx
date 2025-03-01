@@ -16,6 +16,8 @@ import Calendar from './pages/Calendar';
 import Track from './pages/Track';
 import Analysis from './pages/Analysis';
 import SignUp from './pages/Sign-Up';
+import Details from './pages/Enter-Details';
+import Preferences from './pages/Preferences';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,6 +56,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          {/*This is all of the different routes for tabs*/}
           <Route exact path="/Rosie/Cycle">
             <Cycle/>
           </Route>
@@ -86,9 +89,17 @@ const App: React.FC = () => (
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
+      {/*This is all of the different routes for other pages not in tabs*/}
       <Route path="/Rosie/Sign-Up">
         <SignUp />
       </Route>
+      <Route path="/Rosie/Sign-Up/Enter-Details">
+        <Details />
+      </Route>
+      <Route path="/Rosie/Sign-Up/Preferences">
+        <Preferences />
+      </Route>
+      
     </IonReactRouter>
   </IonApp>
 );

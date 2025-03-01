@@ -10,16 +10,33 @@ h1 {
     font-family: "Playwrite IT Moderna", serif;
 }
 
+/* To add spacing to some headings*/
+.heading {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
 p {
     font-family: "Delius", serif;
     font-weight: 400;
     font-style: normal;
 }
 
+ion-input {
+    font-family: "Delius", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 :root {
+    --text: #5e0808;
+    --background: #FDE8E8;
+    --mid-pink: #f7a1a1;
+    --darker-pink: #F15B5B;
+
     --ion-background-color: #FDE8E8;
 
-	--ion-text-color: #5e0808;
+	  --ion-text-color: #5e0808;
 
     --ion-toolbar-color: #5e0808;
 
@@ -45,4 +62,44 @@ ion-title {
       height: 0;
       text-align: center;
     }
+  }
+
+  .btn {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* This changes the date picker icon to an image */
+  .native-input[type=date]::-webkit-calendar-picker-indicator {
+    background-image: url('/calendar.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  }
+
+  .center-h {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  ion-grid {
+    --ion-grid-width: 50%;
+  
+    --ion-grid-width-xs: 90%; 
+    --ion-grid-width-sm: 288px;
+    --ion-grid-width-md: 384px;
+    --ion-grid-width-lg: 480px;
+    --ion-grid-width-xl: 570px;
+  }
+
+  ion-radio {
+    --color: var(--mid-pink);
+   --color-checked: var(--darker-pink);
+  }
+
+  ion-checkbox {
+    --checkmark-color: var(--background);
+    --checkbox-background-checked: var(--darker-pink);
+    --border-color-checked:var(--darker-pink);
+    --border-color: var(--mid-pink);
   }

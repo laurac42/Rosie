@@ -32,29 +32,3 @@ ion-button {
   .icons {
     color: #F15B5B;
   }
-
-  .center-h {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .welcome {
-    padding-top: 50px;
-    padding-bottom: 20px;
-  }
-
-  .sign-up {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  ion-grid {
-    --ion-grid-width: 50%;
-  
-    --ion-grid-width-xs: 90%; 
-    --ion-grid-width-sm: 288px;
-    --ion-grid-width-md: 384px;
-    --ion-grid-width-lg: 480px;
-    --ion-grid-width-xl: 570px;
-  }
