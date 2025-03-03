@@ -41,6 +41,7 @@ import '@ionic/react/css/display.css';
 
 import './theme/darkmode.css';
 import './theme/lightmode.css';
+import './theme/high-contrast.css'
 
 setupIonicReact();
 

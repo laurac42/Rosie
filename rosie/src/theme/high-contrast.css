@@ -23,26 +23,27 @@ ion-input {
   font-style: normal;
 }
 
-.dark {
-  --text: #f2c0cb;
-  --background-color: #3f0d19;
-  --mid-pink: #e58098;
-  --darker-pink: #e16b86;
-  --lighter-background: #7f1a32;
+.contrast {
+  --text: #2A0911;
+  --darker-text: #000000;
+  --background-color: #ffffff;
+  --mid-pink: #941e3a;
+  --darker-pink: #941E3A;
+  --darker-background: #F2C0CB;
 
   --ion-background-color: var(--background-color);
+
+  --ion-toolbar-background: var(--darker-background);
 
   --ion-text-color: var(--text);
 
   --ion-toolbar-color: var(--text);
 
-  --ion-toolbar-background: var(--lighter-background);
-
   --ion-tab-bar-color: var(--text);
 
   --ion-border-color: var(--background-color);
 
-  --ion-tab-bar-color-selected: var(--lighter-background);
+  --ion-tab-bar-color-selected: var(--darker-text);
 }
 
 /* change the background colour of the selected tab */
@@ -92,8 +93,8 @@ ion-grid {
 }
 
 ion-radio {
-  --color: var(--mid-pink);
-  --color-checked: var(--darker-pink);
+  --color: var(--darker-pink);
+  --color-checked: var(--mid-pink);
 }
 
 ion-checkbox {
@@ -104,26 +105,29 @@ ion-checkbox {
 }
 
 ion-button {
-    --background: var(--darker-pink);
-   
-    color: #3f0d19;
+  --background: var(--mid-pink);
+ 
+
+  color: var(--background-color); /*for higher contrast*/
+
+  --border-radius: 15px;
+  border-color: var(--background-color)8;
+  --border-style: solid;
+  --border-width: 1px;
   
-    --border-radius: 15px;
-    border-color:#3f0d19 8;
-    --border-style: solid;
-    --border-width: 1px;
-    
-    
-    --box-shadow: 0 0 0 0;
+
+  --ripple-color: var(--mid-pink);
   
-    font-family: "Playwrite IT Moderna", serif;
-  }
-  
-  /*Hovered and clicked buttons will change colour*/
-  ion-button:active, ion-button:hover{
-    --background: var(--darker-pink);
-  }
-  
-  .icons {
-    color: var(--darker-pink);
-  }
+  --box-shadow: 0 0 0 0;
+
+  font-family: "Playwrite IT Moderna", serif;
+}
+
+/*Hovered and clicked buttons will change colour*/
+ion-button:active, ion-button:hover{
+  --background: var(--darker-pink);
+}
+
+.icons {
+  color: var(--mid-pink);
+}

@@ -31,8 +31,8 @@ const Preferences: React.FC = () => {
                         <br />
                         <IonRow class="ion-justify-content-start"><IonRadio value="dark" justify="space-between" labelPlacement='end' >Dark Mode</IonRadio></IonRow>
                         <br />
-                        {/*<IonRow class="ion-justify-content-start"><IonRadio value="contrast" labelPlacement="end" justify="space-between">High Contrast Mode</IonRadio></IonRow>
-                        <br />*/}
+                        <IonRow class="ion-justify-content-start"><IonRadio value="contrast" labelPlacement="end" justify="space-between">High Contrast Mode</IonRadio></IonRow>
+                        <br />
                     </IonRadioGroup>
                    
                     <IonRow class="ion-justify-content-start">

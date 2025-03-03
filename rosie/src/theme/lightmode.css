@@ -27,8 +27,8 @@ ion-input {
   --text: #6a1629;
   --darker-text: #3f0d19;
   --background-color: #fbeaee;
-  --mid-pink: #dc5675;
-  --darker-pink: #d42b53;
+  --mid-pink: #d42b53;
+  --darker-pink: #bb2649;
   --darker-background: #eeaaba;
 
   --ion-background-color: var(--background-color);
@@ -93,7 +93,7 @@ ion-grid {
 }
 
 ion-radio {
-  --color: var(--mid-pink);
+  --color: var(--text);
   --color-checked: var(--darker-pink);
 }
 
@@ -108,7 +108,7 @@ ion-button {
   --background: var(--mid-pink);
  
 
-  --color: var(--background-color);
+  --color: var(--darker-text); /*for higher contrast*/
 
   --border-radius: 15px;
   --border-color: var(--background-color)8;
@@ -116,7 +116,7 @@ ion-button {
   --border-width: 1px;
   
 
-  --ripple-color: var(--background-color);
+  --ripple-color: var(--mid-pink);
   
   --box-shadow: 0 0 0 0;
 
