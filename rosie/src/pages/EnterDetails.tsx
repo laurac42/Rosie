@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonInput } from '@ionic/react';
 import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
 import ExploreContainer from '../components/ExploreContainer';
-import './Enter-Details.css';
+import './EnterDetails.css';
 
 const Details: React.FC = () => {
     return (
@@ -33,8 +33,8 @@ const Details: React.FC = () => {
                         <p><b>Do you want to enter any past period data?</b></p>
                     </IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonCol><IonButton href="/Rosie/Sign-Up/Preferences" size="small">Enter Period Data</IonButton></IonCol>
-                        <IonCol><IonButton href="/Rosie/Sign-Up/Preferences" size="small">Save Without Period Data</IonButton></IonCol>
+                        <IonCol><IonButton href="/Rosie/SignUp/Preferences" size="small">Enter Period Data</IonButton></IonCol>
+                        <IonCol><IonButton href="/Rosie/SignUp/Preferences" size="small">Save Without Period Data</IonButton></IonCol>
                     </IonRow>
                     {/*<IonRow class="ion-justify-content-center">
                         <IonButton className="btn" href="/Rosie/Sign-Up/Preferences" size="large">Save Details</IonButton>

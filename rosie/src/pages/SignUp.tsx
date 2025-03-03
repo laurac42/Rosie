@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol } from '@ionic/react';
 import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
 import ExploreContainer from '../components/ExploreContainer';
-import './Sign-Up.css';
+import './SignUp.css';
 
 const SignUp: React.FC = () => {
     return (
@@ -18,7 +18,7 @@ const SignUp: React.FC = () => {
                         Whether you're tracking symptoms, predicting your next period, or planning ahead, Rosie gives you the insights you need to feel in control of your body.
                         Sign up now to start tracking and get personalized reminders, cycle insights, and more! <IonIcon icon={heart} className='icons'></IonIcon></p></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton className="btn" href="/Rosie/Sign-Up/Enter-Details" size="large">Sign-Up</IonButton>
+                        <IonButton className="btn" href="/Rosie/SignUp/EnterDetails" size="large">Sign-Up</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>

@@ -14,7 +14,7 @@ const Preferences: React.FC = () => {
                 <IonGrid fixed={true}>
                     <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='icons'></IonIcon> Choose Preferences <IonIcon icon={flower} className='icons'></IonIcon></h1></IonRow>
                     <IonRow class="ion-justify-content-start"><p><b> Appearance:</b> </p></IonRow>
-                    <IonRadioGroup value="strawberries">
+                    <IonRadioGroup value="appearance">
                         <IonRow class="ion-justify-content-start"><IonRadio  value="light" labelPlacement="end" justify="space-between">Light Mode</IonRadio></IonRow>
                         <br />
                         <IonRow class="ion-justify-content-start"><IonRadio value="dark" justify="space-between" labelPlacement='end' >Dark Mode</IonRadio></IonRow>
@@ -29,7 +29,7 @@ const Preferences: React.FC = () => {
                     <IonCheckbox labelPlacement="end">Upcoming Period Reminder</IonCheckbox>
                     <IonCheckbox labelPlacement="end">Daily Track Reminder</IonCheckbox>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton className="btn" href="/Rosie/Sign-Up/Privacy-Policy" size="large">Save Preferences</IonButton>
+                        <IonButton className="btn" href="/Rosie/SignUp/PrivacyPolicy" size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>

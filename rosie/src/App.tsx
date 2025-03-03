@@ -15,10 +15,10 @@ import Cycle from './pages/Cycle';
 import Calendar from './pages/Calendar';
 import Track from './pages/Track';
 import Analysis from './pages/Analysis';
-import SignUp from './pages/Sign-Up';
-import Details from './pages/Enter-Details';
+import SignUp from './pages/SignUp';
+import Details from './pages/EnterDetails';
 import Preferences from './pages/Preferences';
-import Privacy from './pages/Privacy-Policy';
+import Privacy from './pages/PrivacyPolicy';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,56 +54,54 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
+    <IonReactRouter basename="/Rosie">
       <IonTabs>
         <IonRouterOutlet>
           {/*This is all of the different routes for tabs*/}
-          <Route exact path="/Rosie/Cycle">
-            <Cycle/>
+          <Route exact path="/Cycle">
+            <Cycle />
           </Route>
-          <Route exact path="/Rosie/Calendar">
+          <Route exact path="/Calendar">
             <Calendar />
           </Route>
-          <Route path="/Rosie/Track">
+          <Route path="/Track">
             <Track />
           </Route>
-          <Route exact path="/Rosie/Analysis">
-            <Analysis/>
+          <Route exact path="/Analysis">
+            <Analysis />
+          </Route>
+          <Route exact path="/SignUp">
+            <SignUp />
+          </Route>
+          <Route exact path="/SignUp/EnterDetails">
+            <Details />
+          </Route>
+          <Route exact path="/SignUp/Preferences">
+            <Preferences />
+          </Route>
+          <Route exact path="/SignUp/PrivacyPolicy">
+            <Privacy />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="Rosie" href="/Rosie/Cycle">
+          <IonTabButton tab="Rosie" href="/Cycle">
             <IonIcon aria-hidden="true" icon={radioButtonOff} />
             <IonLabel>Cycle</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Calendar" href="/Rosie/Calendar">
+          <IonTabButton tab="Calendar" href="/Calendar">
             <IonIcon aria-hidden="true" icon={calendar} />
             <IonLabel>Calendar</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Track" href="/Rosie/Track">
+          <IonTabButton tab="Track" href="/Track">
             <IonIcon aria-hidden="true" icon={clipboard} />
             <IonLabel>Track</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="Analysis" href="/Rosie/Analysis">
+          <IonTabButton tab="Analysis" href="/Analysis">
             <IonIcon aria-hidden="true" icon={trendingUp} />
             <IonLabel>Analysis</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
-      {/*This is all of the different routes for other pages not in tabs*/}
-      <Route path="/Rosie/Sign-Up">
-        <SignUp />
-      </Route>
-      <Route path="/Rosie/Sign-Up/Enter-Details">
-        <Details />
-      </Route>
-      <Route path="/Rosie/Sign-Up/Preferences">
-        <Preferences />
-      </Route>
-      <Route path="/Rosie/Sign-Up/Privacy-Policy">
-        <Privacy />
-      </Route>
-      
     </IonReactRouter>
   </IonApp>
 );
