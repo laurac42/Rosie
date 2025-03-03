@@ -1,4 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import {
   IonApp,
   IonIcon,
@@ -19,6 +20,7 @@ import SignUp from './pages/SignUp';
 import Details from './pages/EnterDetails';
 import Preferences from './pages/Preferences';
 import Privacy from './pages/PrivacyPolicy';
+import {loadTheme} from "./theme";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,74 +38,71 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
 
-/* import '@ionic/react/css/palettes/dark.always.css'; */
-/* import '@ionic/react/css/palettes/dark.class.css'; */
-/*import '@ionic/react/css/palettes/dark.system.css';*/
-
-/* Theme variables */
-import './theme/variables.css';
+import './theme/darkmode.css';
+import './theme/lightmode.css';
+import './theme/high-contrast.css'
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter basename="/Rosie">
-      <IonTabs>
-        <IonRouterOutlet>
-          {/*This is all of the different routes for tabs*/}
-          <Route exact path="/Cycle">
-            <Cycle />
-          </Route>
-          <Route exact path="/Calendar">
-            <Calendar />
-          </Route>
-          <Route path="/Track">
-            <Track />
-          </Route>
-          <Route exact path="/Analysis">
-            <Analysis />
-          </Route>
-          <Route exact path="/SignUp">
-            <SignUp />
-          </Route>
-          <Route exact path="/SignUp/EnterDetails">
-            <Details />
-          </Route>
-          <Route exact path="/SignUp/Preferences">
-            <Preferences />
-          </Route>
-          <Route exact path="/SignUp/PrivacyPolicy">
-            <Privacy />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="Rosie" href="/Cycle">
-            <IonIcon aria-hidden="true" icon={radioButtonOff} />
-            <IonLabel>Cycle</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Calendar" href="/Calendar">
-            <IonIcon aria-hidden="true" icon={calendar} />
-            <IonLabel>Calendar</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Track" href="/Track">
-            <IonIcon aria-hidden="true" icon={clipboard} />
-            <IonLabel>Track</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Analysis" href="/Analysis">
-            <IonIcon aria-hidden="true" icon={trendingUp} />
-            <IonLabel>Analysis</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  useEffect(() => {
+    loadTheme();
+  }, []);
+
+  return (
+    <IonApp>
+      <IonReactRouter basename="/Rosie">
+        <IonTabs>
+          <IonRouterOutlet>
+            {/*This is all of the different routes for tabs*/}
+            <Route exact path="/Cycle">
+              <Cycle />
+            </Route>
+            <Route exact path="/Calendar">
+              <Calendar />
+            </Route>
+            <Route path="/Track">
+              <Track />
+            </Route>
+            <Route exact path="/Analysis">
+              <Analysis />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="Rosie" href="/Cycle">
+              <IonIcon aria-hidden="true" icon={radioButtonOff} />
+              <IonLabel>Cycle</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="Calendar" href="/Calendar">
+              <IonIcon aria-hidden="true" icon={calendar} />
+              <IonLabel>Calendar</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="Track" href="/Track">
+              <IonIcon aria-hidden="true" icon={clipboard} />
+              <IonLabel>Track</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="Analysis" href="/Analysis">
+              <IonIcon aria-hidden="true" icon={trendingUp} />
+              <IonLabel>Analysis</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+        <Route exact path="/SignUp">
+          <SignUp />
+        </Route>
+        <Route exact path="/SignUp/EnterDetails">
+          <Details />
+        </Route>
+        <Route exact path="/SignUp/Preferences">
+          <Preferences />
+        </Route>
+        <Route exact path="/SignUp/PrivacyPolicy">
+          <Privacy />
+        </Route>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
