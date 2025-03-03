@@ -25,11 +25,11 @@ ion-input {
 
 .contrast {
   --text: #2A0911;
-  --darker-text: #000000;
+  --contrast-text: #ffffff;
   --background-color: #ffffff;
   --mid-pink: #941e3a;
-  --darker-pink: #941E3A;
-  --darker-background: #F2C0CB;
+  --darker-pink: #6a1629;
+  --darker-background: #941E3A;
 
   --ion-background-color: var(--background-color);
 
@@ -37,19 +37,30 @@ ion-input {
 
   --ion-text-color: var(--text);
 
-  --ion-toolbar-color: var(--text);
+  --ion-toolbar-color: var(--contrast-text);
 
   --ion-tab-bar-color: var(--text);
 
   --ion-border-color: var(--background-color);
 
-  --ion-tab-bar-color-selected: var(--darker-text);
+  --ion-tab-bar-color-selected: var(--text);
+
+  --ion-tab-bar-color-focused: var(--darker-text);
 }
 
 /* change the background colour of the selected tab */
 ion-tab-button.tab-selected {
   --background: var(--mid-pink);
+  color: #ffffff;
+  --color-selected: #ffffff;
+
 }
+
+ion-tab-button.tab-selected:hover {
+    --background: var(--darker-pink); /* Keep the same background as default */
+    --color: #ffffff !important;
+    
+  }
 
 /* Center the title */
 ion-title {
