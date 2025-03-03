@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonRadioGroup, IonRadio, IonCheckbox } from '@ionic/react';
 import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
-import ExploreContainer from '../components/ExploreContainer';
+import ExploreContainer from '../components/ExploreContainer'; 
 
 const Privacy: React.FC = () => {
     return (
