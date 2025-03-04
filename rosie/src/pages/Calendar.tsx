@@ -6,19 +6,19 @@ import ExploreContainer from '../components/ExploreContainer';
 import './Calendar.css';
 
 const Calendar: React.FC = () => {
-  /* This is a list of events in the calendar */
+  /* This is a list of events in  the calendar */
   const periods = [
     { title: 'Period', date: '2025-03-01'},
   ]
   // a custom render function
-  function renderEventContent(eventInfo: any) {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    )
-  }
+function renderEventContent(eventInfo: any) {
+  return (
+    <>
+      <b>{eventInfo.timeText}</b>
+      <i>{eventInfo.event.title}</i>
+    </>
+  )
+}
   return (
     <IonPage>
       <IonHeader>
@@ -35,14 +35,14 @@ const Calendar: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonGrid class="calendarWidth">
-          <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView='dayGridMonth'
-            weekends={true}
-            events={periods}
-            eventContent={renderEventContent} // custom function to render the event content
-          />
+        <IonGrid class="ion-justify-content-center" className="calendarWidth">
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView='dayGridMonth'
+              weekends={true}
+              events={periods}
+              eventContent={renderEventContent} // custom function to render the event content
+            />
         </IonGrid>
       </IonContent>
     </IonPage>
