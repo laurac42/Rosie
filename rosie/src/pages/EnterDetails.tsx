@@ -98,7 +98,7 @@ const Details: React.FC = () => {
             </IonHeader>
             <IonContent fullscreen>
                 <IonGrid fixed={true}>
-                    <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='icons'></IonIcon> Enter Your Details <IonIcon icon={flower} className='icons'></IonIcon></h1></IonRow>
+                    <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Enter Your Details <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
                     <IonRow class="ion-justify-content-start"><p> Please enter your name and age. You also have the option to enter up to three past periods. Please enter your details below: </p></IonRow>
                     <IonGrid class="ion-justify-content-center">
                         <IonRow> <IonItem>

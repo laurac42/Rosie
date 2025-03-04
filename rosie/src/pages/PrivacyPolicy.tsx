@@ -12,7 +12,7 @@ const Privacy: React.FC = () => {
             </IonHeader>
             <IonContent fullscreen>
                 <IonGrid fixed={true}>
-                    <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='icons'></IonIcon> Privacy Policy <IonIcon icon={flower} className='icons'></IonIcon></h1></IonRow>
+                    <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Privacy Policy <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
 
                     <IonRow class="ion-justify-content-start"><p><b>1. Introduction</b>
                         <br></br>Welcome to Rosie. Your privacy is important to us. This Privacy Policy explains how we collect, use, and disclose your information. By using the App, you acknowledge and accept the terms of this policy.</p>

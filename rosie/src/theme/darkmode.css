@@ -124,6 +124,12 @@ ion-button {
     --background: var(--darker-pink);
   }
   
-  .icons {
+  .colourIcon {
     color: var(--darker-pink);
+  }
+
+  .profileButton {
+    color: var(--text);
+    background-color: var(--darker-background);
+    --border-width: 0;
   }

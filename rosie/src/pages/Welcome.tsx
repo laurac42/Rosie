@@ -14,14 +14,14 @@ import ExploreContainer from '../components/ExploreContainer';
                 <IonGrid fixed={true}>
                     <IonRow class="ion-justify-content-center">
                         <h1 className="heading">
-                            <IonIcon icon={flower} className='icons'></IonIcon> Welcome to Rosie <IonIcon icon={flower} className='icons'></IonIcon>
+                            <IonIcon icon={flower} className='colourIcon'></IonIcon> Welcome to Rosie <IonIcon icon={flower} className='colourIcon'></IonIcon>
                         </h1>
                     </IonRow>
                     <IonRow class="ion-justify-content-center">
                         <p>Welcome to Rosie, your personal period tracker. Click to get started with tracking your period.</p>
                     </IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton className="btn" href="/Rosie/SignUp" size="large">Get Started</IonButton>
+                        <IonButton className="btn" href="/Rosie/Cycle" size="large">Get Started</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>
