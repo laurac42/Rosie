@@ -105,9 +105,9 @@ ion-checkbox {
 }
 
 ion-button {
-  --background: var(--mid-pink);
+  --background: var(--mid-pink) !important;
  
-
+  --ion-color-base: var(--mid-pink);
   --color: var(--darker-text); /*for higher contrast*/
 
   --border-radius: 15px;
@@ -121,12 +121,25 @@ ion-button {
   --box-shadow: 0 0 0 0;
 
   font-family: "Playwrite IT Moderna", serif;
+
+  fill: solid;
+  -webkit-tap-highlight-color: transparent;
+
+  touch-action: manipulation;
+
+  cursor: pointer;
+  user-select: none;
 }
 
-/*Hovered and clicked buttons will change colour*/
-ion-button:active, ion-button:hover{
-  --background: var(--darker-pink);
+ion-button:focus, 
+ion-button:active, 
+ion-button:focus-visible {
+  --background: var(--darker-pink) !important;
+  --color: var(--darker-text) !important;
+  outline: none !important; /* Prevents default focus outline */
+  box-shadow: none !important;
 }
+
 
 .icons {
   color: var(--darker-pink);

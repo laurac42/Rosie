@@ -20,7 +20,8 @@ import SignUp from './pages/SignUp';
 import Details from './pages/EnterDetails';
 import Preferences from './pages/Preferences';
 import Privacy from './pages/PrivacyPolicy';
-import {loadTheme} from "./theme";
+import { loadTheme } from "./theme";
+import Welcome from './pages/Welcome';  
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -68,6 +69,24 @@ const App: React.FC = () => {
             <Route exact path="/Analysis">
               <Analysis />
             </Route>
+            <Route exact path="/SignUp">
+              <SignUp />
+            </Route>
+            <Route exact path="/SignUp/EnterDetails">
+              <Details />
+            </Route>
+            <Route exact path="/SignUp/Preferences">
+              <Preferences />
+            </Route>
+            <Route exact path="/SignUp/PrivacyPolicy">
+              <Privacy />
+            </Route>
+            <Route exact path="/SignUp/Welcome">
+              <Welcome />
+            </Route>
+            <Route exact path="/">
+            <Redirect to="/SignUp" />
+          </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="Rosie" href="/Cycle">
@@ -88,18 +107,7 @@ const App: React.FC = () => {
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-        <Route exact path="/SignUp">
-          <SignUp />
-        </Route>
-        <Route exact path="/SignUp/EnterDetails">
-          <Details />
-        </Route>
-        <Route exact path="/SignUp/Preferences">
-          <Preferences />
-        </Route>
-        <Route exact path="/SignUp/PrivacyPolicy">
-          <Privacy />
-        </Route>
+
       </IonReactRouter>
     </IonApp>
   );

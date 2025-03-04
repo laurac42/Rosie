@@ -57,10 +57,11 @@ ion-tab-button.tab-selected {
 }
 
 ion-tab-button.tab-selected:hover {
-    --background: var(--darker-pink); /* Keep the same background as default */
-    --color: #ffffff !important;
-    
-  }
+  --background: var(--darker-pink);
+  /* Keep the same background as default */
+  --color: #ffffff !important;
+
+}
 
 /* Center the title */
 ion-title {
@@ -117,26 +118,35 @@ ion-checkbox {
 
 ion-button {
   --background: var(--mid-pink);
- 
 
-  color: var(--background-color); /*for higher contrast*/
+  color: var(--background-color);
+  /*for higher contrast*/
 
   --border-radius: 15px;
   border-color: var(--background-color)8;
   --border-style: solid;
   --border-width: 1px;
-  
+  --background-activated: var(--darker-pink);
 
   --ripple-color: var(--mid-pink);
-  
+
   --box-shadow: 0 0 0 0;
 
   font-family: "Playwrite IT Moderna", serif;
 }
 
+:host(.button-solid) {
+  --background: var(--mid-pink) !important;
+  --background-activated: var(--darker-pink) !important;
+  --background-focused: var(--darker-pink) !important;
+  --background-hover: var(--darker-pink) !important;
+}
+
 /*Hovered and clicked buttons will change colour*/
-ion-button:active, ion-button:hover{
+ion-button:active,
+ion-button:hover {
   --background: var(--darker-pink);
+  --background-activated: var(--darker-pink);
 }
 
 .icons {
