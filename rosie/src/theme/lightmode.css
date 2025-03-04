@@ -151,8 +151,10 @@ ion-button::selection {
   --fc-event-bg-color: var(--mid-pink);
   --fc-event-border-color: var(--darker-pink);
   --fc-event-text-color: var(--background-color);
+  --fc-today-bg-color: var(--darker-background);
+
   
-  /* Ensure the calendar takes up as much space as possible */
+  /* Ensure the calendar takes up the whole height */
   height: 100%;
   overflow: hidden; /* Prevent scrolling */
   
@@ -160,13 +162,29 @@ ion-button::selection {
 
 .fc-view-container {
   height: 100%;
-
 }
 
 .fc-scroller {
   overflow: hidden !important; /* Prevent scrolling */
 }
 
+/*extra-small*/
+@media (max-width: 640px) {
+  .fc {
+    height: 100%; /* Take up as much room as possible */
+    width: 100%;
+  }
+}
+
+/*small*/
+@media (min-width: 640px) {
+  .fc {
+    height: 100%; /* Take up as much room as possible */
+    width: 100%;
+  }
+}
+
+/*medium*/
 @media (min-width: 768px) {
   .fc {
     height: 80%; /* Take up less room on bigger screens */
@@ -174,6 +192,7 @@ ion-button::selection {
   }
 }
 
+/*large*/
 @media (min-width: 1024px) {
   .fc {
     height: 70%; /* Take up even less room on larger screens */
@@ -253,11 +272,6 @@ ion-button::selection {
 
 /*Style the grid the calendar is in for different screen sizes*/
 .calendarWidth {
-  --ion-grid-width-xs: 90%;
-  --ion-grid-width-sm: 310px;
-  --ion-grid-width-md: 384px;
-  --ion-grid-width-lg: 480px;
-  --ion-grid-width-xl: 570px;
   height: 100%;
   display: flex;
   justify-content: center;
