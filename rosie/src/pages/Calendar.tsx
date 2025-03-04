@@ -1,9 +1,24 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow } from '@ionic/react';
 import { personCircle } from 'ionicons/icons';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
 import ExploreContainer from '../components/ExploreContainer';
 import './Calendar.css';
 
 const Calendar: React.FC = () => {
+  /* This is a list of events in the calendar */
+  const periods = [
+    { title: 'Period', date: '2025-03-01'},
+  ]
+  // a custom render function
+  function renderEventContent(eventInfo: any) {
+    return (
+      <>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    )
+  }
   return (
     <IonPage>
       <IonHeader>
@@ -20,12 +35,15 @@ const Calendar: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Calendar</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Calendar" />
+        <IonGrid class="calendarWidth">
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView='dayGridMonth'
+            weekends={true}
+            events={periods}
+            eventContent={renderEventContent} // custom function to render the event content
+          />
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

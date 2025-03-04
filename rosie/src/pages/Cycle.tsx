@@ -22,7 +22,7 @@ const Cycle: React.FC = () => {
       <IonContent fullscreen>
         <IonGrid>
           <IonRow>
-            <h1  className="heading"><IonIcon aria-label="profile" slot="icon-only" icon={personCircle} className='personIcon'></IonIcon>Cycle</h1>
+
           </IonRow>
         </IonGrid>
       </IonContent>

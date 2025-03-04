@@ -55,7 +55,7 @@ ion-tab-button.tab-selected {
 ion-title {
   font-family: "Playwrite IT Moderna", serif;
 
-  &.md {
+  &.md, &.ios {
     width: 100%;
     position: absolute;
     left: 0;
@@ -100,7 +100,7 @@ ion-radio {
 ion-checkbox {
   --checkmark-color: var(--background-color);
   --checkbox-background-checked: var(--darker-pink);
-  --border-color-checked: var(--darker-pink);
+  --border-color-checked: var (--darker-pink);
   --border-color: var(--mid-pink);
 }
 
@@ -141,4 +141,125 @@ ion-button::selection {
   color: var(--text);
   background-color: var(--darker-background);
   --border-width: 0;
+}
+
+/*Styling for the calendar*/
+.fc {
+  --fc-bg-color: var(--background-color);
+  --fc-border-color: var(--text);
+  --fc-text-color: var(--text) !important;
+  --fc-event-bg-color: var(--mid-pink);
+  --fc-event-border-color: var(--darker-pink);
+  --fc-event-text-color: var(--background-color);
+  
+  /* Ensure the calendar takes up as much space as possible */
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
+  
+}
+
+.fc-view-container {
+  height: 100%;
+
+}
+
+.fc-scroller {
+  overflow: hidden !important; /* Prevent scrolling */
+}
+
+@media (min-width: 768px) {
+  .fc {
+    height: 80%; /* Take up less room on bigger screens */
+    width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fc {
+    height: 70%; /* Take up even less room on larger screens */
+    width: 60%;
+  }
+}
+
+.fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fc-toolbar-title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.fc-toolbar .fc-today-button {
+  order: 1;
+}
+
+.fc-toolbar .fc-left {
+  order: 1;
+}
+
+.fc-toolbar .fc-right {
+  order: 3;
+}
+
+.fc-toolbar-title {
+  font-family: "Playwrite IT Moderna", serif;
+  color: var(--text);
+  order: 2;
+}
+
+.fc-button {
+  background-color: var(--darker-pink);
+  color: var(--background-color);
+}
+
+/*This styles the today button*/
+.fc-today-button.fc-button.fc-button-primary {
+  font-family: "Playwrite IT Moderna", serif;
+  background-color: var(--mid-pink);
+  border-color: var(--mid-pink);
+}
+
+/*This styles the today button hover effect*/
+.fc-today-button.fc-button.fc-button-primary:hover {
+  background-color: var(--darker-pink);
+  border-color: var(--darker-pink);
+}
+
+/*Styling for the left and right buttons*/
+.fc-icon.fc-icon-chevron-left, .fc-icon.fc-icon-chevron-right {
+  color: var(--background-color);
+  background-color: var(--mid-pink);
+}
+
+/*Styling for the left and right buttons*/
+.fc-prev-button.fc-button.fc-button-primary, .fc-next-button.fc-button.fc-button-primary {
+  background-color: var(--mid-pink);
+  border-color: var(--mid-pink);
+}
+
+/*Styles the Days of the week - Sun, Mon etc.*/
+.fc-col-header-cell-cushion {
+  background-color: var(--background-color);
+  color: var(--text);
+}
+
+/*Styles the days of the month numbers*/
+.fc-daygrid-day-number {
+  color: var(--text) !important;
+}
+
+/*Style the grid the calendar is in for different screen sizes*/
+.calendarWidth {
+  --ion-grid-width-xs: 90%;
+  --ion-grid-width-sm: 310px;
+  --ion-grid-width-md: 384px;
+  --ion-grid-width-lg: 480px;
+  --ion-grid-width-xl: 570px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
