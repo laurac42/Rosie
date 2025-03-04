@@ -13,7 +13,7 @@ const Calendar: React.FC = () => {
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
           <IonButtons slot="end">
-            <IonButton>
+            <IonButton className='profileButton' href="/Rosie/Profile">
               <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
             </IonButton>
           </IonButtons>
