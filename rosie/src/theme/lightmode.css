@@ -55,7 +55,7 @@ ion-tab-button.tab-selected {
 ion-title {
   font-family: "Playwrite IT Moderna", serif;
 
-  &.md {
+  &.md, &.ios {
     width: 100%;
     position: absolute;
     left: 0;
@@ -131,16 +131,24 @@ ion-button {
   user-select: none;
 }
 
-ion-button:focus, 
-ion-button:active, 
-ion-button:focus-visible {
-  --background: var(--darker-pink) !important;
-  --color: var(--darker-text) !important;
-  outline: none !important; /* Prevents default focus outline */
-  box-shadow: none !important;
+/*Hovered and clicked buttons will change colour*/
+ion-button:active, ion-button:hover{
+  --background: var(--darker-pink);
 }
 
+/* Prevent buttons from turning blue on iOS when hovered */
+ion-button::-webkit-touch-callout, 
+ion-button::-webkit-user-select, 
+ion-button::selection {
+  background: transparent;
+}
 
-.icons {
+.colourIcon {
   color: var(--darker-pink);
+}
+
+.profileButton {
+  color: var(--text);
+  background-color: var(--darker-background);
+  --border-width: 0;
 }

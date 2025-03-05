@@ -117,7 +117,7 @@ ion-checkbox {
 }
 
 ion-button {
-  --background: var(--mid-pink);
+  --background: var(--background-color);
 
   color: var(--background-color);
   /*for higher contrast*/
@@ -149,6 +149,12 @@ ion-button:hover {
   --background-activated: var(--darker-pink);
 }
 
-.icons {
+.colourIcon {
   color: var(--mid-pink);
+}
+
+.profileButton {
+  color: var(--text);
+  background-color: var(--darker-background);
+  --border-width: 0;
 }
