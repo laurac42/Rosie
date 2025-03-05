@@ -100,13 +100,14 @@ ion-radio {
 ion-checkbox {
   --checkmark-color: var(--background-color);
   --checkbox-background-checked: var(--darker-pink);
-  --border-color-checked: var (--darker-pink);
+  --border-color-checked: var(--darker-pink);
   --border-color: var(--mid-pink);
 }
 
 ion-button {
-  --background: var(--mid-pink);
-
+  --background: var(--mid-pink) !important;
+ 
+  --ion-color-base: var(--mid-pink);
   --color: var(--darker-text); /*for higher contrast*/
 
   --border-radius: 15px;
@@ -114,11 +115,20 @@ ion-button {
   --border-style: solid;
   --border-width: 1px;
   
+
   --ripple-color: var(--mid-pink);
   
   --box-shadow: 0 0 0 0;
 
   font-family: "Playwrite IT Moderna", serif;
+
+  fill: solid;
+  -webkit-tap-highlight-color: transparent;
+
+  touch-action: manipulation;
+
+  cursor: pointer;
+  user-select: none;
 }
 
 /*Hovered and clicked buttons will change colour*/

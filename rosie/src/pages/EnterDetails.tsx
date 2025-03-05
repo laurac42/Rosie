@@ -5,10 +5,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import './EnterDetails.css';
 
 const Details: React.FC = () => {
-    // States for name, age, and birthday (you can extend this)
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [birthday, setBirthday] = useState('');
+    const [finished, setFinished] = useState(false); // state for whether or not the user has finished entering their details
     const [showPeriodInput, setShowPeriodInput] = useState(false);
 
     // Handle 'Enter Period Data' button click
@@ -38,6 +35,7 @@ const Details: React.FC = () => {
             alert('Birthday Required');
             return;
         }
+        setFinished(true); // if this point in the function is reached, everything is saved and the user is finished
     };
 
     /* Funtion to save to local storage if period details were added */
@@ -46,49 +44,50 @@ const Details: React.FC = () => {
         // same as saving without period, but then also extra things
         saveWithoutPeriod();
         const p1start = document.getElementById('periodStart1') as HTMLInputElement;
-        localStorage.setItem('Period 1 Start', p1start.value);
         if (!p1start.value) {
             alert('Period Start Date Required');
             return;
         }
-        
+
         const p2start = document.getElementById('periodStart2') as HTMLInputElement;
-        localStorage.setItem('Period 2 Start', p2start.value);
-        if (!p1start.value) {
+        if (!p2start.value) {
             alert('Period Start Date Required');
             return;
         }
-        
+
         const p3start = document.getElementById('periodStart3') as HTMLInputElement;
-        localStorage.setItem('Period 3 Start', p3start.value);
         if (!p3start.value) {
             alert('Period Start Date Required');
             return;
         }
 
         const p1end = document.getElementById('periodEnd1') as HTMLInputElement;
-        localStorage.setItem('Period 1 End', p1end.value);
         if (!p1end.value) {
             alert('Period End Date Required');
             return;
         }
 
         const p2end = document.getElementById('periodEnd2') as HTMLInputElement;
-        localStorage.setItem('Period 2 End', p2end.value);
         if (!p2end.value) {
             alert('Period End Date Required');
             return;
         }
 
         const p3end = document.getElementById('periodEnd3') as HTMLInputElement;
-        localStorage.setItem('Period 3 End', p3end.value);
         if (!p3end.value) {
             alert('Period End Date Required');
             return;
         }
+        // store all of the period data in an array
+        const initial_periods = [
+            {startDate: p1start.value, endDate: p1end.value},
+            {startDate: p2start.value, endDate: p2end.value},   
+            {startDate: p3start.value, endDate: p3end.value}
+        ];
 
+        // add everything in the initial periods map to local storage
+        localStorage.setItem('InitialPeriods', JSON.stringify(initial_periods));
     }
-
     return (
         <IonPage>
             <IonHeader>
@@ -140,16 +139,16 @@ const Details: React.FC = () => {
                             </IonRow>
                             <IonRow class="ion-justify-content-start"><p><b>Second Most Recent Period:</b></p></IonRow>
                             <IonRow >
-                                <IonItem> 
+                                <IonItem>
                                     <IonInput className="custom-font" label="Start Date:" type='date' placeholder="Enter Period Start Date" id="periodStart2">
                                     </IonInput>
                                 </IonItem>
-                                <IonItem><IonInput className="custom-font" label="End Date:"  type='date' placeholder="Enter Period End Date" id="periodEnd2" >
+                                <IonItem><IonInput className="custom-font" label="End Date:" type='date' placeholder="Enter Period End Date" id="periodEnd2" >
                                 </IonInput></IonItem>
                             </IonRow>
                             <IonRow class="ion-justify-content-start"><p><b>Third Most Recent Period:</b></p></IonRow>
                             <IonRow >
-                                <IonItem> 
+                                <IonItem>
                                     <IonInput className="custom-font" type='date' label="Start Date:" placeholder="Enter Period Start Date" id="periodStart3">
                                     </IonInput>
                                 </IonItem>
@@ -160,8 +159,6 @@ const Details: React.FC = () => {
                                 <IonButton className="btn" onClick={saveWithPeriod} href="/Rosie/SignUp/Preferences" size="large">Save Details</IonButton>
                             </IonRow>
                         </IonGrid>
-
-
                     )}
                 </IonGrid>
             </IonContent>
