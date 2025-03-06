@@ -70,8 +70,8 @@ ion-title {
 }
 
 /* This changes the date picker icon to an image */
-.native-input[type=date]::-webkit-calendar-picker-indicator {
-  background-image: url('/calendar.png');
+.light .native-input[type=date]::-webkit-calendar-picker-indicator {
+  background-image: url('/calendarLight.png');
   background-size: contain;
   background-repeat: no-repeat;
 }

@@ -1,6 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonInput } from '@ionic/react';
 import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
 import React, { useState } from 'react';
+import { PushNotifications } from '@capacitor/push-notifications';
 import ExploreContainer from '../components/ExploreContainer';
 import './EnterDetails.css';
 
