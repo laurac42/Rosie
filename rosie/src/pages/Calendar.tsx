@@ -11,7 +11,6 @@ const Calendar: React.FC = () => {
   useEffect(() => {
     // Fetch periods data from local storage on initial load
     const storedPeriods = JSON.parse(localStorage.getItem('InitialPeriods') || '[]');
-    console.log(storedPeriods);
 
     // for every period stored, get the dates between the start and end dates and add them to the periods array
     for (var i = 0; i < storedPeriods.length; i++) {

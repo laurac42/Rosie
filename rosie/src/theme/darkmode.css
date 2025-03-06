@@ -34,7 +34,7 @@ ion-input {
 
   --ion-text-color: var(--text);
 
-  --ion-toolbar-color: var(--text);
+  --ion-toolbar-color: var(--lighter-background) !important;
 
   --ion-toolbar-background: var(--lighter-background);
 
@@ -45,10 +45,26 @@ ion-input {
   --ion-tab-bar-color-selected: var(--lighter-background);
 }
 
-/* change the background colour of the selected tab */
-ion-tab-button.tab-selected {
-  --background: var(--mid-pink);
+/* This changes the date picker icon to an image */
+/* This changes the date picker icon to an image */
+.dark .native-input[type=date]::-webkit-calendar-picker-indicator {
+  background-image: url('/calendarDark.png');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
+
+.dark ion-tab-button {
+  --background: var(--lighter-background);
+  --color: var(--text);
+}
+
+
+/* change the background colour of the selected tab */
+.dark ion-tab-button.tab-selected {
+  --background: var(--mid-pink);
+  color: var(--background-color);
+}
+
 
 /* Center the title */
 ion-title {
@@ -66,13 +82,6 @@ ion-title {
 .btn {
   padding-top: 20px;
   padding-bottom: 20px;
-}
-
-/* This changes the date picker icon to an image */
-.native-input[type=date]::-webkit-calendar-picker-indicator {
-  background-image: url('/calendar.png');
-  background-size: contain;
-  background-repeat: no-repeat;
 }
 
 .center-h {

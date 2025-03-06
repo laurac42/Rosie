@@ -16,7 +16,7 @@ const Cycle: React.FC = () => {
   useEffect(() => {
     calculateAverageCycleLength();
     calculateDay();
-  }, []);
+  });
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
