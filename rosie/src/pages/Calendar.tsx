@@ -88,6 +88,11 @@ const Calendar: React.FC = () => {
             initialView='dayGridMonth'
             weekends={true}
             events={periods}
+            headerToolbar= {{
+              right: 'today',
+              center: 'title',
+              left: 'prev,next'
+          }}
             eventContent={renderEventContent} // Custom function to render the event content
           />
         </IonGrid>
