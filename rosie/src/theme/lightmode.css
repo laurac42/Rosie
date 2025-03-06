@@ -46,10 +46,18 @@ ion-input {
   --ion-tab-bar-color-selected: var(--darker-text);
 }
 
-/* change the background colour of the selected tab */
-ion-tab-button.tab-selected {
-  --background: var(--mid-pink);
+.light ion-tab-button {
+  --background: var(--darker-background);
+  --color: var(--text);
 }
+
+
+/* change the background colour of the selected tab */
+.light ion-tab-button.tab-selected {
+  --background: var(--mid-pink);
+  color: var(--background-color);
+}
+
 
 /* Center the title */
 ion-title {
