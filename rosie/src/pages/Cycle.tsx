@@ -1,27 +1,69 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow } from '@ionic/react';
 import { personCircle } from 'ionicons/icons';
-import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import React, { useState, useEffect } from 'react';
 import ExploreContainer from '../components/ExploreContainer';
+import moment from 'moment';
 import './Cycle.css';
 
 const Cycle: React.FC = () => {
+  const [day, setDay] = useState(0);
+  const [averageCycleLength, setAverageCycleLength] = useState(0);
+  const [startDates, setStartDates] = useState<string[]>([]);
+
+  // use effect runs on first render (with [])
+  // so calculate the average cycle length and day of cycle on first render
+  useEffect(() => {
+    calculateAverageCycleLength();
+    calculateDay();
+  }, []);
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
-    var cycleLength = 28;
-    const storedPeriods = JSON.parse(localStorage.getItem('InitialPeriods') || '[]');
-    var startDates = [];
+    var storedPeriods = JSON.parse(localStorage.getItem('InitialPeriods') || '[]');
+    // exit if there are no periods stored
+    if (storedPeriods.length === 0) {
+      return 0;
+    }
     // create an array of all of the start dates
+    var startDates: string[] = [];
     for (var i = 0; i < storedPeriods.length; i++) {
       var date = (new Date(storedPeriods[i]['startDate']));
       startDates.push(formatDate(date));
     }
-    // take all start dates, calculate the number of days between them, and take the average
-    // but this means all of the period dates need to be stored in order, or the difference won't be correct
-    // b-a is from most recent, a-b is from least recent
+
+    // need to make sure all periods are stored in order first (from most recent)
     startDates.sort((a, b) => (new Date(b).getTime() - new Date(a).getTime()));
-    console.log( "startDates: ", startDates); // Output: [2021–01–01, 2022–01–01, 2023–01–01]
-    return (cycleLength);
+    setStartDates(startDates);
+
+    // calculate the number of days between start dates, and take the average
+    var differences: number[] = [];
+    for (var i = 0; i < startDates.length - 1; i++) {
+      const period1 = moment(startDates[i]);
+      const period2 = moment(startDates[i + 1]);
+
+      // calculate the difference in days and add to array
+      const difference = period1.diff(period2, 'days');
+      differences.push(difference);
+    }
+
+    // then calculate the average of the differences
+    const sum = differences.reduce((a, b) => a + b, 0);
+    var cycleLength = (sum / differences.length) || 0;
+
+    setAverageCycleLength(cycleLength);
+  }
+
+  /* Calculate what day of their cycle the user is currently on */
+  function calculateDay() {
+    // if there are some periods stored,
+    if (startDates.length > 0) {
+      // calculate the number of days since start of last period and today
+      const lastPeriodStartDate = moment(startDates[0]);
+      const today = moment();
+      const dayOfCycle = today.diff(lastPeriodStartDate, 'days')+1; // +1 as otherwise it doesn't include the start day as a day of this cycle
+      setDay(dayOfCycle);
+    }
   }
 
   /* Format the date to YYYY-MM-DD */
@@ -36,6 +78,7 @@ const Cycle: React.FC = () => {
 
     return [year, month, day].join('-');
   }
+
   return (
     <IonPage>
       <IonHeader>
@@ -52,13 +95,14 @@ const Cycle: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonGrid class="ion-justify-content-center">
+        <IonGrid className="progress" class="ion-justify-content-center">
           <IonRow class="cycleWidth">
             {/* In the future, max value will be the predicted length of the users cycle
               * And the value will come from the number of days since the last period
               */}
-            <CircularProgressbar className="progress" value={20} maxValue={calculateAverageCycleLength()} text={`Day ${20}`} />;
-          </IonRow></IonGrid>
+            <CircularProgressbar value={day} maxValue={averageCycleLength} text={`Day ${day}`} />
+          </IonRow>
+        </IonGrid>
         <IonGrid>
           <IonRow class="ion-justify-content-center">
             <IonButton className="btn" href="/Rosie/Track" size="large">Save Details</IonButton>
