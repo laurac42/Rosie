@@ -105,7 +105,7 @@ const Cycle: React.FC = () => {
         </IonGrid>
         <IonGrid>
           <IonRow class="ion-justify-content-center">
-            <IonButton className="btn" href="/Rosie/Track" size="large">Save Details</IonButton>
+            <IonButton className="btn" href="/Rosie/Track" size="large">Track</IonButton>
           </IonRow>
         </IonGrid>
       </IonContent>

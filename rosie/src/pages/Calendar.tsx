@@ -18,7 +18,6 @@ const Calendar: React.FC = () => {
       // find all dates between the start and end dates
       var inBetweenDates = getDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
 
-      
       inBetweenDates.forEach(newDate => {
         // skip if the date is already in periods
         if (periods.find(({date}) =>date === newDate)) {
@@ -82,7 +81,7 @@ const Calendar: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonGrid class="ion-justify-content-center calendarWidth">
+        <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
           <FullCalendar
             plugins={[dayGridPlugin]}
             initialView='dayGridMonth'
