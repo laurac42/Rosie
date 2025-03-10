@@ -278,7 +278,7 @@ const Track: React.FC = () => {
               <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
           </IonRow>
           <IonRow class="ion-justify-content-center">
-            <IonButton className="btn" onClick={saveTracking} size="large">Save</IonButton>
+            <IonButton className="btn" href="/Rosie/Cycle" onClick={saveTracking} size="large">Save</IonButton>
           </IonRow>
         </IonGrid>
       </IonContent>
