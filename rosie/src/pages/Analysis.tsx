@@ -223,7 +223,7 @@ const Analysis: React.FC = () => {
                     <IonRow><h2>Pain</h2></IonRow>
                     <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
                     <IonRow><PieChart
-                    colors={['var(--mid-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
+                    colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
                         series={[
                             {
                                 data: [
@@ -232,8 +232,19 @@ const Analysis: React.FC = () => {
                                     { id: 2, value: backPainDays.length, label: 'Back Pain' },
                                     { id: 3, value: headacheDays.length, label: 'Headache Pain' },
                                 ],
+                                innerRadius: 5,  
+                                paddingAngle: 5,  
+                                cornerRadius: 5, 
                             },
+                            
                         ]}
+                        slotProps={{
+                            legend: {
+                                labelStyle: {
+                                    fill: 'var(--text)',
+                                },
+                            },
+                        }}
                         width={500}
                         height={200}
                     /> </IonRow>

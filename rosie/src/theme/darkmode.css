@@ -30,6 +30,9 @@ ion-input {
   --lighter-pink: #d84164;
   --darker-pink: #e16b86;
   --darker-background: #7f1a32;
+  --complementary-colour: #D4582B;
+  --complementary-colour2: #D42BA7;
+  --complementary-colour3: #FFCC00; 
 
   --ion-background-color: var(--background-color);
 
