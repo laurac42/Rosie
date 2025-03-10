@@ -161,7 +161,6 @@ ion-button::selection {
   color: var(--background-color);
 }
 
-
 .profileButton {
   color: var(--text);
   background-color: var(--darker-background);
