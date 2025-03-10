@@ -157,3 +157,27 @@ ion-button:hover {
   background-color: var(--darker-background);
   --border-width: 0;
 }
+
+/* the track page needs different styling to look good on high contrast*/
+/* the ion column changes only apply to the track page */
+.contrast .track-page ion-col {
+  background-color: var(--background-color);
+  border: var(--mid-pink);
+  border-width: .2em;
+  border-style: solid;
+  color: var(--text);
+  text-align: center;
+  font-family: "Delius", serif;
+}
+
+.contrast .ion-activatable.clicked {
+  background-color: var(--mid-pink);
+  /* Highlight color */
+  color: var(--background-color);
+}
+
+/* colour for clicked icon */
+.contrast .clickedIcon ion-icon {
+  color: var(--background-color)
+}
+

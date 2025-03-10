@@ -20,7 +20,7 @@
 .track-page ion-col {
     background-color: var(--darker-background);
     border: var(--mid-pink);
-    border-width: .01em;
+    border-width: .1em;
     border-style: solid;
     color: var(--text);
     text-align: center;
