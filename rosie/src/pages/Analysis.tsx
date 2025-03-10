@@ -151,7 +151,7 @@ const Analysis: React.FC = () => {
                     dataset={periodLengths}
                     xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
                     series={[
-                        { dataKey: 'length', label: 'Period Length' , color: 'var(--mid-pink)'},
+                        { dataKey: 'length', label: 'Period Length' , color: 'var(--lighter-pink)'},
                     ]}
                     slotProps={{
                         legend: {
@@ -162,13 +162,14 @@ const Analysis: React.FC = () => {
                       }}
                     {...chartSetting}
                     /></IonRow>
-                    <p><b>Average Period Length: {averagePeriodLength} days</b></p>
+                    <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+
                     <IonRow><h2>Cycle Length</h2></IonRow>
                     <IonRow><BarChart
                     dataset={cycleLengths}
                     xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
                     series={[
-                        { dataKey: 'length', label: 'Cycle Length' , color: 'var(--mid-pink)'},
+                        { dataKey: 'length', label: 'Cycle Length' , color: 'var(--lighter-pink)'},
                     ]}
                     slotProps={{
                         legend: {
@@ -179,7 +180,7 @@ const Analysis: React.FC = () => {
                       }}
                     {...chartSetting}
                     /></IonRow>
-                    <p><b>Average Cycle Length: {averageCycleLength} days</b></p>
+                    <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
                     <IonRow><h2>Pain</h2></IonRow>
                 </IonGrid>
