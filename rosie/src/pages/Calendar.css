@@ -28,43 +28,6 @@
     overflow: hidden !important;
 }
 
-/*extra-small*/
-@media (max-width: 640px) {
-    .fc {
-        padding-top: 20px;
-        height: 100%;
-        /* Take up as much room as possible */
-        width: 100%;
-    }
-}
-
-/*small*/
-@media (min-width: 640px) {
-    .fc {
-        height: 100%;
-        /* Take up as much room as possible */
-        width: 100%;
-    }
-}
-
-/*medium*/
-@media (min-width: 768px) {
-    .fc {
-        height: 80%;
-        /* Take up less room on bigger screens */
-        width: 50%;
-    }
-}
-
-/*large*/
-@media (min-width: 1024px) {
-    .fc {
-        height: 70%;
-        /* Take up even less room on larger screens */
-        width: 60%;
-    }
-}
-
 .fc-toolbar {
     display: flex;
     justify-content: space-between;
@@ -74,18 +37,8 @@
 .fc-toolbar-title {
     flex-grow: 1;
     text-align: center;
-}
-
-.fc-toolbar .fc-today-button {
-    order: 1;
-}
-
-.fc-toolbar .fc-left {
-    order: 1;
-}
-
-.fc-toolbar .fc-right {
-    order: 3;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .fc-toolbar-title {

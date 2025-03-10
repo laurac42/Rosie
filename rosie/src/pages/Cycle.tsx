@@ -11,12 +11,15 @@ const Cycle: React.FC = () => {
   const [averageCycleLength, setAverageCycleLength] = useState(0);
   const [startDates, setStartDates] = useState<string[]>([]);
 
-  // use effect runs on first render (with [])
-  // so calculate the average cycle length and day of cycle on first render
+  // calculate the average cycle length only on first render
   useEffect(() => {
     calculateAverageCycleLength();
+  }, []);
+
+  // calculate the day of period when start dates is updated
+  useEffect(() => {
     calculateDay();
-  });
+  }, [startDates]); 
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
@@ -105,7 +108,7 @@ const Cycle: React.FC = () => {
         </IonGrid>
         <IonGrid>
           <IonRow class="ion-justify-content-center">
-            <IonButton className="btn" href="/Rosie/Track" size="large">Save Details</IonButton>
+            <IonButton className="btn" href="/Rosie/Track" size="large">Track</IonButton>
           </IonRow>
         </IonGrid>
       </IonContent>

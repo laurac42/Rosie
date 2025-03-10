@@ -1,0 +1,49 @@
+.fc .fc-highlight {
+    background: var(--mid-pink);
+}
+
+.fc .trackCalendar {
+    /* today doesn't need highlighted on the track page, it should be the selected date */
+    --fc-today-bg-color: var(--background-color);
+}
+
+/* Style the grid the calendar is in for different screen sizes */
+.calendarWidthTrack {
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+/* the ion column changes only apply to the track page */
+.track-page ion-col {
+    background-color: var(--darker-background);
+    border: var(--mid-pink);
+    border-width: .1em;
+    border-style: solid;
+    color: var(--text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+/* colour for clicked icon */
+.clickedIcon ion-icon {
+    color: var(--background-color)
+}
+
+
+.custom-ripple {
+    color: var(--mid-pink);
+}
+
+.ion-activatable.clicked {
+    background-color: var(--mid-pink);
+    /* Highlight color */
+    color: var(--background-color);
+    --ion-icon-color: var(--background-color);
+}
+
+.trackRows {
+    padding-bottom: 20px;
+}
