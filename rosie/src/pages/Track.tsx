@@ -52,7 +52,9 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked flow
-    setClickedFlow(columnText);
+    if (columnText != "") {
+      setClickedFlow(columnText);
+    }
   }
 
   // handle a pain column being clicked
@@ -60,7 +62,9 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked pain
-    setClickedPain(columnText);
+    if (columnText != "") {
+      setClickedPain(columnText);
+    }
   }
 
   // handle a skin column being clicked
@@ -68,7 +72,10 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked skin
-    setClickedSkin(columnText);
+    if (columnText != "") {
+      setClickedSkin(columnText);
+    }
+
   }
 
   // handle an emotion column being clicked
@@ -76,7 +83,9 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked emotion
-    setClickedEmotion(columnText);
+    if (columnText != "") {
+      setClickedEmotion(columnText);
+    }
   }
 
   /**
@@ -108,7 +117,7 @@ const Track: React.FC = () => {
     }
     else {
       // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedEmotions= new Map(JSON.parse(localStorage.emotionsMap));
+      var storedEmotions = new Map(JSON.parse(localStorage.emotionsMap));
       storedEmotions.set(selectedDate, clickedEmotion);
       localStorage.emotionsMap = JSON.stringify(Array.from(storedEmotions.entries()));
     }
@@ -123,19 +132,18 @@ const Track: React.FC = () => {
     }
     else {
       // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedSkin= new Map(JSON.parse(localStorage.skinMap));
+      var storedSkin = new Map(JSON.parse(localStorage.skinMap));
       storedSkin.set(selectedDate, clickedSkin);
       localStorage.skinMap = JSON.stringify(Array.from(storedSkin.entries()));
     }
-    
+
     savePeriodData();
   }
 
   /** 
    * save the period data, including turning it into saving start and end dates
-   */ 
-  function savePeriodData()
-  {
+   */
+  function savePeriodData() {
     // period flow data
     // check if the period map exists in local storage or if this is the first period track
     if (localStorage.getItem("periodMap") === null) {
