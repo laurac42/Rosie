@@ -1,0 +1,46 @@
+/* Chart Styling */
+.MuiChartsAxis-root {
+    color: var(--text) !important;
+    background-color: var(--background-color) !important;
+    fill: var(--text) !important;
+}
+
+.MuiChartsAxis-directionY .MuiChartsAxis-label
+{
+    fill: var(--text) !important;
+}
+
+.MuiChartsAxis-left {
+    color: var(--text) !important;
+    background-color: var(--background-color) !important;
+    fill: var(--text) !important;
+}
+
+.MuiChartsAxis-right {
+    color: var(--text) !important;
+    background-color: var(--background-color) !important;
+    fill: var(--text) !important;
+}
+
+.MuiChartsAxis-line {
+    stroke: var(--text) !important;
+}
+
+.MuiChartsAxis-tick {
+    stroke: var(--text) !important;
+}
+
+.MuiChartsAxis-tickLabel {
+    color: var(--text) !important;
+    background-color: var(--background-color) !important;
+    fill: var(--text) !important;
+}
+
+.MuiChartsLegend-label {
+    fill: var(--text) !important;  /* For SVG text */
+    color: var(--text) !important; /* In case it's standard text */
+}
+
+.MuiChartsLegend text {
+    fill: var(--text) !important;
+}

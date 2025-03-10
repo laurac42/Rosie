@@ -20,7 +20,6 @@ const Calendar: React.FC = () => {
     localStorage.periodMap = JSON.stringify(Array.from(storedPeriods.entries()));*/
 
     storedPeriods.forEach((flow: string, date: string) => {
-      console.log(date, flow);
       periods.push({title: 'Period', date: date})
   });
   }, []);
