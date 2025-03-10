@@ -102,7 +102,7 @@ const Details: React.FC = () => {
         localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
 
         // still set the initial periods while i decide how i will do things
-        localStorage.setItem('InitialPeriods', JSON.stringify(storedPeriods));
+        localStorage.setItem('StartEndPeriods', JSON.stringify(storedPeriods));
     }
 
     /* Get the dates between two dates - https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates*/

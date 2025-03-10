@@ -23,7 +23,7 @@ const Cycle: React.FC = () => {
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
-    var storedPeriods = JSON.parse(localStorage.getItem('InitialPeriods') || '[]');
+    var storedPeriods = JSON.parse(localStorage.getItem('StartEndPeriods') || '[]');
     // exit if there are no periods stored
     if (storedPeriods.length === 0) {
       return 0;

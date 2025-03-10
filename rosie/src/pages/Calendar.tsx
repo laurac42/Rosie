@@ -12,6 +12,13 @@ const Calendar: React.FC = () => {
     // Fetch periods data from local storage on initial load
     var storedPeriods = new Map<string, string>(JSON.parse(localStorage.periodMap));
 
+    
+    /* Add all of the basic period data back if wrong stuff is added 
+    storedPeriods.delete("2025-03-14");
+    storedPeriods.delete("2025-03-10");
+    // re add to local storage
+    localStorage.periodMap = JSON.stringify(Array.from(storedPeriods.entries()));*/
+
     storedPeriods.forEach((flow: string, date: string) => {
       console.log(date, flow);
       periods.push({title: 'Period', date: date})
