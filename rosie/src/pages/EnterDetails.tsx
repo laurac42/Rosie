@@ -79,16 +79,56 @@ const Details: React.FC = () => {
             alert('Period End Date Required');
             return;
         }
-        // store all of the period data in an array
-        const initial_periods = [
-            {startDate: p1start.value, endDate: p1end.value},
-            {startDate: p2start.value, endDate: p2end.value},   
-            {startDate: p3start.value, endDate: p3end.value}
+        // store all of the period start and end data in an array
+        const storedPeriods = [
+            { startDate: p1start.value, endDate: p1end.value },
+            { startDate: p2start.value, endDate: p2end.value },
+            { startDate: p3start.value, endDate: p3end.value }
         ];
 
-        // add everything in the initial periods map to local storage
-        localStorage.setItem('InitialPeriods', JSON.stringify(initial_periods));
+        // now create a map of every single date between the dates
+        let periodMap = new Map<string, string>();
+
+        for (var i = 0; i < storedPeriods.length; i++) {
+
+            // find all dates between the start and end dates
+            var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
+            inBetweenDates.forEach(newDate => {
+                periodMap.set(newDate, "N/A");
+            });
+        }
+
+        // add everything in the periods map to local storage
+        localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
+
+        // still set the initial periods while i decide how i will do things
+        localStorage.setItem('StartEndPeriods', JSON.stringify(storedPeriods));
     }
+
+    /* Get the dates between two dates - https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates*/
+    function getInBetweenDates(startDate: Date, stopDate: Date) {
+        var dateArray = new Array();
+        var currentDate = startDate;
+        while (currentDate <= stopDate) {
+            dateArray.push(formatDate(new Date(currentDate)));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dateArray;
+    }
+
+    /* Format the date to YYYY-MM-DD */
+    function formatDate(date: Date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
     return (
         <IonPage>
             <IonHeader>

@@ -27,9 +27,13 @@ ion-input {
   --text: #2A0911;
   --contrast-text: #ffffff;
   --background-color: #ffffff;
+  --lighter-pink: #be274a;
   --mid-pink: #941e3a;
   --darker-pink: #6a1629;
   --darker-background: #941E3A;
+  --complementary-colour: #115545;
+  --complementary-colour2: #26004d;
+  --complementary-colour3: #00264d; 
 
   --ion-background-color: var(--background-color);
 

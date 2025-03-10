@@ -27,9 +27,13 @@ ion-input {
   --text: #6a1629;
   --darker-text: #3f0d19;
   --background-color: #fbeaee;
+  --lighter-pink: #dc5675;
   --mid-pink: #d42b53;
   --darker-pink: #bb2649;
-  --darker-background: #eeaaba;
+  --darker-background: #f2c0cb;
+  --complementary-colour: #D4582B;
+  --complementary-colour2: #D42BA7;
+  --complementary-colour3: #FFCC00; 
 
   --ion-background-color: var(--background-color);
 
@@ -166,3 +170,4 @@ ion-button::selection {
   background-color: var(--darker-background);
   --border-width: 0;
 }
+

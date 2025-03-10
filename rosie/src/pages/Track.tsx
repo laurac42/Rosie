@@ -98,22 +98,6 @@ const Track: React.FC = () => {
       localStorage.painMap = JSON.stringify(Array.from(storedPain.entries()));
     }
 
-
-    // period flow data
-    // check if the period map exists in local storage or if this is the first period track
-    if (localStorage.getItem("periodMap") === null) {
-      // create a map that maps a date to a pain level
-      let periodMap = new Map<string, string>();
-      periodMap.set(selectedDate, clickedFlow);
-      localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
-    }
-    else {
-      // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedPeriod = new Map(JSON.parse(localStorage.periodMap));
-      storedPeriod.set(selectedDate, clickedFlow);
-      localStorage.periodMap = JSON.stringify(Array.from(storedPeriod.entries()));
-    }
-
     // emotions data
     // check if the emotions map exists in local storage or if this is the first
     if (localStorage.getItem("emotionsMap") === null) {
@@ -144,6 +128,28 @@ const Track: React.FC = () => {
       localStorage.skinMap = JSON.stringify(Array.from(storedSkin.entries()));
     }
     
+    savePeriodData();
+  }
+
+  /** 
+   * save the period data, including turning it into saving start and end dates
+   */ 
+  function savePeriodData()
+  {
+    // period flow data
+    // check if the period map exists in local storage or if this is the first period track
+    if (localStorage.getItem("periodMap") === null) {
+      // create a map that maps a date to a pain level
+      let periodMap = new Map<string, string>();
+      periodMap.set(selectedDate, clickedFlow);
+      localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
+    }
+    else {
+      // get the previous pain map, and add to it, overwriting if there is something for that date already
+      var storedPeriod = new Map(JSON.parse(localStorage.periodMap));
+      storedPeriod.set(selectedDate, clickedFlow);
+      localStorage.periodMap = JSON.stringify(Array.from(storedPeriod.entries()));
+    }
   }
 
 
