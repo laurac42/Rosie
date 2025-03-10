@@ -2,10 +2,30 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMe
 import { personCircle } from 'ionicons/icons';
 import React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import ExploreContainer from '../components/ExploreContainer';
+import { useState, useEffect } from 'react';
+import moment from 'moment';
 import './Analysis.css';
 
 const Analysis: React.FC = () => {
+    const [periods, setPeriods] = useState<string[]>([]);
+
+     useEffect(() => {
+        getAveragePeriodLength();
+      }, []);
+    /**
+     * Get all of the period data, calculate start and end dates, and calculate the average period length
+     */
+    function getAveragePeriodLength()
+    {
+        // first, load in all period data and make sure it is sorted by date
+        var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
+        periodDates.forEach((flow: string, date: string) => {
+            console.log(date);
+            periods.push(date);
+        });
+        periods.sort((a, b) => (new Date(b).getTime() - new Date(a).getTime()));
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -29,18 +49,12 @@ const Analysis: React.FC = () => {
                 </IonHeader>
                 <IonGrid fixed={true}>
                     <IonRow><h2>Period Length</h2></IonRow>
-                    {/*<BarChart
-                    periodData=
-                        dataset={dataset}
-                        xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-                        series={[
-                            { dataKey: 'london', label: 'London', valueFormatter },
-                            { dataKey: 'paris', label: 'Paris', valueFormatter },
-                            { dataKey: 'newYork', label: 'New York', valueFormatter },
-                            { dataKey: 'seoul', label: 'Seoul', valueFormatter },
-                        ]}
-                        {...chartSetting}
-                    />*/}
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }]}
+                        series={[{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }]}
+                        width={500}
+                        height={300}
+                    />
 
                     <IonRow><h2>Cycle Length</h2></IonRow>
 
