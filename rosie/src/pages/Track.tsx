@@ -52,7 +52,9 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked flow
-    setClickedFlow(columnText);
+    if (columnText) {
+      setClickedFlow(columnText);
+    }
   }
 
   // handle a pain column being clicked
@@ -60,7 +62,9 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked pain
-    setClickedPain(columnText);
+    if (columnText) {
+      setClickedPain(columnText);
+    }
   }
 
   // handle a skin column being clicked
@@ -68,7 +72,10 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked skin
-    setClickedSkin(columnText);
+    if (columnText) {
+      setClickedSkin(columnText);
+    }
+
   }
 
   // handle an emotion column being clicked
@@ -76,7 +83,9 @@ const Track: React.FC = () => {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
 
     // add the column to the clicked emotion
-    setClickedEmotion(columnText);
+    if (columnText) {
+      setClickedEmotion(columnText);
+    }
   }
 
   /**
@@ -85,70 +94,76 @@ const Track: React.FC = () => {
   function saveTracking() {
 
     // check if the pain map exists in local storage or if this is the first pain track
-    if (localStorage.getItem("painMap") === null) {
-      // create a map that maps a date to a pain level
-      let painMap = new Map<string, string>();
-      painMap.set(selectedDate, clickedPain);
-      localStorage.painMap = JSON.stringify(Array.from(painMap.entries()));
-    }
-    else {
-      // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedPain = new Map(JSON.parse(localStorage.painMap));
-      storedPain.set(selectedDate, clickedPain);
-      localStorage.painMap = JSON.stringify(Array.from(storedPain.entries()));
-    }
-
-    // emotions data
-    // check if the emotions map exists in local storage or if this is the first
-    if (localStorage.getItem("emotionsMap") === null) {
-      // create a map that maps a date to a pain level
-      let emotionsMap = new Map<string, string>();
-      emotionsMap.set(selectedDate, clickedEmotion);
-      localStorage.emotionsMap = JSON.stringify(Array.from(emotionsMap.entries()));
-    }
-    else {
-      // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedEmotions= new Map(JSON.parse(localStorage.emotionsMap));
-      storedEmotions.set(selectedDate, clickedEmotion);
-      localStorage.emotionsMap = JSON.stringify(Array.from(storedEmotions.entries()));
+    if (clickedPain) {
+      if (localStorage.getItem("painMap") === null) {
+        // create a map that maps a date to a pain level
+        let painMap = new Map<string, string>();
+        painMap.set(selectedDate, clickedPain);
+        localStorage.painMap = JSON.stringify(Array.from(painMap.entries()));
+      }
+      else {
+        // get the previous pain map, and add to it, overwriting if there is something for that date already
+        var storedPain = new Map(JSON.parse(localStorage.painMap));
+        storedPain.set(selectedDate, clickedPain);
+        localStorage.painMap = JSON.stringify(Array.from(storedPain.entries()));
+      }
     }
 
-    // skin data
-    // check if the skin map exists in local storage or if this is the first
-    if (localStorage.getItem("skinMap") === null) {
-      // create a map that maps a date to a pain level
-      let skinMap = new Map<string, string>();
-      skinMap.set(selectedDate, clickedSkin);
-      localStorage.skinMap = JSON.stringify(Array.from(skinMap.entries()));
+    if (clickedEmotion) {
+      // emotions data
+      // check if the emotions map exists in local storage or if this is the first
+      if (localStorage.getItem("emotionsMap") === null) {
+        // create a map that maps a date to a pain level
+        let emotionsMap = new Map<string, string>();
+        emotionsMap.set(selectedDate, clickedEmotion);
+        localStorage.emotionsMap = JSON.stringify(Array.from(emotionsMap.entries()));
+      }
+      else {
+        // get the previous pain map, and add to it, overwriting if there is something for that date already
+        var storedEmotions = new Map(JSON.parse(localStorage.emotionsMap));
+        storedEmotions.set(selectedDate, clickedEmotion);
+        localStorage.emotionsMap = JSON.stringify(Array.from(storedEmotions.entries()));
+      }
     }
-    else {
-      // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedSkin= new Map(JSON.parse(localStorage.skinMap));
-      storedSkin.set(selectedDate, clickedSkin);
-      localStorage.skinMap = JSON.stringify(Array.from(storedSkin.entries()));
+
+    if (clickedSkin) {
+      // skin data
+      // check if the skin map exists in local storage or if this is the first
+      if (localStorage.getItem("skinMap") === null) {
+        // create a map that maps a date to a pain level
+        let skinMap = new Map<string, string>();
+        skinMap.set(selectedDate, clickedSkin);
+        localStorage.skinMap = JSON.stringify(Array.from(skinMap.entries()));
+      }
+      else {
+        // get the previous pain map, and add to it, overwriting if there is something for that date already
+        var storedSkin = new Map(JSON.parse(localStorage.skinMap));
+        storedSkin.set(selectedDate, clickedSkin);
+        localStorage.skinMap = JSON.stringify(Array.from(storedSkin.entries()));
+      }
     }
-    
     savePeriodData();
   }
 
   /** 
    * save the period data, including turning it into saving start and end dates
-   */ 
-  function savePeriodData()
-  {
-    // period flow data
-    // check if the period map exists in local storage or if this is the first period track
-    if (localStorage.getItem("periodMap") === null) {
-      // create a map that maps a date to a pain level
-      let periodMap = new Map<string, string>();
-      periodMap.set(selectedDate, clickedFlow);
-      localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
-    }
-    else {
-      // get the previous pain map, and add to it, overwriting if there is something for that date already
-      var storedPeriod = new Map(JSON.parse(localStorage.periodMap));
-      storedPeriod.set(selectedDate, clickedFlow);
-      localStorage.periodMap = JSON.stringify(Array.from(storedPeriod.entries()));
+   */
+  function savePeriodData() {
+    if (clickedFlow) {
+      // period flow data
+      // check if the period map exists in local storage or if this is the first period track
+      if (localStorage.getItem("periodMap") === null) {
+        // create a map that maps a date to a pain level
+        let periodMap = new Map<string, string>();
+        periodMap.set(selectedDate, clickedFlow);
+        localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
+      }
+      else {
+        // get the previous pain map, and add to it, overwriting if there is something for that date already
+        var storedPeriod = new Map(JSON.parse(localStorage.periodMap));
+        storedPeriod.set(selectedDate, clickedFlow);
+        localStorage.periodMap = JSON.stringify(Array.from(storedPeriod.entries()));
+      }
     }
   }
 

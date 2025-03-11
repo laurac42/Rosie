@@ -3,20 +3,45 @@
     --fc-bg-color: var(--background-color);
     --fc-border-color: var(--text);
     --fc-text-color: var(--text) !important;
+    --fc-today-bg-color: var(--darker-background);
     --fc-event-bg-color: var(--mid-pink);
     --fc-event-border-color: var(--darker-pink);
     --fc-event-text-color: var(--background-color);
-    --fc-today-bg-color: var(--darker-background);
-
 
     /* Ensure the calendar takes up the whole height */
     height: 100%;
     overflow: hidden;
 }
 
+
+.period-event {
+    background-color: var(--mid-pink);
+    border-color: var(--mid-pink);
+    --fc-event-text-color: var(--background-color);
+}
+
+.pain-event {
+    background-color: var(--complementary-colour2);
+    border-color: var(--complementary-colour2);
+    --fc-event-text-color: var(--background-color);
+}
+
+.emotion-event {
+    background-color: var(--complementary-colour3);
+    border-color: var(--complementary-colour3);
+    --fc-event-text-color: var(--background-color);
+}
+
+.skin-event {
+    background-color: var(--complementary-colour);
+    border-color: var(--complementary-colour);
+    --fc-event-text-color: var(--background-color);
+}
+
 /* This is the text on the event that says period */
 .fc-event-main {
     font-family: "Delius", serif;
+    overflow: hidden !important; /* Stop the text from overflowing */
 }
 
 .fc-view-container {
@@ -81,6 +106,7 @@
 
 /*Styles the Days of the week - Sun, Mon etc.*/
 .fc-col-header-cell-cushion {
+    font-family: "Delius", serif;
     background-color: var(--background-color);
     color: var(--text);
 }
@@ -97,4 +123,3 @@
     justify-content: center;
     align-items: center;
 }
-

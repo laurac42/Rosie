@@ -6,22 +6,39 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import './Calendar.css';
 
 const Calendar: React.FC = () => {
-  const [periods, setPeriods] = useState<{ title: string, date: string }[]>([]);
+  const [events, setEvents] = useState<{ title: string, date: string, className: string }[]>([]);
 
   useEffect(() => {
-    // Fetch periods data from local storage on initial load
-    var storedPeriods = new Map<string, string>(JSON.parse(localStorage.periodMap));
+    // Fetch all data from local storage on initial load
+    const storedPeriods = new Map<string, string>(JSON.parse(localStorage.periodMap || '[]'));
+    const storedPain = new Map<string, string>(JSON.parse(localStorage.painMap || '[]'));
+    const storedEmotions = new Map<string, string>(JSON.parse(localStorage.emotionsMap || '[]'));
+    const storedSkin = new Map<string, string>(JSON.parse(localStorage.skinMap || '[]'));
 
-    
-    /* Add all of the basic period data back if wrong stuff is added 
-    storedPeriods.delete("2025-03-14");
-    storedPeriods.delete("2025-03-10");
-    // re add to local storage
-    localStorage.periodMap = JSON.stringify(Array.from(storedPeriods.entries()));*/
+
+    const periodEvents: { title: string, date: string, className: string }[] = [];
+    const painEvents: { title: string, date: string, className: string }[] = [];
+    const emotionEvents: { title: string, date: string, className: string }[] = [];
+    const skinEvents: { title: string, date: string, className: string }[] = [];
 
     storedPeriods.forEach((flow: string, date: string) => {
-      periods.push({title: 'Period', date: date})
-  });
+      periodEvents.push({ title: "Period", date: date, className: 'period-event' });
+    });
+
+    storedPain.forEach((pain: string, date: string) => {
+      painEvents.push({ title: pain, date: date, className: 'pain-event' });
+    });
+
+    storedEmotions.forEach((emotion: string, date: string) => {
+      painEvents.push({ title: emotion, date: date, className: 'emotion-event' });
+    });
+
+    storedSkin.forEach((skin: string, date: string) => {
+      skinEvents.push({ title: skin, date: date, className: 'skin-event' });
+    });
+
+    // combine all events
+    setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents]);
   }, []);
 
   /* Render the period onto the calendar */
@@ -55,12 +72,12 @@ const Calendar: React.FC = () => {
             plugins={[dayGridPlugin]}
             initialView='dayGridMonth'
             weekends={true}
-            events={periods}
-            headerToolbar= {{
+            events={events}
+            headerToolbar={{
               right: 'today',
               center: 'title',
               left: 'prev,next'
-          }}
+            }}
             eventContent={renderEventContent} // Custom function to render the event content
           />
         </IonGrid>
