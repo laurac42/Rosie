@@ -14,12 +14,14 @@ const Calendar: React.FC = () => {
     const storedPain = new Map<string, string>(JSON.parse(localStorage.painMap || '[]'));
     const storedEmotions = new Map<string, string>(JSON.parse(localStorage.emotionsMap || '[]'));
     const storedSkin = new Map<string, string>(JSON.parse(localStorage.skinMap || '[]'));
+    const storedPhotos = new Map<string, string[]>(JSON.parse(localStorage.photos || '[]'));
 
 
     const periodEvents: { title: string, date: string, className: string }[] = [];
     const painEvents: { title: string, date: string, className: string }[] = [];
     const emotionEvents: { title: string, date: string, className: string }[] = [];
     const skinEvents: { title: string, date: string, className: string }[] = [];
+    const photoEvents: { title: string, date: string, className: string }[] = [];
 
     storedPeriods.forEach((flow: string, date: string) => {
       periodEvents.push({ title: "Period", date: date, className: 'period-event' });
@@ -37,9 +39,19 @@ const Calendar: React.FC = () => {
       skinEvents.push({ title: skin, date: date, className: 'skin-event' });
     });
 
+    storedPhotos.forEach((photos: string[], date: string) => {
+        photoEvents.push({ title: "Photo", date: date, className: 'photo-event' }); // dont want to show the number of photos on the main thing, just that they exist
+    });
     // combine all events
-    setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents]);
+    setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents, ...photoEvents]);
   }, []);
+
+  /**
+   * When a date is clicked it should show all of the details for that date
+   */
+  function handleDateClick() {
+
+  }
 
   /* Render the period onto the calendar */
   function renderEventContent(eventInfo: any) {
@@ -79,6 +91,7 @@ const Calendar: React.FC = () => {
               left: 'prev,next'
             }}
             eventContent={renderEventContent} // Custom function to render the event content
+            dateClick={handleDateClick}
           />
         </IonGrid>
       </IonContent>

@@ -27,13 +27,15 @@ ion-input {
   --text: #6a1629;
   --darker-text: #3f0d19;
   --background-color: #fbeaee;
+  --lighter-background: #ffffff;
   --lighter-pink: #dc5675;
   --mid-pink: #d42b53;
   --darker-pink: #bb2649;
   --darker-background: #f2c0cb;
-  --complementary-colour: #D4582B;
-  --complementary-colour2: #D42BA7;
+  --complementary-colour: #be4f27;
+  --complementary-colour2: #be2796;
   --complementary-colour3: #802bd4; 
+  --complementary-colour4: #0066ff;
 
   --ion-background-color: var(--background-color);
 
@@ -165,7 +167,7 @@ ion-button::selection {
   color: var(--background-color);
 }
 
-.profileButton {
+.light .profileButton {
   color: var(--text);
   background-color: var(--darker-background);
   --border-width: 0;
