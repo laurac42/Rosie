@@ -1,0 +1,7 @@
+ion-fab-button {
+    margin-top: 30px;
+    --background: var(--mid-pink);
+    --background-activated: var(--darker-pink);
+    --background-hover: var(--darker-pink);
+    --color: var(--background-color);
+  }

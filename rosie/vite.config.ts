@@ -12,7 +12,7 @@ export default defineConfig({
     legacy()
   ],
   build: {
-    outDir: "dist", // This should be the correct build directory
+    outDir: "www", // This should be the correct build directory
   },
   test: {
     globals: true,

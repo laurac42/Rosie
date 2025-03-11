@@ -17,26 +17,33 @@
 .period-event {
     background-color: var(--mid-pink);
     border-color: var(--mid-pink);
-    --fc-event-text-color: var(--background-color);
+    --fc-event-text-color: var(--lighter-background);
 }
 
 .pain-event {
     background-color: var(--complementary-colour2);
     border-color: var(--complementary-colour2);
-    --fc-event-text-color: var(--background-color);
+    --fc-event-text-color: var(--lighter-background);
 }
 
 .emotion-event {
     background-color: var(--complementary-colour3);
     border-color: var(--complementary-colour3);
-    --fc-event-text-color: var(--background-color);
+    --fc-event-text-color: var(--lighter-background);
 }
 
 .skin-event {
     background-color: var(--complementary-colour);
     border-color: var(--complementary-colour);
-    --fc-event-text-color: var(--background-color);
+    --fc-event-text-color: var(--lighter-background);
 }
+
+.photo-event {
+    background-color: var(--complementary-colour4);
+    border-color: var(--complementary-colour4);
+    --fc-event-text-color: var(--lighter-background);
+}
+
 
 /* This is the text on the event that says period */
 .fc-event-main {

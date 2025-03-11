@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { Camera, CameraDirection, CameraResultType } from '@capacitor/camera';
 import './Track.css'; // styles the calendar
 import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
-
+import { usePhotoGallery, UserPhoto } from './hooks/usePhotoGallery';
 
 const Track: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -16,6 +17,7 @@ const Track: React.FC = () => {
   const [clickedPain, setClickedPain] = useState<string>('');
   const [clickedSkin, setClickedSkin] = useState<string>('');
   const [clickedEmotion, setClickedEmotion] = useState<string>('');
+  const { deletePhoto, photos, takePhoto } = usePhotoGallery();
 
   useEffect(() => {
     // when the page loads, set the selected date to today as default
@@ -31,9 +33,41 @@ const Track: React.FC = () => {
     ]);
   }, []);
 
+  /**
+   * Take a picture - dont actually do it this way anymore
+   */
+  const takePicture = async () => {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      saveToGallery: true, // default save to gallery
+      direction: CameraDirection.Front //default to front camera
+    });
+    // add the date to the url
+    var imageUrl = image.webPath;
+
+    // get photos from local storage if some have already been stored, or else create a new photos array
+    if (localStorage.getItem("photos") === null) {
+      var photos = new Map<string, any[]>(); // allow multiple photos to be stored for each date
+      photos.set(selectedDate, [imageUrl]);
+      localStorage.photos = JSON.stringify(Array.from(photos.entries()));
+    }
+    else {
+      var storedPhotos = new Map<string, any[]>(JSON.parse(localStorage.photos));
+      if (storedPhotos.get(selectedDate)) {
+        storedPhotos.get(selectedDate)?.push(imageUrl);
+      }
+      else {
+        storedPhotos.set(selectedDate, [imageUrl]);
+      }
+      localStorage.photos = JSON.stringify(Array.from(storedPhotos.entries()));
+    }
+  };
+
   // so when a date is clicked, an event is created for that date
   function handleDateClick(info: any) {
-    console.log('Date clicked:', info.dateStr);
+    //console.log('Date clicked:', info.dateStr);
     setSelectedDate(info.dateStr);
 
     // Set only the selected date as an event
@@ -81,7 +115,7 @@ const Track: React.FC = () => {
   // handle an emotion column being clicked
   function handleEmotionClick(event: any) {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
-
+    window.prompt("sometext", "defaultText");
     // add the column to the clicked emotion
     if (columnText) {
       setClickedEmotion(columnText);
@@ -249,7 +283,7 @@ const Track: React.FC = () => {
           </IonRow>
           <IonRow class="ion-justify-content-between">
             <IonCol size="3"><h2>Skin</h2></IonCol>
-            <IonCol size="3"><IonButton size='small'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton></IonCol>
+            <IonCol size="3"><IonButton onClick={() => takePhoto(selectedDate)} size='small'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton></IonCol>
           </IonRow>
           <IonRow className="track-page trackRows">
             <IonCol
