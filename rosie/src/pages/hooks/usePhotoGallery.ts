@@ -20,20 +20,37 @@ export function usePhotoGallery() {
    * On page load, load photos
    */
   useEffect(() => {
-    const loadSaved = async (date:string) => {
+    const loadSaved = async () => {
       const { value } = await Preferences.get({key: PHOTO_STORAGE });
 
       var photosInPreferences = (value ? JSON.parse(value) : []) as UserPhoto[];
       // for some reason it doesn't like when the filtering is included. when it is it only shows one photo?  
-      console.log(photosInPreferences)
-      
+      // but it doesnt make sense why it makes it only one photo at this point - it should be only in filtered photos that happens
+      console.log("preferences",photosInPreferences)
+      console.log(date);
+      var selectedDate = String(date);
+      if (date === "2025-03-11")
+      {
+        console.log("they are the same");
+      }
+      if (selectedDate === "2025-03-11")
+      {
+        console.log ("same dates")
+      }
+      console.log("Date variable: ", JSON.stringify(date));
+      //const normalizedDate = date.normalize();
         // filter the photos so that only the ones with the date given are shown
-      var filteredPhotos= photosInPreferences.filter(photo => 
-        photo.filepath.includes(`${date}`) // check that the date we are on is in there somewhere
-      );
-
-      console.log(filteredPhotos);
-
+        var filteredPhotos:UserPhoto [] = [];
+        var i = 1
+        photosInPreferences.forEach(photo => {
+            console.log("Checking photo:", photo.filepath, " ", i);
+            // ok it likes it when you hard code the date, but doesn't like it if you use the date variable
+           if (photo.filepath.includes(date))
+            {
+                filteredPhotos.push(photo);
+            }
+           i++;
+        });
       // If running on the web...
       if (!isPlatform('hybrid')) {
         for (let photo of filteredPhotos) {
@@ -47,14 +64,15 @@ export function usePhotoGallery() {
       }
       setPhotos(filteredPhotos);
     };
-    loadSaved(date);
+    loadSaved();
   }, []);
+
 
   /**
    * Take a photo
    * @param date the date that has been selected by the user when they are tracking
    */
-  const takePhoto = async (date: string) => {
+  const takePhoto = async (selectedDate: string) => {
     const photo = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
@@ -62,12 +80,18 @@ export function usePhotoGallery() {
       direction: CameraDirection.Front //default to front camera
     });
     // need to store the date and Date().getTime() so that multiple photos for the same day don't get overwritten
-    const fileName = date + new Date().getTime() + '.jpeg';
-    console.log(fileName);
+    const fileName = selectedDate + new Date().getTime() + '.jpeg';
     const savedFileImage = await savePicture(photo, fileName);
-    const newPhotos = [savedFileImage, ...photos];
-    setPhotos(newPhotos);
-    Preferences.set({key: PHOTO_STORAGE,value: JSON.stringify(newPhotos)});
+
+    // get the old photos to make sure it doesn't overwrite them
+    const storedPhotos = await Preferences.get({ key: PHOTO_STORAGE });
+    const oldPhotos = storedPhotos.value ? JSON.parse(storedPhotos.value) : [];
+    
+    const newPhotos = [savedFileImage, ...oldPhotos];
+    await Preferences.set({
+      key: PHOTO_STORAGE,
+      value: JSON.stringify(newPhotos)
+    });
   };
 
   /**
