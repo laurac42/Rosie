@@ -8,7 +8,7 @@ import { Camera, CameraDirection, CameraResultType } from '@capacitor/camera';
 import './Track.css'; // styles the calendar
 import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
-
+import { usePhotoGallery, UserPhoto } from './hooks/usePhotoGallery';
 
 const Track: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -17,6 +17,7 @@ const Track: React.FC = () => {
   const [clickedPain, setClickedPain] = useState<string>('');
   const [clickedSkin, setClickedSkin] = useState<string>('');
   const [clickedEmotion, setClickedEmotion] = useState<string>('');
+  const { deletePhoto, photos, takePhoto } = usePhotoGallery();
 
   useEffect(() => {
     // when the page loads, set the selected date to today as default
@@ -33,7 +34,7 @@ const Track: React.FC = () => {
   }, []);
 
   /**
-   * Take a picture
+   * Take a picture - dont actually do it this way anymore
    */
   const takePicture = async () => {
     const image = await Camera.getPhoto({
@@ -66,7 +67,7 @@ const Track: React.FC = () => {
 
   // so when a date is clicked, an event is created for that date
   function handleDateClick(info: any) {
-    console.log('Date clicked:', info.dateStr);
+    //console.log('Date clicked:', info.dateStr);
     setSelectedDate(info.dateStr);
 
     // Set only the selected date as an event
@@ -282,7 +283,7 @@ const Track: React.FC = () => {
           </IonRow>
           <IonRow class="ion-justify-content-between">
             <IonCol size="3"><h2>Skin</h2></IonCol>
-            <IonCol size="3"><IonButton onClick={takePicture} size='small'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton></IonCol>
+            <IonCol size="3"><IonButton onClick={() => takePhoto(selectedDate)} size='small'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton></IonCol>
           </IonRow>
           <IonRow className="track-page trackRows">
             <IonCol

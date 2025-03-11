@@ -3,10 +3,13 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMe
 import { personCircle } from 'ionicons/icons';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { useHistory } from 'react-router-dom';
 import './Calendar.css';
 
 const Calendar: React.FC = () => {
   const [events, setEvents] = useState<{ title: string, date: string, className: string }[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     // Fetch all data from local storage on initial load
@@ -14,14 +17,11 @@ const Calendar: React.FC = () => {
     const storedPain = new Map<string, string>(JSON.parse(localStorage.painMap || '[]'));
     const storedEmotions = new Map<string, string>(JSON.parse(localStorage.emotionsMap || '[]'));
     const storedSkin = new Map<string, string>(JSON.parse(localStorage.skinMap || '[]'));
-    const storedPhotos = new Map<string, string[]>(JSON.parse(localStorage.photos || '[]'));
-
-
+    
     const periodEvents: { title: string, date: string, className: string }[] = [];
     const painEvents: { title: string, date: string, className: string }[] = [];
     const emotionEvents: { title: string, date: string, className: string }[] = [];
     const skinEvents: { title: string, date: string, className: string }[] = [];
-    const photoEvents: { title: string, date: string, className: string }[] = [];
 
     storedPeriods.forEach((flow: string, date: string) => {
       periodEvents.push({ title: "Period", date: date, className: 'period-event' });
@@ -32,25 +32,22 @@ const Calendar: React.FC = () => {
     });
 
     storedEmotions.forEach((emotion: string, date: string) => {
-      painEvents.push({ title: emotion, date: date, className: 'emotion-event' });
+      emotionEvents.push({ title: emotion, date: date, className: 'emotion-event' });
     });
 
     storedSkin.forEach((skin: string, date: string) => {
       skinEvents.push({ title: skin, date: date, className: 'skin-event' });
     });
 
-    storedPhotos.forEach((photos: string[], date: string) => {
-        photoEvents.push({ title: "Photo", date: date, className: 'photo-event' }); // dont want to show the number of photos on the main thing, just that they exist
-    });
     // combine all events
-    setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents, ...photoEvents]);
+    setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents]);
   }, []);
 
   /**
-   * When a date is clicked it should show all of the details for that date
+   * When a date is clicked it should take the user to a new page, with all the details for that date
    */
-  function handleDateClick() {
-
+  function handleDateClick(info: any) {
+    history.push(`/Calendar/${info.dateStr}`);
   }
 
   /* Render the period onto the calendar */
@@ -81,7 +78,7 @@ const Calendar: React.FC = () => {
       <IonContent fullscreen>
         <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
           <FullCalendar
-            plugins={[dayGridPlugin]}
+            plugins={[dayGridPlugin, interactionPlugin]}
             initialView='dayGridMonth'
             weekends={true}
             events={events}

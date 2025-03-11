@@ -22,6 +22,7 @@ import Preferences from './pages/Preferences';
 import Privacy from './pages/PrivacyPolicy';
 import { loadTheme } from "./theme";
 import Welcome from './pages/Welcome';  
+import Date from './pages/Date'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,7 +39,6 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-
 
 import './theme/darkmode.css';
 import './theme/lightmode.css';
@@ -69,6 +69,9 @@ const App: React.FC = () => {
             <Route exact path="/Analysis">
               <Analysis />
             </Route>
+            <Route path="/Calendar/:date">
+              <Date />
+            </Route>
             <Route exact path="/SignUp">
               <SignUp />
             </Route>
@@ -85,8 +88,8 @@ const App: React.FC = () => {
               <Welcome />
             </Route>
             <Route exact path="/">
-            <Redirect to="/SignUp" />
-          </Route>
+              <Redirect to="/SignUp" />
+            </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="Rosie" href="/Cycle">
@@ -107,7 +110,6 @@ const App: React.FC = () => {
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-
       </IonReactRouter>
     </IonApp>
   );
