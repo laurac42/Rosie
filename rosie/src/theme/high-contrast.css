@@ -69,14 +69,8 @@ ion-input {
 /* Center the title */
 ion-title {
   font-family: "Playwrite IT Moderna", serif;
+  text-align: center;
 
-  &.md {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    height: 0;
-    text-align: center;
-  }
 }
 
 .btn {

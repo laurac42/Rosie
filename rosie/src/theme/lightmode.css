@@ -70,14 +70,7 @@ ion-input {
 /* Center the title */
 ion-title {
   font-family: "Playwrite IT Moderna", serif;
-
-  &.md, &.ios {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    height: 0;
-    text-align: center;
-  }
+  text-align: center;
 }
 
 .btn {
@@ -106,6 +99,8 @@ ion-grid {
   --ion-grid-width-md: 384px;
   --ion-grid-width-lg: 480px;
   --ion-grid-width-xl: 570px;
+
+  --ion-grid-padding-colour: green;
 }
 
 ion-radio {
@@ -184,5 +179,28 @@ ion-button::selection {
 
 .dangerIcon {
   color: red;
+}
+
+.dangerGrid {
+  border: 2px solid red;
+  background-color: #ffcccc;
+}
+
+.menuItem {
+  font-family: "Delius", serif;
+}
+
+.menuIcon
+{
+  color: var(--etext);
+}
+
+/*colour of the lines between the menu items*/
+ion-item {
+  border-bottom: 1px solid var(--text); /* Change color/thickness as needed */
+}
+
+.checkbox {
+  padding-block: 10px;
 }
 
