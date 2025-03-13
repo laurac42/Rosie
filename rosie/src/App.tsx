@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import {
   IonApp,
   IonIcon,
@@ -23,6 +23,7 @@ import Privacy from './pages/PrivacyPolicy';
 import { loadTheme } from "./theme";
 import Welcome from './pages/Welcome';  
 import Date from './pages/Date'
+import Profile from './pages/Profile'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,6 +47,7 @@ import './theme/high-contrast.css'
 
 setupIonicReact();
 
+// load the theme colour on page load
 const App: React.FC = () => {
   useEffect(() => {
     loadTheme();
@@ -86,6 +88,9 @@ const App: React.FC = () => {
             </Route>
             <Route exact path="/SignUp/Welcome">
               <Welcome />
+            </Route>
+            <Route exact path="/Profile">
+              <Profile />
             </Route>
             <Route exact path="/">
               <Redirect to="/SignUp" />
