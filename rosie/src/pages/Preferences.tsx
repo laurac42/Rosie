@@ -25,6 +25,7 @@ const Preferences: React.FC = () => {
             <IonContent fullscreen>
                 <IonGrid fixed={true}>
                     <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Choose Preferences <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
+                    <IonRow class="ion-justify-content-center"><p>(You can change these later in settings)</p></IonRow>
                     <IonRow class="ion-justify-content-start"><p><b> Appearance:</b> </p></IonRow>
                     <IonRadioGroup value={theme} onIonChange={handleThemeChange}>
                         <IonRow class="ion-justify-content-start"><IonRadio value="light" labelPlacement="end" justify="space-between">Light Mode</IonRadio></IonRow>
@@ -40,9 +41,6 @@ const Preferences: React.FC = () => {
                     </IonRow>
                     <IonRow class="checkbox"><IonCheckbox labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
-                    <IonRow class="ion-justify-content-center">
-                        <IonButton className="btn" href="/Rosie/SignUp/PrivacyPolicy" size="large">Save Preferences</IonButton>
-                    </IonRow>
                     <IonRow class="ion-justify-content-center">
                         <IonButton className="btn" href="/Rosie/SignUp/PrivacyPolicy" size="large">Save Preferences</IonButton>
                     </IonRow>

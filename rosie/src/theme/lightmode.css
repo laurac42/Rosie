@@ -99,13 +99,25 @@ ion-grid {
   --ion-grid-width-md: 384px;
   --ion-grid-width-lg: 480px;
   --ion-grid-width-xl: 570px;
-
-  --ion-grid-padding-colour: green;
 }
 
-ion-radio {
+ion-radio.md {
   --color: var(--text);
   --color-checked: var(--darker-pink);
+}
+
+/* Ios needs extra styling for the buttons to show up outlined */
+ion-radio.ios::part(container) {
+  width: 20px;
+  height: 20px;
+
+  border: 2px solid var(--text);
+  border-radius: 4px;
+}
+
+.radio-checked.ios::part(container) {
+  border-color: var(--darker-pink);
+  color: var(--darker-pink);
 }
 
 ion-checkbox {
