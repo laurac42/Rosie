@@ -25,6 +25,10 @@ import Welcome from './pages/Welcome';
 import Date from './pages/Date'
 import Profile from './pages/Profile'
 import Appearance from './pages/Appearance';
+import MenuPrivacy from './pages/MenuPrivacy';
+import Notifications from './pages/Notifications';
+import AboutUs from './pages/AboutUs';
+import Resources from './pages/Resources';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -95,6 +99,18 @@ const App: React.FC = () => {
             </Route>
             <Route exact path="/Menu/Appearance">
               <Appearance />
+            </Route>
+            <Route exact path="/Menu/PrivacyPolicy">
+              <MenuPrivacy />
+            </Route>
+            <Route exact path="/Menu/Notifications">
+              <Notifications />
+            </Route>
+            <Route exact path="/Menu/AboutUs">
+              <AboutUs/>
+            </Route>
+            <Route exact path="/Menu/Resources">
+              <Resources />
             </Route>
             <Route exact path="/">
               <Redirect to="/SignUp" />
