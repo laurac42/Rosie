@@ -99,6 +99,8 @@ ion-grid {
   --ion-grid-width-md: 384px;
   --ion-grid-width-lg: 480px;
   --ion-grid-width-xl: 570px;
+
+  --ion-grid-padding-colour: green;
 }
 
 ion-radio {
@@ -177,6 +179,11 @@ ion-button::selection {
 
 .dangerIcon {
   color: red;
+}
+
+.dangerGrid {
+  border: 2px solid red;
+  background-color: #ffcccc;
 }
 
 .menuItem {

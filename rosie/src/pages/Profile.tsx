@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol } from '@ionic/react';
-import { flower, heart, nuclear, person, personCircle, rose } from 'ionicons/icons';
+import { backspace, flower, heart, nuclear, person, personCircle, rose } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 
 const Profile: React.FC = () => {
@@ -89,9 +89,11 @@ const Profile: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
+                
                 {/* When edit details isnt set: */}
                 {!editDetailsBool &&
                     (<IonGrid fixed={true}>
+                        
                         <IonRow class='ion-justify-content-center'>
                             <h1 className='heading'><IonIcon icon={flower} className='colourIcon'></IonIcon>Your Details<IonIcon icon={flower} className='colourIcon'></IonIcon></h1>
                         </IonRow>
@@ -107,10 +109,12 @@ const Profile: React.FC = () => {
                         <IonRow class="ion-justify-content-center">
                             <IonButton className="btn" onClick={editDetails} size="large">Edit Details</IonButton>
                         </IonRow>
+                        
                     </IonGrid>)}
                 {/* When edit details is set: */}
                 {editDetailsBool &&
                     (<IonGrid fixed={true}>
+                        <IonRow ><IonButton href="/Rosie/Calendar" ><IonIcon icon={backspace}></IonIcon>Back to Cycle Page</IonButton></IonRow>
                         <IonRow class='ion-justify-content-center'>
                             <h1 className='heading'><IonIcon icon={flower} className='colourIcon'></IonIcon>Edit Details<IonIcon icon={flower} className='colourIcon'></IonIcon></h1>
                         </IonRow>
@@ -131,13 +135,14 @@ const Profile: React.FC = () => {
                         </IonRow>
                     </IonGrid>)}
 
-                    <IonGrid fixed={true}>
+                    <IonGrid class="dangerGrid" fixed={true}>
                         <IonRow class='ion-justify-content-center'>
                             <h1 className='heading'><IonIcon icon={nuclear} className='dangerIcon'></IonIcon>Danger Zone<IonIcon icon={nuclear} className='dangerIcon'></IonIcon></h1>
                         </IonRow>
                         <IonRow class="ion-justify-content-center">
                             <IonButton className="btn dangerButton" onClick={deleteProfile} size="large">Delete Profile</IonButton>
                         </IonRow>
+                        
                     </IonGrid>
 
             </IonContent>
