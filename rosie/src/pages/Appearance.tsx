@@ -111,7 +111,7 @@ const Appearance: React.FC = () => {
                 </IonHeader>
                 <IonContent fullscreen>
                     <IonGrid fixed={true}>
-                        <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Choose Colour Scheme <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
+                        <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Colour Scheme <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
                         <IonRow class="ion-justify-content-start"><p><b></b> </p></IonRow>
                         <IonRadioGroup value={theme} onIonChange={handleThemeChange}>
                             <IonRow class="ion-justify-content-start"><IonRadio value="light" labelPlacement="end" justify="space-between">Light Mode</IonRadio></IonRow>
