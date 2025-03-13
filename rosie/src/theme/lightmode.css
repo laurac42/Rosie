@@ -168,12 +168,12 @@ ion-button::selection {
 }
 
 /* Button the profile icon sits on*/
-.profileButton {
+.light .profileButton {
   --background: var(--darker-background) !important;
 }
 
 /* profile icon itself */
-.profileIcon {
+.light .profileIcon {
   color: var(--text) !important;
   
 }
