@@ -31,8 +31,8 @@ const Date: React.FC = () => {
                         <IonMenuButton autoHide={false}></IonMenuButton>
                     </IonButtons>
                     <IonButtons slot="end">
-                        <IonButton className='profileButton' href="/Rosie/Profile">
-                            <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+                        <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                            <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
                         </IonButton>
                     </IonButtons>
                 </IonToolbar>
@@ -64,11 +64,11 @@ const Date: React.FC = () => {
                         </IonCol>
                     </IonRow>
                     <IonRow class="ion-justify-content-center">
-                    <IonFab >
-                        <IonFabButton href='/Rosie/Calendar'>
-                            <IonIcon icon={checkmark}></IonIcon>
-                        </IonFabButton>
-                    </IonFab></IonRow>
+                        <IonFab >
+                            <IonFabButton href='/Rosie/Calendar'>
+                                <IonIcon icon={checkmark}></IonIcon>
+                            </IonFabButton>
+                        </IonFab></IonRow>
                 </IonGrid>
                 <IonActionSheet
                     isOpen={!!photoToDelete}

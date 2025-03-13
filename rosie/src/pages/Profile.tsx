@@ -82,8 +82,8 @@ const Profile: React.FC = () => {
                         <IonMenuButton autoHide={false}></IonMenuButton>
                     </IonButtons>
                     <IonButtons slot="end">
-                        <IonButton className='profileButton'>
-                            <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+                        <IonButton className='profileButton' aria-label="Profile">
+                            <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
                         </IonButton>
                     </IonButtons>
                 </IonToolbar>
@@ -133,10 +133,10 @@ const Profile: React.FC = () => {
 
                     <IonGrid fixed={true}>
                         <IonRow class='ion-justify-content-center'>
-                            <h1 className='heading'><IonIcon icon={nuclear} className='colourIcon'></IonIcon>Danger Zone<IonIcon icon={nuclear} className='colourIcon'></IonIcon></h1>
+                            <h1 className='heading'><IonIcon icon={nuclear} className='dangerIcon'></IonIcon>Danger Zone<IonIcon icon={nuclear} className='dangerIcon'></IonIcon></h1>
                         </IonRow>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" onClick={deleteProfile} size="large">Delete Profile</IonButton>
+                            <IonButton className="btn dangerButton" onClick={deleteProfile} size="large">Delete Profile</IonButton>
                         </IonRow>
                     </IonGrid>
 
