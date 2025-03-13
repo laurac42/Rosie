@@ -8,13 +8,13 @@
 }
 
 /* Style the grid the calendar is in for different screen sizes */
-.calendarWidthTrack {
-    height: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 20px;
-}
+    .calendarWidthTrack {
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+    }
 
 /* the ion column changes only apply to the track page */
 .track-page ion-col {
