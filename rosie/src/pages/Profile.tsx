@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol } from '@ionic/react';
-import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
+import { flower, heart, nuclear, person, personCircle, rose } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 
 const Profile: React.FC = () => {
@@ -39,6 +39,9 @@ const Profile: React.FC = () => {
         setEditDetailsBool(true)
     }
 
+    /**
+     *  Check if any details were updated and save them to local storage if they were
+     */ 
     function saveDetails() {
         const name = document.getElementById('name') as HTMLInputElement;
         // only change in local storage if something has been entered
@@ -56,6 +59,18 @@ const Profile: React.FC = () => {
             localStorage.setItem('Birthday', bday.value);
         }
         setEditDetailsBool(false);
+    }
+
+    function deleteProfile() {
+        if(window.confirm("Are you sure you want to delete your profile? This includes all period data. Once deleted, your profile is unrecoverable."))
+        {
+            console.log("deleting profile")
+            localStorage.clear();
+        }
+        else{
+            console.log("profile is kept")
+        }
+        
     }
 
     return (
@@ -115,6 +130,15 @@ const Profile: React.FC = () => {
                             <IonButton className="btn" onClick={saveDetails} size="large">Save Details</IonButton>
                         </IonRow>
                     </IonGrid>)}
+
+                    <IonGrid fixed={true}>
+                        <IonRow class='ion-justify-content-center'>
+                            <h1 className='heading'><IonIcon icon={nuclear} className='colourIcon'></IonIcon>Danger Zone<IonIcon icon={nuclear} className='colourIcon'></IonIcon></h1>
+                        </IonRow>
+                        <IonRow class="ion-justify-content-center">
+                            <IonButton className="btn" onClick={deleteProfile} size="large">Delete Profile</IonButton>
+                        </IonRow>
+                    </IonGrid>
 
             </IonContent>
         </IonPage>
