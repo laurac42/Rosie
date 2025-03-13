@@ -1,5 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow } from '@ionic/react';
-import { personCircle } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonMenu } from '@ionic/react';
+import { calendar, clipboard, colorPalette, folderOpen, informationCircle, lockClosed, notifications, people, personCircle, radioButtonOff, settings, trendingUp } from 'ionicons/icons';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import React, { useState, useEffect } from 'react';
 import ExploreContainer from '../components/ExploreContainer';
@@ -19,7 +19,7 @@ const Cycle: React.FC = () => {
   // calculate the day of period when start dates is updated
   useEffect(() => {
     calculateDay();
-  }, [startDates]); 
+  }, [startDates]);
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
@@ -64,7 +64,7 @@ const Cycle: React.FC = () => {
       // calculate the number of days since start of last period and today
       const lastPeriodStartDate = moment(startDates[0]);
       const today = moment();
-      const dayOfCycle = today.diff(lastPeriodStartDate, 'days')+1; // +1 as otherwise it doesn't include the start day as a day of this cycle
+      const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
       setDay(dayOfCycle);
     }
   }
@@ -83,36 +83,114 @@ const Cycle: React.FC = () => {
   }
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Cycle</IonTitle>
-          <IonButtons slot="start">
-            <IonMenuButton autoHide={false}></IonMenuButton>
-          </IonButtons>
-          <IonButtons slot="end">
-          <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-              <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonGrid className="progress" class="ion-justify-content-center">
-          <IonRow class="cycleWidth">
-            {/* In the future, max value will be the predicted length of the users cycle
-              * And the value will come from the number of days since the last period
-              */}
-            <CircularProgressbar value={day} maxValue={averageCycleLength} text={`Day ${day}`} />
-          </IonRow>
-        </IonGrid>
-        <IonGrid>
-          <IonRow class="ion-justify-content-center">
-            <IonButton className="btn" href="/Rosie/Track" size="large">Track</IonButton>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
+    <>
+      <IonMenu contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+
+          <IonList>
+            <IonAccordionGroup>
+              <IonAccordion value="first">
+                <IonItem slot="header">
+                  <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
+                  <IonLabel>Main Pages</IonLabel>
+                </IonItem>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Cycle">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
+                    <IonLabel>Cycle</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Calendar">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
+                    <IonLabel>Calendar</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Track">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
+                    <IonLabel>Cycle</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Analysis">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
+                    <IonLabel>Cycle</IonLabel>
+                  </IonItem>
+                </div>
+              </IonAccordion>
+
+
+              <IonAccordion value="second">
+                <IonItem slot="header">
+                  <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
+                  <IonLabel>Settings</IonLabel>
+                </IonItem>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Menu/Appearance">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
+                    <IonLabel>Appearance</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href='/Rosie/Menu/Notifications'>
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
+                    <IonLabel>Notifications</IonLabel>
+                  </IonItem>
+                </div>
+              </IonAccordion>
+            </IonAccordionGroup>
+
+            <IonItem href="/Rosie/Menu/AboutUs">
+              <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
+              <IonLabel>About Us</IonLabel>
+            </IonItem>
+            <IonItem href='/Rosie/Menu/PrivacyPolicy'>
+              <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
+              <IonLabel>Privacy Policy</IonLabel>
+            </IonItem>
+            <IonItem href='/Rosie/Menu/Resources'>
+              <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+              <IonLabel>Resources</IonLabel>
+            </IonItem>
+
+          </IonList>
+        </IonContent>
+
+      </IonMenu>
+      <IonPage id="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
+            <IonTitle>Cycle</IonTitle>
+            <IonButtons slot="end">
+              <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent fullscreen>
+          <IonGrid className="progress" class="ion-justify-content-center">
+            <IonRow class="cycleWidth">
+              <CircularProgressbar value={day} maxValue={averageCycleLength} text={`Day ${day}`} />
+            </IonRow>
+          </IonGrid>
+          <IonGrid>
+            <IonRow class="ion-justify-content-center">
+              <IonButton className="btn" href="/Rosie/Track" size="large">Track</IonButton>
+            </IonRow>
+          </IonGrid>
+        </IonContent>
+      </IonPage>
+    </>
   );
 };
 

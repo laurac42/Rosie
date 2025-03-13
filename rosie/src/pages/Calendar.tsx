@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow } from '@ionic/react';
-import { personCircle } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonMenu, IonList, IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
+import { calendar, clipboard, colorPalette, folderOpen, informationCircle, lockClosed, notifications, people, personCircle, radioButtonOff, settings, trendingUp } from 'ionicons/icons';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -15,7 +15,7 @@ const Calendar: React.FC = () => {
   const [events, setEvents] = useState<{ title: string, date: string, className: string }[]>([]);
   const history = useHistory();
 
-  
+
 
   useEffect(() => {
 
@@ -24,9 +24,9 @@ const Calendar: React.FC = () => {
     const storedPain = new Map<string, string>(JSON.parse(localStorage.painMap || '[]'));
     const storedEmotions = new Map<string, string>(JSON.parse(localStorage.emotionsMap || '[]'));
     const storedSkin = new Map<string, string>(JSON.parse(localStorage.skinMap || '[]'));
-    const storedPhotos:string [] = (JSON.parse(localStorage.photoDates || '[]')); // this is just the dates not actual photos
-    console.log("photos",storedPhotos);
-    console.log("skin",storedSkin);
+    const storedPhotos: string[] = (JSON.parse(localStorage.photoDates || '[]')); // this is just the dates not actual photos
+    console.log("photos", storedPhotos);
+    console.log("skin", storedSkin);
 
     const periodEvents: { title: string, date: string, className: string }[] = [];
     const painEvents: { title: string, date: string, className: string }[] = [];
@@ -77,20 +77,98 @@ const Calendar: React.FC = () => {
   }
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Calendar</IonTitle>
-          <IonButtons slot="start">
-            <IonMenuButton autoHide={false}></IonMenuButton>
-          </IonButtons>
-          <IonButtons slot="end">
-          <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-              <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+    <>
+      <IonMenu contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            <IonAccordionGroup>
+              <IonAccordion value="first">
+                <IonItem slot="header">
+                  <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
+                  <IonLabel>Main Pages</IonLabel>
+                </IonItem>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Cycle">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
+                    <IonLabel>Cycle</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Calendar">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
+                    <IonLabel>Calendar</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Track">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
+                    <IonLabel>Cycle</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Analysis">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
+                    <IonLabel>Cycle</IonLabel>
+                  </IonItem>
+                </div>
+              </IonAccordion>
+
+
+              <IonAccordion value="second">
+                <IonItem slot="header">
+                  <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
+                  <IonLabel>Settings</IonLabel>
+                </IonItem>
+                <div className="ion-padding" slot="content">
+                  <IonItem href="/Rosie/Menu/Appearance">
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
+                    <IonLabel>Appearance</IonLabel>
+                  </IonItem>
+                </div>
+                <div className="ion-padding" slot="content">
+                  <IonItem href='/Rosie/Menu/Notifications'>
+                    <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
+                    <IonLabel>Notifications</IonLabel>
+                  </IonItem>
+                </div>
+              </IonAccordion>
+            </IonAccordionGroup>
+
+            <IonItem href="/Rosie/Menu/AboutUs">
+              <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
+              <IonLabel>About Us</IonLabel>
+            </IonItem>
+            <IonItem href='/Rosie/Menu/PrivacyPolicy'>
+              <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
+              <IonLabel>Privacy Policy</IonLabel>
+            </IonItem>
+            <IonItem href='/Rosie/Menu/Resources'>
+              <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+              <IonLabel>Resources</IonLabel>
+            </IonItem>
+          </IonList>
+        </IonContent>
+      </IonMenu>
+
+      <IonPage id="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
+            <IonTitle>Calendar</IonTitle>
+            <IonButtons slot="end">
+              <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
       <IonContent fullscreen>
         <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
           <FullCalendar
@@ -108,7 +186,8 @@ const Calendar: React.FC = () => {
           />
         </IonGrid>
       </IonContent>
-    </IonPage>
+    </IonPage >
+    </>
   );
 };
 

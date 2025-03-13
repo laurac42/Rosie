@@ -1,5 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { personCircle } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonList, IonMenu, IonAccordion, IonItem, IonAccordionGroup, IonLabel } from '@ionic/react';
+import { calendar, clipboard, colorPalette, folderOpen, informationCircle, lockClosed, notifications, people, personCircle, radioButtonOff, settings, trendingUp } from 'ionicons/icons';
 import React from 'react';
 import { BarChart, PieChart } from '@mui/x-charts';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
@@ -76,7 +76,7 @@ const Analysis: React.FC = () => {
             const endMoment = moment(startDates[i]);
             const cycleLength = endMoment.diff(startMoment, 'days');
             //console.log(cycleLength);
-            cycleLengths.push({ length: cycleLength, startDate: startDates[i-1] });
+            cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
         }
 
         // calculate average
@@ -163,96 +163,170 @@ const Analysis: React.FC = () => {
 
 
     return (
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Analysis</IonTitle>
-                    <IonButtons slot="start">
-                        <IonMenuButton autoHide={false}></IonMenuButton>
-                    </IonButtons>
-                    <IonButtons slot="end">
-                    <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-              <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent fullscreen>
-                <IonHeader collapse="condense">
+        <>
+            <IonMenu contentId="main-content">
+                <IonHeader>
                     <IonToolbar>
-                        <IonTitle size="large">Analysis</IonTitle>
+                        <IonTitle>Menu</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <IonGrid fixed={true}>
-                    <IonRow><h2>Period Length</h2></IonRow>
-                    <IonRow><BarChart
-                        dataset={periodLengths}
-                        xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
-                        series={[
-                            { dataKey: 'length', label: 'Period Length', color: 'var(--lighter-pink)' },
-                        ]}
-                        slotProps={{
-                            legend: {
-                                labelStyle: {
-                                    fill: 'var(--text)',
+                <IonContent>
+
+                    <IonList>
+                        <IonAccordionGroup>
+                            <IonAccordion value="first">
+                                <IonItem slot="header">
+                                    <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
+                                    <IonLabel>Main Pages</IonLabel>
+                                </IonItem>
+                                <div className="ion-padding" slot="content">
+                                    <IonItem href="/Rosie/Cycle">
+                                        <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
+                                        <IonLabel>Cycle</IonLabel>
+                                    </IonItem>
+                                </div>
+                                <div className="ion-padding" slot="content">
+                                    <IonItem href="/Rosie/Calendar">
+                                        <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
+                                        <IonLabel>Calendar</IonLabel>
+                                    </IonItem>
+                                </div>
+                                <div className="ion-padding" slot="content">
+                                    <IonItem href="/Rosie/Track">
+                                        <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
+                                        <IonLabel>Cycle</IonLabel>
+                                    </IonItem>
+                                </div>
+                                <div className="ion-padding" slot="content">
+                                    <IonItem href="/Rosie/Analysis">
+                                        <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
+                                        <IonLabel>Cycle</IonLabel>
+                                    </IonItem>
+                                </div>
+                            </IonAccordion>
+
+
+                            <IonAccordion value="second">
+                                <IonItem slot="header">
+                                    <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
+                                    <IonLabel>Settings</IonLabel>
+                                </IonItem>
+                                <div className="ion-padding" slot="content">
+                                    <IonItem href="/Rosie/Menu/Appearance">
+                                        <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
+                                        <IonLabel>Appearance</IonLabel>
+                                    </IonItem>
+                                </div>
+                                <div className="ion-padding" slot="content">
+                                    <IonItem href='/Rosie/Menu/Notifications'>
+                                        <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
+                                        <IonLabel>Notifications</IonLabel>
+                                    </IonItem>
+                                </div>
+                            </IonAccordion>
+                        </IonAccordionGroup>
+
+                        <IonItem href="/Rosie/Menu/AboutUs">
+                            <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
+                            <IonLabel>About Us</IonLabel>
+                        </IonItem>
+                        <IonItem href='/Rosie/Menu/PrivacyPolicy'>
+                            <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
+                            <IonLabel>Privacy Policy</IonLabel>
+                        </IonItem>
+                        <IonItem href='/Rosie/Menu/Resources'>
+                            <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                            <IonLabel>Resources</IonLabel>
+                        </IonItem>
+                    </IonList>
+                </IonContent>
+            </IonMenu>
+            <IonPage id="main-content">
+                <IonHeader>
+                    <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonMenuButton></IonMenuButton>
+                        </IonButtons>
+                        <IonTitle>Analysis</IonTitle>
+                        <IonButtons slot="end">
+                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+                            </IonButton>
+                        </IonButtons>
+                    </IonToolbar>
+                </IonHeader>
+                <IonContent fullscreen>
+                    <IonGrid fixed={true}>
+                        <IonRow><h2>Period Length</h2></IonRow>
+                        <IonRow><BarChart
+                            dataset={periodLengths}
+                            xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
+                            series={[
+                                { dataKey: 'length', label: 'Period Length', color: 'var(--lighter-pink)' },
+                            ]}
+                            slotProps={{
+                                legend: {
+                                    labelStyle: {
+                                        fill: 'var(--text)',
+                                    },
                                 },
-                            },
-                        }}
-                        {...chartSetting}
-                    /></IonRow>
-                    <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+                            }}
+                            {...chartSetting}
+                        /></IonRow>
+                        <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
-                    <IonRow><h2>Cycle Length</h2></IonRow>
-                    <IonRow><BarChart
-                        dataset={cycleLengths}
-                        xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
-                        series={[
-                            { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
-                        ]}
-                        slotProps={{
-                            legend: {
-                                labelStyle: {
-                                    fill: 'var(--text)',
+                        <IonRow><h2>Cycle Length</h2></IonRow>
+                        <IonRow><BarChart
+                            dataset={cycleLengths}
+                            xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
+                            series={[
+                                { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
+                            ]}
+                            slotProps={{
+                                legend: {
+                                    labelStyle: {
+                                        fill: 'var(--text)',
+                                    },
                                 },
-                            },
-                        }}
-                        {...chartSetting}
-                    /></IonRow>
-                    <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+                            }}
+                            {...chartSetting}
+                        /></IonRow>
+                        <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
-                    <IonRow><h2>Pain</h2></IonRow>
-                    <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
-                    <IonRow><PieChart
-                    colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
-                        series={[
-                            {
-                                data: [
-                                    { id: 0, value: noPainDays.length, label: 'No Pain' },
-                                    { id: 1, value: crampDays.length, label: 'Cramps' },
-                                    { id: 2, value: backPainDays.length, label: 'Back Pain' },
-                                    { id: 3, value: headacheDays.length, label: 'Headache Pain' },
-                                ],
-                                innerRadius: 5,  
-                                paddingAngle: 5,  
-                                cornerRadius: 5, 
-                            },
-                            
-                        ]}
-                        slotProps={{
-                            legend: {
-                                labelStyle: {
-                                    fill: 'var(--text)',
+                        <IonRow><h2>Pain</h2></IonRow>
+                        <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
+                        <IonRow><PieChart
+                            colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
+                            series={[
+                                {
+                                    data: [
+                                        { id: 0, value: noPainDays.length, label: 'No Pain' },
+                                        { id: 1, value: crampDays.length, label: 'Cramps' },
+                                        { id: 2, value: backPainDays.length, label: 'Back Pain' },
+                                        { id: 3, value: headacheDays.length, label: 'Headache Pain' },
+                                    ],
+                                    innerRadius: 5,
+                                    paddingAngle: 5,
+                                    cornerRadius: 5,
                                 },
-                            },
-                        }}
-                        width={500}
-                        height={200}
-                    /> </IonRow>
 
-                </IonGrid>
+                            ]}
+                            slotProps={{
+                                legend: {
+                                    labelStyle: {
+                                        fill: 'var(--text)',
+                                    },
+                                },
+                            }}
+                            width={500}
+                            height={200}
+                        /> </IonRow>
 
-            </IonContent>
-        </IonPage>
+                    </IonGrid>
+
+                </IonContent>
+            </IonPage>
+        </>
     );
 };
 
