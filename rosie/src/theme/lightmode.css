@@ -193,3 +193,7 @@ ion-item {
   border-bottom: 1px solid var(--text); /* Change color/thickness as needed */
 }
 
+.checkbox {
+  padding-block: 10px;
+}
+
