@@ -24,6 +24,7 @@ import { loadTheme } from "./theme";
 import Welcome from './pages/Welcome';  
 import Date from './pages/Date'
 import Profile from './pages/Profile'
+import Appearance from './pages/Appearance';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -91,6 +92,9 @@ const App: React.FC = () => {
             </Route>
             <Route exact path="/Profile">
               <Profile />
+            </Route>
+            <Route exact path="/Menu/Appearance">
+              <Appearance />
             </Route>
             <Route exact path="/">
               <Redirect to="/SignUp" />

@@ -33,38 +33,6 @@ const Track: React.FC = () => {
     ]);
   }, []);
 
-  /**
-   * Take a picture - dont actually do it this way anymore
-   */
-  const takePicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      saveToGallery: true, // default save to gallery
-      direction: CameraDirection.Front //default to front camera
-    });
-    // add the date to the url
-    var imageUrl = image.webPath;
-
-    // get photos from local storage if some have already been stored, or else create a new photos array
-    if (localStorage.getItem("photos") === null) {
-      var photos = new Map<string, any[]>(); // allow multiple photos to be stored for each date
-      photos.set(selectedDate, [imageUrl]);
-      localStorage.photos = JSON.stringify(Array.from(photos.entries()));
-    }
-    else {
-      var storedPhotos = new Map<string, any[]>(JSON.parse(localStorage.photos));
-      if (storedPhotos.get(selectedDate)) {
-        storedPhotos.get(selectedDate)?.push(imageUrl);
-      }
-      else {
-        storedPhotos.set(selectedDate, [imageUrl]);
-      }
-      localStorage.photos = JSON.stringify(Array.from(storedPhotos.entries()));
-    }
-  };
-
   // so when a date is clicked, an event is created for that date
   function handleDateClick(info: any) {
     //console.log('Date clicked:', info.dateStr);
@@ -213,7 +181,7 @@ const Track: React.FC = () => {
         </IonHeader>
         <IonContent>
         <IonList>
-        <IonItem>
+        <IonItem href="/Rosie/Menu/Appearance">
           <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
           <IonLabel>Appearance</IonLabel>
         </IonItem>
