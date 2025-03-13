@@ -179,3 +179,17 @@ ion-button::selection {
   color: red;
 }
 
+.menuItem {
+  font-family: "Delius", serif;
+}
+
+.menuIcon
+{
+  color: var(--etext);
+}
+
+/*colour of the lines between the menu items*/
+ion-item {
+  border-bottom: 1px solid var(--text); /* Change color/thickness as needed */
+}
+
