@@ -83,7 +83,6 @@ const Track: React.FC = () => {
   // handle an emotion column being clicked
   function handleEmotionClick(event: any) {
     const columnText = event.currentTarget.innerText.trim(); // Get the column text
-    window.prompt("sometext", "defaultText");
     // add the column to the clicked emotion
     if (columnText) {
       setClickedEmotion(columnText);
