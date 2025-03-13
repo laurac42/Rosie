@@ -143,8 +143,13 @@ ion-button {
     color: var(--darker-pink);
   }
 
-  .profileButton {
-    color: var(--text);
-    background-color: var(--darker-background);
-    --border-width: 0;
-  }
+/* Button the profile icon sits on*/
+.dark .profileButton {
+  --background: var(--darker-background) !important;
+}
+
+/* profile icon itself */
+.dark .profileIcon {
+  color: var(--text) !important;
+  
+}

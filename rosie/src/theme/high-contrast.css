@@ -185,3 +185,13 @@ ion-button:hover {
   color: var(--background-color)
 }
 
+/* Button the profile icon sits on*/
+.contrast .profileButton {
+  --background: var(--darker-background) !important;
+}
+
+/* profile icon itself */
+.contrast .profileIcon {
+  color: var(--background-color) !important;
+  
+}

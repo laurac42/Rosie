@@ -167,9 +167,22 @@ ion-button::selection {
   color: var(--background-color);
 }
 
+/* Button the profile icon sits on*/
 .light .profileButton {
-  color: var(--text);
-  background-color: var(--darker-background);
-  --border-width: 0;
+  --background: var(--darker-background) !important;
+}
+
+/* profile icon itself */
+.light .profileIcon {
+  color: var(--text) !important;
+  
+}
+
+.dangerButton {
+  --background: red !important;
+}
+
+.dangerIcon {
+  color: red;
 }
 

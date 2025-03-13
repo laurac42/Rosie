@@ -171,9 +171,9 @@ const Analysis: React.FC = () => {
                         <IonMenuButton autoHide={false}></IonMenuButton>
                     </IonButtons>
                     <IonButtons slot="end">
-                        <IonButton className='profileButton' href="/Rosie/Profile">
-                            <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-                        </IonButton>
+                    <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+              <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+            </IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
