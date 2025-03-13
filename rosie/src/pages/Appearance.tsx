@@ -74,7 +74,7 @@ const Appearance: React.FC = () => {
                             <br />
                         </IonRadioGroup>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Done</IonButton>
+                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Back to Cycle Page</IonButton>
                         </IonRow>
                     </IonGrid>
                 </IonContent>

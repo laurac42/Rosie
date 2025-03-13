@@ -185,19 +185,19 @@ const Track: React.FC = () => {
           <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
           <IonLabel>Appearance</IonLabel>
         </IonItem>
-        <IonItem>
+        <IonItem href='/Rosie/Menu/Notifications'>
           <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
           <IonLabel>Notifications</IonLabel>
         </IonItem>
-        <IonItem>
+        <IonItem href="/Rosie/Menu/AboutUs">
           <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
           <IonLabel>About Us</IonLabel>
         </IonItem>
-        <IonItem>
+        <IonItem href='/Rosie/Menu/PrivacyPolicy'>
           <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
           <IonLabel>Privacy Policy</IonLabel>
         </IonItem>
-        <IonItem>
+        <IonItem href='/Rosie/Menu/Resources'>
           <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
           <IonLabel>Resources</IonLabel>
         </IonItem>

@@ -44,7 +44,7 @@ const AboutUs: React.FC = () => {
                         <IonButtons slot="start">
                             <IonMenuButton></IonMenuButton>
                         </IonButtons>
-                        <IonTitle>Appearance</IonTitle>
+                        <IonTitle>About Us</IonTitle>
                         <IonButtons slot="end">
                             <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
                                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
@@ -61,7 +61,7 @@ const AboutUs: React.FC = () => {
 
                             <br></br><br></br>We're here to make period tracking feel natural and stress-free. Because knowing your cycle means knowing yourself—and that should always be simple.</p>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Done</IonButton>
+                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Back to Cycle Page</IonButton>
                         </IonRow>
                     </IonGrid>
                 </IonContent>

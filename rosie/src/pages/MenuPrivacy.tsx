@@ -108,7 +108,7 @@ const MenuPrivacy: React.FC = () => {
 
                             By using Rosie, you acknowledge that you have read, understood, and agreed to this Privacy Policy.</p></IonRow>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Done</IonButton>
+                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Back to Cycle Page</IonButton>
                         </IonRow>
                     </IonGrid>
                 </IonContent>
