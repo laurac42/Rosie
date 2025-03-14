@@ -7,6 +7,7 @@ import ExploreContainer from '../components/ExploreContainer';
 
 const Preferences: React.FC = () => {
     const [theme, setTheme] = useState<string>('');
+    const [notifications, setNotifications] = useState<string[]>([]);
 
     // to handle the selection of a theme change radio button
     // sets the theme constant to whatever was the theme selected by the radio buttons
@@ -14,6 +15,32 @@ const Preferences: React.FC = () => {
         setTheme(e.detail.value);
         applyTheme(e.detail.value);
     };
+
+    function setUpNotifications() {
+        // check if permissions have been granted and if not, ask the user for permission
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission() // Request notification permission from the user's device
+          }
+        else {
+            console.log("permission granted")
+        }
+    }
+
+    function clickedNotification(e: CustomEvent<any>) {
+        console.log("a notification was clicked");
+        console.log(e.detail.value);
+        // if the notifications array includes what was clicked already, it needs to be removed
+        // if it does not include it, it needs to be added
+        if (notifications.includes(e.detail.value))
+        {
+            var index = notifications.indexOf(e.detail.value);
+            notifications.splice(index, 1);
+        }
+        else {
+            notifications.push(e.detail.value);
+        }
+        console.log(notifications);
+    }
 
     return (
         <IonPage>
@@ -39,10 +66,11 @@ const Preferences: React.FC = () => {
                     <IonRow class="ion-justify-content-start">
                         <p><b>Notifications:</b></p>
                     </IonRow>
-                    <IonRow class="checkbox"><IonCheckbox labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
-                    <IonRow><IonCheckbox labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
+                    <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
+                    <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton className="btn" href="/Rosie/SignUp/PrivacyPolicy" size="large">Save Preferences</IonButton>
+                        {/* stay on the same page for now href="/Rosie/SignUp/PrivacyPolicy"*/}
+                        <IonButton className="btn" onClick={setUpNotifications}  size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>

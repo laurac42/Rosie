@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import App from './App';
 
+
 const container = document.getElementById('root');
 const root = createRoot(container!);
 // Call the element loader before the render call
@@ -12,3 +13,14 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/Rosie/service-worker.js')
+  .then(function(registration) {
+      console.log('Service Worker registered with scope:', registration.scope);
+  }).catch(function(error) {
+      console.log('Service Worker registration failed:', error);
+      console.log("test1")
+  });
+}
