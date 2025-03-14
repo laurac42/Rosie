@@ -1,8 +1,23 @@
 var CACHE_NAME = 'Rosie-localStorage';
+// need to add more to this 
 var urlsToCache = [
   './',
-  './Rosie/'
+  './Rosie/',
+  './Rosie/SignUp/Preferences',
+  './Rosie/SignUp',
+  './Rosie/SignUp/EnterDetails'
 ];
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBucqhO4SYwWQck0ifh1vfkRkL9ClxWr4Y",
+    authDomain: "rosie-e4cd8.firebaseapp.com",
+    projectId: "rosie-e4cd8",
+    storageBucket: "rosie-e4cd8.firebasestorage.app",
+    messagingSenderId: "588523967326",
+    appId: "1:588523967326:web:c3c146147faa09c320b5cf",
+    measurementId: "G-C36FD8FZ7C"
+  };
+  
 
 self.addEventListener('install', function(event) {
     console.log("service worked installed")
@@ -15,6 +30,21 @@ self.addEventListener('install', function(event) {
       })
   );
 });
+
+self.addEventListener('activate', function(event) {
+    // Clean up any old caches during activation
+    event.waitUntil(
+      caches.keys().then(function(cacheNames) {
+        return Promise.all(
+          cacheNames.map(function(cacheName) {
+            if (cacheName !== 'my-cache') {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+    );
+  });
 
 self.addEventListener('fetch', function(event) {
     console.log("fetching")
@@ -45,21 +75,14 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-// Front-end **Service Worker** listening for events
-self.addEventListener("push", (event) => {
-    const data = event.data.json() // Payload from the server, assumed to be in JSON format
+self.addEventListener('push', function(event) {
+    var options = {
+      body: event.data.text(),
+      icon: '/images/icon.png',  // Customize with your app's icon
+      badge: '/images/badge.png'
+    };
   
     event.waitUntil(
-      // Upon receiving the push event, call **Notifications API** to push the notification
-      self.registration.showNotification(
-        data.title ? data.title : "New Message",
-        {
-          body: data.body,
-          badge: "rose.png",
-          vibrate: [200, 100, 200],
-          timestamp: Date.now(),
-          data: { use_to_open_specific_page: data.props }, // Custom data sent from the server
-        }
-      )
-    )
-})
+      self.registration.showNotification('New Notification', options)
+    );
+  });
