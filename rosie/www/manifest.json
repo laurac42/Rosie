@@ -3,12 +3,12 @@
   "name": "Rosie",
   "icons": [
     {
-      "src": "assets/icon/favicon.png",
+      "src": "rose.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "assets/icon/icon.png",
+      "src": "rose.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
@@ -16,6 +16,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#bb2649",
+  "theme_color": "#f2c0cb",
   "background_color": "#eeaaba"
 }
