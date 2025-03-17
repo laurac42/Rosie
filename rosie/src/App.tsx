@@ -21,6 +21,7 @@ import Details from './pages/EnterDetails';
 import Preferences from './pages/Preferences';
 import Privacy from './pages/PrivacyPolicy';
 import { loadTheme } from "./theme";
+import {checkTrack} from "./checkTrack";
 import Welcome from './pages/Welcome';  
 import Date from './pages/Date'
 import Profile from './pages/Profile'
@@ -56,6 +57,7 @@ setupIonicReact();
 const App: React.FC = () => {
   useEffect(() => {
     loadTheme();
+    checkTrack();
   }, []);
 
   return (
