@@ -20,7 +20,7 @@ onBackgroundMessage(messaging, (payload) => {
     // Customize notification here
     const notificationTitle = 'Background Message Title';
     const notificationOptions = {
-      body: 'This is a background message',
+      body: 'Background Message body.',
       icon: 'rose.png'
     };
   
