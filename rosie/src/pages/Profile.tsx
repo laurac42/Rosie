@@ -1,12 +1,15 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonAccordion, IonAccordionGroup, IonLabel, IonList, IonMenu } from '@ionic/react';
-import { backspace, calendar, clipboard, colorPalette, flower, folderOpen, heart, informationCircle, lockClosed, notifications, nuclear, people, person, personCircle, radioButtonOff, rose, settings, trendingUp } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonAccordion, IonAccordionGroup, IonLabel, IonList, IonMenu, IonDatetime, IonPopover } from '@ionic/react';
+import { backspace, calendarOutline, flower, nuclear, personCircle, today } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
+import Menu from '../components/Menu'
+import moment from 'moment';
 
 const Profile: React.FC = () => {
     const [name, setName] = useState<string>('No name');
     const [age, setAge] = useState<any>("No Age Available");
     const [birthday, setBirthday] = useState<string>('No Birthday');
     const [editDetailsBool, setEditDetailsBool] = useState<boolean>(false);
+    const [today, setToday] = useState<any>();
 
     useEffect(() => {
         // get all profile data from local storage
@@ -19,8 +22,11 @@ const Profile: React.FC = () => {
         else {
             setAge(getAge(birthday))
         }
-    }, [birthday, editDetailsBool]); // needs to also reload when birthday is changed so that it can use the changed birthday to calculate age
-    // and also when details are edited so it updates to the new ones
+        // only allow the user to choose up to today
+        const today = moment().format("YYYY-MM-DD")
+        setToday(today);
+
+    }, [ editDetailsBool]); 
 
     // function to get age from birthday - taken from: https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
     function getAge(dateString: string) {
@@ -41,7 +47,7 @@ const Profile: React.FC = () => {
 
     /**
      *  Check if any details were updated and save them to local storage if they were
-     */ 
+     */
     function saveDetails() {
         const name = document.getElementById('name') as HTMLInputElement;
         // only change in local storage if something has been entered
@@ -54,179 +60,118 @@ const Profile: React.FC = () => {
             localStorage.setItem('Age', age.value);
         }
 
-        const bday = document.getElementById('bday') as HTMLInputElement;
-        if (bday.value) {
-            localStorage.setItem('Birthday', bday.value);
+        // check if birthday has changed and if it has, update
+        if (birthday != localStorage.Birthday) {
+            localStorage.setItem('Birthday', birthday);
         }
         setEditDetailsBool(false);
     }
 
     function deleteProfile() {
-        if(window.confirm("Are you sure you want to delete your profile? This includes all period data. Once deleted, your profile is unrecoverable."))
-        {
+        if (window.confirm("Are you sure you want to delete your profile? This includes all period data. Once deleted, your profile is unrecoverable.")) {
             console.log("deleting profile")
             localStorage.clear();
         }
-        else{
+        else {
             console.log("profile is kept")
         }
-        
+
     }
 
     return (
         <>
-                    <IonMenu contentId="main-content">
-                        <IonHeader>
-                            <IonToolbar>
-                                <IonTitle>Menu</IonTitle>
-                            </IonToolbar>
-                        </IonHeader>
-                        <IonContent>
-        
-                            <IonList>
-                                <IonAccordionGroup>
-                                    <IonAccordion value="first">
-                                        <IonItem slot="header">
-                                            <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
-                                            <IonLabel>Main Pages</IonLabel>
-                                        </IonItem>
-                                        <div className="ion-padding" slot="content">
-                                            <IonItem href="/Rosie/Cycle">
-                                                <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
-                                                <IonLabel>Cycle</IonLabel>
-                                            </IonItem>
-                                        </div>
-                                        <div className="ion-padding" slot="content">
-                                            <IonItem href="/Rosie/Calendar">
-                                                <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
-                                                <IonLabel>Calendar</IonLabel>
-                                            </IonItem>
-                                        </div>
-                                        <div className="ion-padding" slot="content">
-                                            <IonItem href="/Rosie/Track">
-                                                <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
-                                                <IonLabel>Cycle</IonLabel>
-                                            </IonItem>
-                                        </div>
-                                        <div className="ion-padding" slot="content">
-                                            <IonItem href="/Rosie/Analysis">
-                                                <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
-                                                <IonLabel>Cycle</IonLabel>
-                                            </IonItem>
-                                        </div>
-                                    </IonAccordion>
-        
-        
-                                    <IonAccordion value="second">
-                                        <IonItem slot="header">
-                                            <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
-                                            <IonLabel>Settings</IonLabel>
-                                        </IonItem>
-                                        <div className="ion-padding" slot="content">
-                                            <IonItem href="/Rosie/Menu/Appearance">
-                                                <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
-                                                <IonLabel>Appearance</IonLabel>
-                                            </IonItem>
-                                        </div>
-                                        <div className="ion-padding" slot="content">
-                                            <IonItem href='/Rosie/Menu/Notifications'>
-                                                <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
-                                                <IonLabel>Notifications</IonLabel>
-                                            </IonItem>
-                                        </div>
-                                    </IonAccordion>
-                                </IonAccordionGroup>
-        
-                                <IonItem href="/Rosie/Menu/AboutUs">
-                                    <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
-                                    <IonLabel>About Us</IonLabel>
+            <Menu />
+            <IonPage id="main-content">
+                <IonHeader>
+                    <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonMenuButton></IonMenuButton>
+                        </IonButtons>
+                        <IonTitle>Profile</IonTitle>
+                        <IonButtons slot="end">
+                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+                            </IonButton>
+                        </IonButtons>
+                    </IonToolbar>
+                </IonHeader>
+                <IonContent fullscreen>
+
+                    {/* When edit details isnt set: */}
+                    {!editDetailsBool &&
+                        (<IonGrid fixed={true}>
+
+                            <IonRow class='ion-justify-content-center'>
+                                <h1 className='heading'><IonIcon icon={flower} className='colourIcon'></IonIcon>Your Details<IonIcon icon={flower} className='colourIcon'></IonIcon></h1>
+                            </IonRow>
+                            <IonRow class='ion-justify-content-start'>
+                                <p><b>Name: </b>{name} </p>
+                            </IonRow>
+                            <IonRow class='ion-justify-content-start'>
+                                <p><b>Birthday: </b>{birthday} </p>
+                            </IonRow>
+                            <IonRow class='ion-justify-content-start'>
+                                <p><b>Age: </b>{age} </p>
+                            </IonRow>
+                            <IonRow class="ion-justify-content-center">
+                                <IonButton className="btn" onClick={editDetails} size="large">Edit Details</IonButton>
+                            </IonRow>
+
+                        </IonGrid>)}
+                    {/* When edit details is set: */}
+                    {editDetailsBool &&
+                        (<IonGrid fixed={true}>
+                            <IonRow ><IonButton href="/Rosie/Calendar" ><IonIcon icon={backspace}></IonIcon>Back to Cycle Page</IonButton></IonRow>
+                            <IonRow class='ion-justify-content-center'>
+                                <h1 className='heading'><IonIcon icon={flower} className='colourIcon'></IonIcon>Edit Details<IonIcon icon={flower} className='colourIcon'></IonIcon></h1>
+                            </IonRow>
+                            <IonRow> <IonItem>
+                                <IonInput required className="custom-font" label={"Name:"} id="name" placeholder={name}></IonInput>
+                            </IonItem>
+                            </IonRow>
+                            <IonRow> <IonItem>
+                                <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder={age}></IonInput>
+                            </IonItem>
+                            </IonRow>
+                            <IonRow>
+                                <IonItem id="bday">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="Birthday:"
+                                        placeholder="Enter Birthday"
+                                        value={birthday}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="bday" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {
+                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD");
+                                                setBirthday(formattedDate);
+                                            }}
+                                        ></IonDatetime>
+                                    </IonPopover>
                                 </IonItem>
-                                <IonItem href='/Rosie/Menu/PrivacyPolicy'>
-                                    <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
-                                    <IonLabel>Privacy Policy</IonLabel>
-                                </IonItem>
-                                <IonItem href='/Rosie/Menu/Resources'>
-                                    <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
-                                    <IonLabel>Resources</IonLabel>
-                                </IonItem>
-        
-                            </IonList>
-                        </IonContent>
-        
-                    </IonMenu>
-                    <IonPage id="main-content">
-                        <IonHeader>
-                            <IonToolbar>
-                                <IonButtons slot="start">
-                                    <IonMenuButton></IonMenuButton>
-                                </IonButtons>
-                                <IonTitle>Profile</IonTitle>
-                                <IonButtons slot="end">
-                                    <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-                                        <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-                                    </IonButton>
-                                </IonButtons>
-                            </IonToolbar>
-                        </IonHeader>
-            <IonContent fullscreen>
-                
-                {/* When edit details isnt set: */}
-                {!editDetailsBool &&
-                    (<IonGrid fixed={true}>
-                        
-                        <IonRow class='ion-justify-content-center'>
-                            <h1 className='heading'><IonIcon icon={flower} className='colourIcon'></IonIcon>Your Details<IonIcon icon={flower} className='colourIcon'></IonIcon></h1>
-                        </IonRow>
-                        <IonRow class='ion-justify-content-start'>
-                            <p><b>Name: </b>{name} </p>
-                        </IonRow>
-                        <IonRow class='ion-justify-content-start'>
-                            <p><b>Birthday: </b>{birthday} </p>
-                        </IonRow>
-                        <IonRow class='ion-justify-content-start'>
-                            <p><b>Age: </b>{age} </p>
-                        </IonRow>
-                        <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" onClick={editDetails} size="large">Edit Details</IonButton>
-                        </IonRow>
-                        
-                    </IonGrid>)}
-                {/* When edit details is set: */}
-                {editDetailsBool &&
-                    (<IonGrid fixed={true}>
-                        <IonRow ><IonButton href="/Rosie/Calendar" ><IonIcon icon={backspace}></IonIcon>Back to Cycle Page</IonButton></IonRow>
-                        <IonRow class='ion-justify-content-center'>
-                            <h1 className='heading'><IonIcon icon={flower} className='colourIcon'></IonIcon>Edit Details<IonIcon icon={flower} className='colourIcon'></IonIcon></h1>
-                        </IonRow>
-                        <IonRow> <IonItem>
-                            <IonInput required className="custom-font" label={"Name:"} id="name" placeholder={name}></IonInput>
-                        </IonItem>
-                        </IonRow>
-                        <IonRow> <IonItem>
-                            <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder={age}></IonInput>
-                        </IonItem>
-                        </IonRow>
-                        <IonRow> <IonItem>
-                            <IonInput required className="custom-font" label="Birthday:" id='bday' type="date"></IonInput>
-                        </IonItem>
-                        </IonRow>
-                        <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" onClick={saveDetails} size="large">Save Details</IonButton>
-                        </IonRow>
-                    </IonGrid>)}
+                            </IonRow>
+                            <IonRow class="ion-justify-content-center">
+                                <IonButton className="btn" onClick={saveDetails} size="large">Save Details</IonButton>
+                            </IonRow>
+                        </IonGrid>)}
 
                     <IonGrid class="dangerGrid" fixed={true}>
                         <IonRow class='ion-justify-content-center'>
-                            <h1 className='heading'><IonIcon icon={nuclear} className='dangerIcon'></IonIcon>Danger Zone<IonIcon icon={nuclear} className='dangerIcon'></IonIcon></h1>
+                            <h1 className='heading dangerText'><IonIcon icon={nuclear} className='dangerIcon'></IonIcon><b>Danger Zone</b><IonIcon icon={nuclear} className='dangerIcon'></IonIcon></h1>
                         </IonRow>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn dangerButton" onClick={deleteProfile} size="large">Delete Profile</IonButton>
+                            <IonButton className="btn dangerButton" onClick={deleteProfile} size="large"><b>Delete Profile</b></IonButton>
                         </IonRow>
-                        
+
                     </IonGrid>
 
-            </IonContent>
-        </IonPage>
+                </IonContent>
+            </IonPage>
         </>
     );
 };

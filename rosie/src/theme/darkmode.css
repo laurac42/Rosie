@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Delius&family=Playwrite+IT+Moderna:wght@100..400&display=swap');
 
-h1,h2 {
+h1,h2, h3 {
   font-family: "Playwrite IT Moderna", serif;
+  color: var(--text);
 }
 
 /* To add spacing to some headings*/
@@ -12,12 +13,14 @@ h1,h2 {
 }
 
 p {
+  color: var(--text);
   font-family: "Delius", serif;
   font-weight: 400;
   font-style: normal;
 }
 
 ion-input {
+  color: var(--text);
   font-family: "Delius", serif;
   font-weight: 400;
   font-style: normal;
@@ -38,9 +41,11 @@ ion-input {
 
   --ion-background-color: var(--background-color);
 
-  --ion-text-color: var(--text);
-
   --ion-toolbar-color: var(--text);
+
+  --ion-color-primary: var(--mid-pink);
+
+  --ion-text-color: var(--text);
 
   --ion-toolbar-background: var(--darker-background);
 
@@ -147,4 +152,19 @@ ion-button {
 .dark .profileIcon {
   color: var(--text) !important;
   
+}
+
+ion-item {
+  color: var(--text);
+}
+
+
+/* make menu items white on hover */
+.menuHover ion-label:hover {
+  color: rgb(255, 255, 255) !important;
+  --ion-text-color: white;
+}
+
+.dark .dangerText {
+  color: var(--background-color) !important;
 }

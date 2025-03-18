@@ -1,17 +1,32 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonInput } from '@ionic/react';
-import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
-import React, { useState } from 'react';
-import { PushNotifications } from '@capacitor/push-notifications';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonPage, IonTitle, IonDatetime, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonInput, IonPopover } from '@ionic/react';
+import { calculatorOutline, calendar, calendarOutline, flower, heart, person, personCircle, rose } from 'ionicons/icons';
+import React, { useEffect, useState } from 'react';
 import './EnterDetails.css';
+import moment from 'moment';
 
 const Details: React.FC = () => {
     const [finished, setFinished] = useState(false); // state for whether or not the user has finished entering their details
     const [showPeriodInput, setShowPeriodInput] = useState(false);
+    const [Birthday, setBirthday] = useState<any>();
+    const [today, setToday] = useState<any>();
+    const [periodStart1, setPeriodStart1] = useState<any>();
+    const [periodStart2, setPeriodStart2] = useState<any>();
+    const [periodStart3, setPeriodStart3] = useState<any>();
+    const [periodEnd1, setPeriodEnd1] = useState<any>();
+    const [periodEnd2, setPeriodEnd2] = useState<any>();
+    const [periodEnd3, setPeriodEnd3] = useState<any>();
 
-    // Handle 'Enter Period Data' button click
+
+    useEffect(() => {
+        // only allow the user to choose up to today
+        const today = moment().format("YYYY-MM-DD")
+        setToday(today);
+    }, []);
+
+
+    // make period input appear when button is clicked
     const enterPeriod = () => {
-        setShowPeriodInput(true);  // This will trigger content to show for entering period data
+        setShowPeriodInput(true);
     };
 
     /* Funtion to save to local storage if period details were not added */
@@ -29,13 +44,12 @@ const Details: React.FC = () => {
             alert('Age Required');
             return;
         }
-
-        const bday = document.getElementById('bday') as HTMLInputElement;
-        localStorage.setItem('Birthday', bday.value);
-        if (!bday.value) {
+        
+        if (!Birthday.value) {
             alert('Birthday Required');
             return;
         }
+        localStorage.setItem('Birthday', Birthday);
         setFinished(true); // if this point in the function is reached, everything is saved and the user is finished
     };
 
@@ -44,46 +58,15 @@ const Details: React.FC = () => {
 
         // same as saving without period, but then also extra things
         saveWithoutPeriod();
-        const p1start = document.getElementById('periodStart1') as HTMLInputElement;
-        if (!p1start.value) {
-            alert('Period Start Date Required');
-            return;
-        }
-
-        const p2start = document.getElementById('periodStart2') as HTMLInputElement;
-        if (!p2start.value) {
-            alert('Period Start Date Required');
-            return;
-        }
-
-        const p3start = document.getElementById('periodStart3') as HTMLInputElement;
-        if (!p3start.value) {
-            alert('Period Start Date Required');
-            return;
-        }
-
-        const p1end = document.getElementById('periodEnd1') as HTMLInputElement;
-        if (!p1end.value) {
-            alert('Period End Date Required');
-            return;
-        }
-
-        const p2end = document.getElementById('periodEnd2') as HTMLInputElement;
-        if (!p2end.value) {
-            alert('Period End Date Required');
-            return;
-        }
-
-        const p3end = document.getElementById('periodEnd3') as HTMLInputElement;
-        if (!p3end.value) {
-            alert('Period End Date Required');
+        if (!periodStart1.value || !periodStart2.value || !periodStart3.value || !periodEnd1.value || !periodEnd2.value  || !periodEnd3.value) {
+            alert('You need to add all period data!');
             return;
         }
         // store all of the period start and end data in an array
         const storedPeriods = [
-            { startDate: p1start.value, endDate: p1end.value },
-            { startDate: p2start.value, endDate: p2end.value },
-            { startDate: p3start.value, endDate: p3end.value }
+            { startDate: periodStart1, endDate: periodEnd1 },
+            { startDate: periodStart2, endDate: periodEnd2 },
+            { startDate: periodStart3, endDate: periodEnd3 }
         ];
 
         // now create a map of every single date between the dates
@@ -126,6 +109,15 @@ const Details: React.FC = () => {
         return [year, month, day].join('-');
     }
 
+    /**
+     * Used to set the birthday variable to the chosen date
+     */
+    function changeBirthday(e: CustomEvent<any>) {
+
+        const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+        setBirthday(formattedDate);
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -146,8 +138,18 @@ const Details: React.FC = () => {
                             <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder="Enter Your Age"></IonInput>
                         </IonItem>
                         </IonRow>
-                        <IonRow> <IonItem>
-                            <IonInput required className="custom-font" label="Birthday:" id='bday' type="date"></IonInput>
+                        <IonRow> <IonItem id='bday'>
+                            <IonInput required className="custom-font" label="Birthday:" placeholder='dd/mm/yyyy' value={Birthday}>
+                            </IonInput>
+                            <IonIcon className='datePickerIcon' icon={calendarOutline} size='small'></IonIcon>
+                            <IonPopover trigger="bday" show-backdrop="false">
+                                <IonDatetime
+                                    class='popoverDateTime'
+                                    presentation='date'
+                                    max={today}
+                                    onIonChange={changeBirthday}
+                                ></IonDatetime>
+                            </IonPopover>
                         </IonItem>
                         </IonRow>
                     </IonGrid>
@@ -168,30 +170,126 @@ const Details: React.FC = () => {
                         <IonGrid>
                             <IonRow class="ion-justify-content-start"><p><b>Most Recent Period:</b></p></IonRow>
                             <IonRow>
-                                <IonItem>
-                                    <IonInput className="custom-font" type='date' label="Start Date:" placeholder="Enter Period Start Date" id="periodStart1" >
-                                    </IonInput>
+                                <IonItem id="periodStart1">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="Start Date:"
+                                        placeholder="Enter Period Start Date"
+                                        value={periodStart1}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="periodStart1" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+                                                setPeriodStart1(formattedDate);}}
+                                        ></IonDatetime>
+                                    </IonPopover>
                                 </IonItem>
-                                <IonItem><IonInput className="custom-font" type='date' label="End Date:" placeholder="Enter Period End Date" id="periodEnd1">
-                                </IonInput></IonItem>
+                            </IonRow>
+                            <IonRow>
+                                <IonItem id="periodEnd1">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="End Date:"
+                                        placeholder="Enter Period End Date"
+                                        value={periodEnd1}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="periodEnd1" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+                                                setPeriodEnd1(formattedDate);}}
+                                        ></IonDatetime>
+                                    </IonPopover>
+                                </IonItem>
                             </IonRow>
                             <IonRow class="ion-justify-content-start"><p><b>Second Most Recent Period:</b></p></IonRow>
-                            <IonRow >
-                                <IonItem>
-                                    <IonInput className="custom-font" label="Start Date:" type='date' placeholder="Enter Period Start Date" id="periodStart2">
-                                    </IonInput>
+                            <IonRow>
+                                <IonItem id="periodStart2">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="Start Date:"
+                                        placeholder="Enter Period Start Date"
+                                        value={periodStart2}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="periodStart2" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+                                                setPeriodStart2(formattedDate);}}
+                                        ></IonDatetime>
+                                    </IonPopover>
                                 </IonItem>
-                                <IonItem><IonInput className="custom-font" label="End Date:" type='date' placeholder="Enter Period End Date" id="periodEnd2" >
-                                </IonInput></IonItem>
+                            </IonRow>
+                            <IonRow>
+                                <IonItem id="periodEnd2">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="End Date:"
+                                        placeholder="Enter Period End Date"
+                                        value={periodEnd2}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="periodEnd2" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+                                                setPeriodEnd2(formattedDate);}}
+                                        ></IonDatetime>
+                                    </IonPopover>
+                                </IonItem>
                             </IonRow>
                             <IonRow class="ion-justify-content-start"><p><b>Third Most Recent Period:</b></p></IonRow>
-                            <IonRow >
-                                <IonItem>
-                                    <IonInput className="custom-font" type='date' label="Start Date:" placeholder="Enter Period Start Date" id="periodStart3">
-                                    </IonInput>
+                            <IonRow>
+                                <IonItem id="periodStart3">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="Start Date:"
+                                        placeholder="Enter Period Start Date"
+                                        value={periodStart3}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="periodStart3" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+                                                setPeriodStart3(formattedDate);}}
+                                        ></IonDatetime>
+                                    </IonPopover>
                                 </IonItem>
-                                <IonItem><IonInput className="custom-font" type='date' label="End Date:" placeholder="Enter Period End Date" id="periodEnd3">
-                                </IonInput></IonItem>
+                            </IonRow>
+                            <IonRow>
+                                <IonItem id="periodEnd3">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="End Date:"
+                                        placeholder="Enter Period End Date"
+                                        value={periodEnd3}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="periodEnd3" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
+                                                setPeriodEnd3(formattedDate);}}
+                                        ></IonDatetime>
+                                    </IonPopover>
+                                </IonItem>
                             </IonRow>
                             <IonRow class="ion-justify-content-center">
                                 <IonButton className="btn" onClick={saveWithPeriod} href="/Rosie/SignUp/Preferences" size="large">Save Details</IonButton>

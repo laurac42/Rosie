@@ -1,106 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonRadioGroup, IonRadio, IonCheckbox, IonMenu, IonList, IonLabel, IonAccordion, IonAccordionGroup } from '@ionic/react';
-import { flower, colorPalette, notifications, people, lockClosed, informationCircle, personCircle, calendar, clipboard, folderOpen, radioButtonOff, settings, trendingUp } from 'ionicons/icons';
-import React, { useState, useEffect } from 'react';
-import { applyTheme } from "../theme";
-import ExploreContainer from '../components/ExploreContainer';
-
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid } from '@ionic/react';
+import { flower, personCircle } from 'ionicons/icons';
+import Menu from '../components/Menu'
 
 const MenuPrivacy: React.FC = () => {
     return (
-       <>
-                   <IonMenu contentId="main-content">
-                       <IonHeader>
-                           <IonToolbar>
-                               <IonTitle>Menu</IonTitle>
-                           </IonToolbar>
-                       </IonHeader>
-                       <IonContent>
-       
-                           <IonList>
-                               <IonAccordionGroup>
-                                   <IonAccordion value="first">
-                                       <IonItem slot="header">
-                                           <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
-                                           <IonLabel>Main Pages</IonLabel>
-                                       </IonItem>
-                                       <div className="ion-padding" slot="content">
-                                           <IonItem href="/Rosie/Cycle">
-                                               <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
-                                               <IonLabel>Cycle</IonLabel>
-                                           </IonItem>
-                                       </div>
-                                       <div className="ion-padding" slot="content">
-                                           <IonItem href="/Rosie/Calendar">
-                                               <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
-                                               <IonLabel>Calendar</IonLabel>
-                                           </IonItem>
-                                       </div>
-                                       <div className="ion-padding" slot="content">
-                                           <IonItem href="/Rosie/Track">
-                                               <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
-                                               <IonLabel>Cycle</IonLabel>
-                                           </IonItem>
-                                       </div>
-                                       <div className="ion-padding" slot="content">
-                                           <IonItem href="/Rosie/Analysis">
-                                               <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
-                                               <IonLabel>Cycle</IonLabel>
-                                           </IonItem>
-                                       </div>
-                                   </IonAccordion>
-       
-       
-                                   <IonAccordion value="second">
-                                       <IonItem slot="header">
-                                           <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
-                                           <IonLabel>Settings</IonLabel>
-                                       </IonItem>
-                                       <div className="ion-padding" slot="content">
-                                           <IonItem href="/Rosie/Menu/Appearance">
-                                               <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
-                                               <IonLabel>Appearance</IonLabel>
-                                           </IonItem>
-                                       </div>
-                                       <div className="ion-padding" slot="content">
-                                           <IonItem href='/Rosie/Menu/Notifications'>
-                                               <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
-                                               <IonLabel>Notifications</IonLabel>
-                                           </IonItem>
-                                       </div>
-                                   </IonAccordion>
-                               </IonAccordionGroup>
-       
-                               <IonItem href="/Rosie/Menu/AboutUs">
-                                   <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
-                                   <IonLabel>About Us</IonLabel>
-                               </IonItem>
-                               <IonItem href='/Rosie/Menu/PrivacyPolicy'>
-                                   <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
-                                   <IonLabel>Privacy Policy</IonLabel>
-                               </IonItem>
-                               <IonItem href='/Rosie/Menu/Resources'>
-                                   <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
-                                   <IonLabel>Resources</IonLabel>
-                               </IonItem>
-       
-                           </IonList>
-                       </IonContent>
-       
-                   </IonMenu>
-                   <IonPage id="main-content">
-                       <IonHeader>
-                           <IonToolbar>
-                               <IonButtons slot="start">
-                                   <IonMenuButton></IonMenuButton>
-                               </IonButtons>
-                               <IonTitle>Privacy Policy</IonTitle>
-                               <IonButtons slot="end">
-                                   <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-                                       <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-                                   </IonButton>
-                               </IonButtons>
-                           </IonToolbar>
-                       </IonHeader>
+        <>
+            <Menu />
+            <IonPage id="main-content">
+                <IonHeader>
+                    <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonMenuButton></IonMenuButton>
+                        </IonButtons>
+                        <IonTitle>Privacy Policy</IonTitle>
+                        <IonButtons slot="end">
+                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+                            </IonButton>
+                        </IonButtons>
+                    </IonToolbar>
+                </IonHeader>
                 <IonContent fullscreen>
                     <IonGrid fixed={true}>
                         <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Privacy Policy <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
