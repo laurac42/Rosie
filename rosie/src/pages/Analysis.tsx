@@ -70,23 +70,26 @@ const Analysis: React.FC = () => {
      * Calculate the difference in days between two start dates
      */
     function getAverageCycleLength() {
-        cycleLengths.length = 0; // reset it each time it is calculated
-        for (let i = 1; i < startDates.length; i++) {
-            const startMoment = moment(startDates[i - 1]);
-            const endMoment = moment(startDates[i]);
-            const cycleLength = endMoment.diff(startMoment, 'days');
-            //console.log(cycleLength);
-            cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
-        }
+        // can only calculate the cycle length if there are two start dates
+        if (startDates.length > 1) {
+            cycleLengths.length = 0; // reset it each time it is calculated
+            for (let i = 1; i < startDates.length; i++) {
+                const startMoment = moment(startDates[i - 1]);
+                const endMoment = moment(startDates[i]);
+                const cycleLength = endMoment.diff(startMoment, 'days');
+                //console.log(cycleLength);
+                cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
+            }
 
-        // calculate average
-        var sum = 0;
-        for (let i = 0; i < cycleLengths.length; i++) {
-            sum += cycleLengths[i].length;
-        }
-        var averageCycleLength = (sum / cycleLengths.length) || 0;
+            // calculate average
+            var sum = 0;
+            for (let i = 0; i < cycleLengths.length; i++) {
+                sum += cycleLengths[i].length;
+            }
+            var averageCycleLength = (sum / cycleLengths.length) || 0;
 
-        setAverageCycleLength(Math.round(averageCycleLength * 10) / 10);
+            setAverageCycleLength(Math.round(averageCycleLength * 10) / 10);
+        }
     }
 
     /**
@@ -97,35 +100,38 @@ const Analysis: React.FC = () => {
         periods.length = 0;
         startDates.length = 0;
         // first, load in all period data and make sure it is sorted by date
-        var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
-        periodDates.forEach((flow: string, date: string) => {
-            if (!periods.includes(date)) { periods.push(date); }
-        });
-        periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
+        if (localStorage.periodMap) {
+            var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
+            periodDates.forEach((flow: string, date: string) => {
+                if (!periods.includes(date)) { periods.push(date); }
+            });
+            periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
 
-        // the first period is definitely a start date
-        if (!startDates.includes(periods[0])) { startDates.push(periods[0]); }
+            // the first period is definitely a start date
+            if (!startDates.includes(periods[0])) { startDates.push(periods[0]); }
 
-        for (let i = 1; i < periods.length; i++) {
-            // for date 1 onward, check if day before was a period, if yes, i is not a start date
-            // if day before was not a period, periods[i] is a start date
-            var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
-            if (periods[i - 1] != dayBefore) {
-                // periods i is a start date
-                if (!startDates.includes(periods[i])) { startDates.push(periods[i]); }
+            for (let i = 1; i < periods.length; i++) {
+                // for date 1 onward, check if day before was a period, if yes, i is not a start date
+                // if day before was not a period, periods[i] is a start date
+                var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
+                if (periods[i - 1] != dayBefore) {
+                    // periods i is a start date
+                    if (!startDates.includes(periods[i])) { startDates.push(periods[i]); }
+                }
+
+                // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
+                var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
+                if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
+                    // periods i is an end date
+                    if (!endDates.includes(periods[i])) { endDates.push(periods[i]); }
+                }
             }
 
-            // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
-            var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
-            if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
-                // periods i is an end date
-                if (!endDates.includes(periods[i])) { endDates.push(periods[i]); }
-            }
+            // call functions to do calculations based on start and end dates
+            getAverageCycleLength();
+            getAveragePeriodLength();
         }
 
-        // call functions to do calculations based on start and end dates
-        getAverageCycleLength();
-        getAveragePeriodLength();
     }
 
     // get the pain data
@@ -267,7 +273,7 @@ const Analysis: React.FC = () => {
                 <IonContent fullscreen>
                     <IonGrid fixed={true}>
                         <IonRow><h2>Period Length</h2></IonRow>
-                        <IonRow><BarChart
+                        {periodLengths.length > 0 ?(<IonRow><BarChart
                             dataset={periodLengths}
                             xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
                             series={[
@@ -281,11 +287,14 @@ const Analysis: React.FC = () => {
                                 },
                             }}
                             {...chartSetting}
-                        /></IonRow>
+                        /></IonRow>) : (
+                            <IonRow><p>No period data available. Head to the track page to start tracking!</p></IonRow>
+                        )}
                         <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
                         <IonRow><h2>Cycle Length</h2></IonRow>
-                        <IonRow><BarChart
+                        {/* Show a message if no cycle length data */}
+                        {cycleLengths.length > 0 ? (<IonRow><BarChart
                             dataset={cycleLengths}
                             xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
                             series={[
@@ -299,7 +308,8 @@ const Analysis: React.FC = () => {
                                 },
                             }}
                             {...chartSetting}
-                        /></IonRow>
+                        /></IonRow>) :
+                        (<IonRow><p>No cycle data available. Head to the track page to start tracking!</p></IonRow>)}
                         <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
                         <IonRow><h2>Pain</h2></IonRow>
