@@ -1,5 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,  IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { add, bandage,  ellipsisHorizontal, flash,  happyOutline, man,  personCircle, pulse, sadOutline, thunderstorm,  water} from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { add, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
 import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import './Track.css'; // styles the calendar
 import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
-import { usePhotoGallery} from './hooks/usePhotoGallery';
+import { usePhotoGallery } from './hooks/usePhotoGallery';
 import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
 
@@ -26,10 +26,10 @@ const Track: React.FC = () => {
     setSelectedDate(today.format('YYYY-MM-DD'));
     setEvents([
       {
-        title: '',
+        title: 'date',
         start: today.format('YYYY-MM-DD'),
-        rendering: 'background',
-        allDay: true
+        allDay: true,
+        className: 'date-event'
       }
     ]);
   }, []);
@@ -42,10 +42,10 @@ const Track: React.FC = () => {
     // Set only the selected date as an event
     setEvents([
       {
-        title: '',
+        title: 'date',
         start: info.dateStr,
-        rendering: 'background',
-        allDay: true
+        allDay: true,
+        className: 'date-event'
       }
     ]);
   }
@@ -169,11 +169,20 @@ const Track: React.FC = () => {
     }
   }
 
+  /* Render the period onto the calendar */
+  function renderEventContent(eventInfo: any) {
+    return (
+      <>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    );
+  }
 
 
   return (
     <>
-     <Menu/>
+      <Menu />
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>
@@ -189,7 +198,7 @@ const Track: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
-          <IonGrid fixed={true} class="calendarWidthTrack">
+          <IonGrid fixed={true} class="ion-justify-content-center calendarWidthTrack">
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView='dayGridWeek'
@@ -201,6 +210,7 @@ const Track: React.FC = () => {
               }}
               events={events} // Only the selected date remains highlighted
               dateClick={handleDateClick}
+              eventContent={renderEventContent} // Custom function to render the event content
               dayCellClassNames={() => "trackCalendar "}
             />
           </IonGrid>
@@ -307,9 +317,9 @@ const Track: React.FC = () => {
             </IonRow>
           </IonGrid>
         </IonContent>
-        <Tabs/>
+        <Tabs />
       </IonPage>
-      
+
     </>
   );
 };
