@@ -45,6 +45,8 @@ ion-input {
 
   --ion-color-primary: var(--mid-pink);
 
+  --ion-text-color: var(--text);
+
   --ion-toolbar-background: var(--darker-background);
 
   --ion-tab-bar-color: var(--text);
@@ -154,4 +156,11 @@ ion-button {
 
 ion-item {
   color: var(--text);
+}
+
+
+/* make menu items white on hover */
+.menuHover ion-label:hover {
+  color: rgb(255, 255, 255) !important;
+  --ion-text-color: white;
 }

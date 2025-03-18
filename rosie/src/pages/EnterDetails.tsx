@@ -44,13 +44,12 @@ const Details: React.FC = () => {
             alert('Age Required');
             return;
         }
-
-        const bday = document.getElementById('bday') as HTMLInputElement;
-        localStorage.setItem('Birthday', bday.value);
-        if (!bday.value) {
+        
+        if (!Birthday.value) {
             alert('Birthday Required');
             return;
         }
+        localStorage.setItem('Birthday', Birthday);
         setFinished(true); // if this point in the function is reached, everything is saved and the user is finished
     };
 

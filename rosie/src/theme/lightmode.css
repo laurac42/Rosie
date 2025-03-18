@@ -222,3 +222,18 @@ ion-item {
   color: var(--text);
 }
 
+ion-radio {
+  color: var(--text);
+}
+
+ion-checkbox {
+  color: var(--text);
+}
+
+.accordionIcon ion-icon {
+  color: var(--text);
+}
+
+.menuHover ion-item:hover{
+  color: rgb(255, 255, 255) !important;
+}

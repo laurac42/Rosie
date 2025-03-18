@@ -190,50 +190,50 @@ const Analysis: React.FC = () => {
                     <IonList>
                         <IonAccordionGroup>
                             <IonAccordion value="first">
-                                <IonItem slot="header">
+                                <IonItem slot="header" className="menuHover">
                                     <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
                                     <IonLabel>Main Pages</IonLabel>
                                 </IonItem>
                                 <div className="ion-padding" slot="content">
-                                    <IonItem href="/Rosie/Cycle">
+                                    <IonItem href="/Rosie/Cycle" className="menuHover">
                                         <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
                                         <IonLabel>Cycle</IonLabel>
                                     </IonItem>
                                 </div>
                                 <div className="ion-padding" slot="content">
-                                    <IonItem href="/Rosie/Calendar">
+                                    <IonItem href="/Rosie/Calendar" className="menuHover">
                                         <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
                                         <IonLabel>Calendar</IonLabel>
                                     </IonItem>
                                 </div>
                                 <div className="ion-padding" slot="content">
-                                    <IonItem href="/Rosie/Track">
+                                    <IonItem href="/Rosie/Track" className="menuHover">
                                         <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
-                                        <IonLabel>Cycle</IonLabel>
+                                        <IonLabel>Track</IonLabel>
                                     </IonItem>
                                 </div>
                                 <div className="ion-padding" slot="content">
-                                    <IonItem href="/Rosie/Analysis">
+                                    <IonItem href="/Rosie/Analysis" className="menuHover">
                                         <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
-                                        <IonLabel>Cycle</IonLabel>
+                                        <IonLabel>Analysis</IonLabel>
                                     </IonItem>
                                 </div>
                             </IonAccordion>
 
 
                             <IonAccordion value="second">
-                                <IonItem slot="header">
+                                <IonItem slot="header" className="menuHover">
                                     <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
                                     <IonLabel>Settings</IonLabel>
                                 </IonItem>
                                 <div className="ion-padding" slot="content">
-                                    <IonItem href="/Rosie/Menu/Appearance">
+                                    <IonItem href="/Rosie/Menu/Appearance" className="menuHover">
                                         <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
                                         <IonLabel>Appearance</IonLabel>
                                     </IonItem>
                                 </div>
                                 <div className="ion-padding" slot="content">
-                                    <IonItem href='/Rosie/Menu/Notifications'>
+                                    <IonItem href='/Rosie/Menu/Notifications' className="menuHover">
                                         <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
                                         <IonLabel>Notifications</IonLabel>
                                     </IonItem>
@@ -241,15 +241,15 @@ const Analysis: React.FC = () => {
                             </IonAccordion>
                         </IonAccordionGroup>
 
-                        <IonItem href="/Rosie/Menu/AboutUs">
+                        <IonItem href="/Rosie/Menu/AboutUs" className="menuHover">
                             <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
                             <IonLabel>About Us</IonLabel>
                         </IonItem>
-                        <IonItem href='/Rosie/Menu/PrivacyPolicy'>
+                        <IonItem href='/Rosie/Menu/PrivacyPolicy' className="menuHover">
                             <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
                             <IonLabel>Privacy Policy</IonLabel>
                         </IonItem>
-                        <IonItem href='/Rosie/Menu/Resources'>
+                        <IonItem href='/Rosie/Menu/Resources' className="menuHover">
                             <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
                             <IonLabel>Resources</IonLabel>
                         </IonItem>
