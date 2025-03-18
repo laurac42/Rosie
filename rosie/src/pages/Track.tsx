@@ -307,8 +307,9 @@ const Track: React.FC = () => {
             </IonRow>
           </IonGrid>
         </IonContent>
+        <Tabs/>
       </IonPage>
-      <Tabs/>
+      
     </>
   );
 };

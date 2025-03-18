@@ -65,6 +65,7 @@ const Details: React.FC = () => {
 
         // same as saving without period, but then also extra things
         var finished = true;
+        var overlapping = false; // to store whether period dates overlap
         const name = document.getElementById('name') as HTMLInputElement;
         localStorage.setItem('Name', name.value);
         if (!name.value) {
@@ -125,13 +126,25 @@ const Details: React.FC = () => {
                     // find all dates between the start and end dates
                     var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
                     inBetweenDates.forEach(newDate => {
+                        if(periodMap.get(newDate)) // check if the user is storing overlaping period dates
+                        {
+                            console.log("overlapping periods")
+                            overlapping = true;
+                        }
                         periodMap.set(newDate, "N/A");
                     });
                 }
 
                 // add everything in the periods map to local storage
                 localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
-                window.location.href = '/Rosie/SignUp/Preferences';
+                if (overlapping == false)
+                {
+                    window.location.href = '/Rosie/SignUp/Preferences';
+                }
+                else {
+                    alert("Overlapping period dates! Fix this to continue");
+                }
+                
             }
             else {
                 alert("Start date cannot be after end date!");
