@@ -204,7 +204,7 @@ ion-button::selection {
 
 .menuIcon
 {
-  color: var(--etext);
+  color: var(--text);
 }
 
 /*colour of the lines between the menu items*/
