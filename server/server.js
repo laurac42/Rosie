@@ -8,6 +8,10 @@ require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json()); // Middleware to parse JSON body requests
+app.use(cors({
+  origin: 'http://localhost:5173', // to allow cors
+  credentials: true // If sending cookies/auth headers
+}));
 
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
   console.log(

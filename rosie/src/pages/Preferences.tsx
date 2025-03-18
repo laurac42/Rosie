@@ -55,11 +55,12 @@ const Preferences: React.FC = () => {
                 {
                     daily = "true";
                 }
+
                 // Send the subscription details to the server using the Fetch API.
                 fetch('https://rosie-production.up.railway.app/register', {
                     method: 'post',
                     headers: {
-                        'Content-type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         subscription: subscription,
