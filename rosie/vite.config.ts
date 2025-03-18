@@ -14,6 +14,11 @@ export default defineConfig({
   build: {
     outDir: "www", // This should be the correct build directory
   },
+  server: {
+    proxy: {
+      '/vapidPublicKey': 'https://rosie-production.up.railway.app', // this is an attempt to fix the cors issue
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
