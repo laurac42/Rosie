@@ -309,7 +309,7 @@ const Analysis: React.FC = () => {
                             }}
                             {...chartSetting}
                         /></IonRow>) :
-                        (<IonRow><p>No cycle data available. Head to the track page to start tracking!</p></IonRow>)}
+                        (<IonRow><p>No cycle data available. Two periods are required to calculate cycle length. Head to the track page to start tracking!</p></IonRow>)}
                         <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
                         <IonRow><h2>Pain</h2></IonRow>
