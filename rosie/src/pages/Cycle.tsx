@@ -2,7 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMe
 import { calendar, clipboard, colorPalette, folderOpen, informationCircle, lockClosed, notifications, people, personCircle, radioButtonOff, settings, trendingUp } from 'ionicons/icons';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import React, { useState, useEffect } from 'react';
-import ExploreContainer from '../components/ExploreContainer';
+import Menu from '../components/Menu'
 import moment from 'moment';
 import './Cycle.css';
 
@@ -116,85 +116,7 @@ function formatDate(date: Date) {
 
 return (
   <>
-    <IonMenu contentId="main-content">
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Menu</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-
-        <IonList>
-          <IonAccordionGroup>
-            <IonAccordion class="accordionIcon" value="first">
-              <IonItem className="menuHover" slot="header">
-                <IonIcon className="menuIcon" aria-hidden="true" icon={folderOpen} slot="start"></IonIcon>
-                <IonLabel>Main Pages</IonLabel>
-              </IonItem>
-              <div className="ion-padding" slot="content">
-                <IonItem className="menuHover" href="/Rosie/Cycle">
-                  <IonIcon className="menuIcon" aria-hidden="true" icon={radioButtonOff} slot="start"></IonIcon>
-                  <IonLabel>Cycle</IonLabel>
-                </IonItem>
-              </div>
-              <div className="ion-padding" slot="content">
-                <IonItem className="menuHover" href="/Rosie/Calendar">
-                  <IonIcon className="menuIcon" aria-hidden="true" icon={calendar} slot="start"></IonIcon>
-                  <IonLabel>Calendar</IonLabel>
-                </IonItem>
-              </div>
-              <div className="ion-padding" slot="content">
-                <IonItem className="menuHover" href="/Rosie/Track">
-                  <IonIcon className="menuIcon" aria-hidden="true" icon={clipboard} slot="start"></IonIcon>
-                  <IonLabel>Track</IonLabel>
-                </IonItem>
-              </div>
-              <div className="ion-padding" slot="content">
-                <IonItem className="menuHover" href="/Rosie/Analysis">
-                  <IonIcon className="menuIcon" aria-hidden="true" icon={trendingUp} slot="start"></IonIcon>
-                  <IonLabel>Analysis</IonLabel>
-                </IonItem>
-              </div>
-            </IonAccordion>
-
-
-            <IonAccordion class="accordionIcon" value="second">
-              <IonItem className="menuHover" slot="header">
-                <IonIcon className="menuIcon" aria-hidden="true" icon={settings} slot="start"></IonIcon>
-                <IonLabel className="menuHover">Settings</IonLabel>
-              </IonItem>
-              <div className="ion-padding" slot="content">
-                <IonItem className="menuHover" href="/Rosie/Menu/Appearance">
-                  <IonIcon className="menuIcon" aria-hidden="true" icon={colorPalette} slot="start"></IonIcon>
-                  <IonLabel>Appearance</IonLabel>
-                </IonItem>
-              </div>
-              <div className="ion-padding" slot="content">
-                <IonItem className="menuHover" href='/Rosie/Menu/Notifications'>
-                  <IonIcon className="menuIcon" aria-hidden="true" icon={notifications} slot="start"></IonIcon>
-                  <IonLabel>Notifications</IonLabel>
-                </IonItem>
-              </div>
-            </IonAccordion>
-          </IonAccordionGroup>
-
-          <IonItem className="menuHover" href="/Rosie/Menu/AboutUs">
-            <IonIcon className="menuIcon" aria-hidden="true" icon={people} slot="start"></IonIcon>
-            <IonLabel>About Us</IonLabel>
-          </IonItem>
-          <IonItem className="menuHover" href='/Rosie/Menu/PrivacyPolicy'>
-            <IonIcon className="menuIcon" aria-hidden="true" icon={lockClosed} slot="start"></IonIcon>
-            <IonLabel>Privacy Policy</IonLabel>
-          </IonItem>
-          <IonItem className="menuHover" href='/Rosie/Menu/Resources'>
-            <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
-            <IonLabel>Resources</IonLabel>
-          </IonItem>
-
-        </IonList>
-      </IonContent>
-
-    </IonMenu>
+    <Menu/>
     <IonPage id="main-content">
       <IonHeader>
         <IonToolbar>

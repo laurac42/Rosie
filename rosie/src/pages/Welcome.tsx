@@ -1,9 +1,11 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonRadioGroup, IonRadio, IonCheckbox } from '@ionic/react';
-import { flower, heart, person, personCircle, rose } from 'ionicons/icons';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonRow, IonGrid } from '@ionic/react';
+import { flower } from 'ionicons/icons';
+import Menu from '../components/Menu'
 
  const Welcome: React.FC = () => {
     return (
+        <>
+        <Menu/>
         <IonPage>
             <IonHeader>
                 <IonToolbar>
@@ -26,6 +28,7 @@ import ExploreContainer from '../components/ExploreContainer';
                 </IonGrid>
             </IonContent>
         </IonPage>
+        </>
     );
 };
 
