@@ -1,13 +1,15 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonAccordion, IonAccordionGroup, IonLabel, IonList, IonMenu } from '@ionic/react';
-import { backspace, flower,  nuclear,  personCircle } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonAccordion, IonAccordionGroup, IonLabel, IonList, IonMenu, IonDatetime, IonPopover } from '@ionic/react';
+import { backspace, calendarOutline, flower, nuclear, personCircle, today } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import Menu from '../components/Menu'
+import moment from 'moment';
 
 const Profile: React.FC = () => {
     const [name, setName] = useState<string>('No name');
     const [age, setAge] = useState<any>("No Age Available");
     const [birthday, setBirthday] = useState<string>('No Birthday');
     const [editDetailsBool, setEditDetailsBool] = useState<boolean>(false);
+    const [today, setToday] = useState<any>();
 
     useEffect(() => {
         // get all profile data from local storage
@@ -20,8 +22,11 @@ const Profile: React.FC = () => {
         else {
             setAge(getAge(birthday))
         }
-    }, [birthday, editDetailsBool]); // needs to also reload when birthday is changed so that it can use the changed birthday to calculate age
-    // and also when details are edited so it updates to the new ones
+        // only allow the user to choose up to today
+        const today = moment().format("YYYY-MM-DD")
+        setToday(today);
+
+    }, [ editDetailsBool]); 
 
     // function to get age from birthday - taken from: https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
     function getAge(dateString: string) {
@@ -55,9 +60,9 @@ const Profile: React.FC = () => {
             localStorage.setItem('Age', age.value);
         }
 
-        const bday = document.getElementById('bday') as HTMLInputElement;
-        if (bday.value) {
-            localStorage.setItem('Birthday', bday.value);
+        // check if birthday has changed and if it has, update
+        if (birthday != localStorage.Birthday) {
+            localStorage.setItem('Birthday', birthday);
         }
         setEditDetailsBool(false);
     }
@@ -128,9 +133,27 @@ const Profile: React.FC = () => {
                                 <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder={age}></IonInput>
                             </IonItem>
                             </IonRow>
-                            <IonRow> <IonItem>
-                                <IonInput required className="custom-font" label="Birthday:" id='bday' type="date"></IonInput>
-                            </IonItem>
+                            <IonRow>
+                                <IonItem id="bday">
+                                    <IonInput
+                                        className="custom-font"
+                                        label="Birthday:"
+                                        placeholder="Enter Birthday"
+                                        value={birthday}
+                                    ></IonInput>
+                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
+                                    <IonPopover trigger="bday" show-backdrop="false">
+                                        <IonDatetime
+                                            class="popoverDateTime"
+                                            presentation="date"
+                                            max={today}
+                                            onIonChange={(e) => {
+                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD");
+                                                setBirthday(formattedDate);
+                                            }}
+                                        ></IonDatetime>
+                                    </IonPopover>
+                                </IonItem>
                             </IonRow>
                             <IonRow class="ion-justify-content-center">
                                 <IonButton className="btn" onClick={saveDetails} size="large">Save Details</IonButton>
