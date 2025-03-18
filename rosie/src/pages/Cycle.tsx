@@ -14,6 +14,7 @@ const Cycle: React.FC = () => {
   const [periods, setPeriods] = useState<string[]>([]);
   const [endDates, setEndDates] = useState<string[]>([]);
   const [cycleLengths, setCycleLengths] = useState<{ length: number, startDate: string }[]>([]);
+  const [periodPrediction, setPeriodPrediction] = useState<any>();
 
   // calculate the average cycle length only on first render
   useEffect(() => {
@@ -23,6 +24,7 @@ const Cycle: React.FC = () => {
   // calculate the day of period when start dates is updated
   useEffect(() => {
     calculateDay();
+    calculatePeriodPrediction();
   }, [startDates]);
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
@@ -80,7 +82,7 @@ const Cycle: React.FC = () => {
         var averageCycleLength = (sum / cycleLengths.length) || 0;
 
         setAverageCycleLength(Math.round(averageCycleLength * 10) / 10);
-        console.log(averageCycleLength);
+        console.log("average cycle length", averageCycleLength);
       }
       else {
         // if the user hasn't had more than 2 periods, assume that their next cycle could be in 28 days
@@ -102,17 +104,19 @@ function calculateDay() {
   }
 }
 
-/* Format the date to YYYY-MM-DD */
-function formatDate(date: Date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
+function calculatePeriodPrediction() {
+  setAverageCycleLength(28)
+  if (averageCycleLength - day > 0)
+  {
+    setPeriodPrediction(averageCycleLength - day+1);
+  }
+  else if (averageCycleLength - day == 0){
+    console.log(averageCycleLength - day+1)
+    setPeriodPrediction("Today")
+  }
+  else {
+    setPeriodPrediction(day-averageCycleLength-1+ " days ago")
+  }
 }
 
 return (
@@ -133,6 +137,7 @@ return (
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        
         <IonGrid className="progress" class="ion-justify-content-center">
           {startDates.length > 0 && (<IonRow class="cycleWidth">
             <CircularProgressbar value={day} maxValue={averageCycleLength} text={`Day ${day}`} />
@@ -140,6 +145,11 @@ return (
           {startDates.length <= 0 && (
             <IonRow><h3>You haven't tracked any periods yet! Start tracking to start getting predictions</h3></IonRow>
           )}
+        </IonGrid>
+        <IonGrid fixed={true}>
+        <IonRow><h3 >Day of Cycle: <b>{day}</b></h3></IonRow>
+        <IonRow><h3 className="cycleDetails">Average Cycle Length: <b>{averageCycleLength} days </b></h3></IonRow>
+        <IonRow><h3 className="cycleDetails">Predicted days until next period: <b>{periodPrediction}</b></h3></IonRow>
         </IonGrid>
         <IonGrid>
           <IonRow class="ion-justify-content-center">
