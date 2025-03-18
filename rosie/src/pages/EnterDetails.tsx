@@ -88,7 +88,10 @@ const Details: React.FC = () => {
         }
         localStorage.setItem('Birthday', Birthday);
         // now do the extra things for periods
-        if (!periodStart1 || !periodStart2|| !periodStart3 || !periodEnd1 || !periodEnd2 || !periodEnd3) {
+
+
+
+        if (!periodStart1 || !periodStart2 || !periodStart3 || !periodEnd1 || !periodEnd2 || !periodEnd3) {
             alert('You need to add all period data!');
             finished = false;
         }
@@ -100,21 +103,41 @@ const Details: React.FC = () => {
                 { startDate: periodStart3, endDate: periodEnd3 }
             ];
 
-            // now create a map of every single date between the dates
-            let periodMap = new Map<string, string>();
+            // check that the start date is always before the end date
+            const startMoment1 = moment(periodStart1);
+            const endMoment1 = moment(periodEnd1);
+            const periodLength1 = endMoment1.diff(startMoment1, 'days') + 1;
 
-            for (var i = 0; i < storedPeriods.length; i++) {
+            const startMoment2 = moment(periodStart2);
+            const endMoment2 = moment(periodEnd2);
+            const periodLength2 = endMoment2.diff(startMoment2, 'days') + 1;
 
-                // find all dates between the start and end dates
-                var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
-                inBetweenDates.forEach(newDate => {
-                    periodMap.set(newDate, "N/A");
-                });
+            const startMoment3 = moment(periodStart3);
+            const endMoment3 = moment(periodEnd3);
+            const periodLength3 = endMoment3.diff(startMoment3, 'days') + 1;
+
+            if (periodLength1 > 0 && periodLength2 > 0 && periodLength3 > 0) {
+                // now create a map of every single date between the dates
+                let periodMap = new Map<string, string>();
+
+                for (var i = 0; i < storedPeriods.length; i++) {
+
+                    // find all dates between the start and end dates
+                    var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
+                    inBetweenDates.forEach(newDate => {
+                        periodMap.set(newDate, "N/A");
+                    });
+                }
+
+                // add everything in the periods map to local storage
+                localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
+                window.location.href = '/Rosie/SignUp/Preferences';
+            }
+            else {
+                alert("Start date cannot be after end date!");
             }
 
-            // add everything in the periods map to local storage
-            localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
-            window.location.href = '/Rosie/SignUp/Preferences';
+
         }
 
     }
