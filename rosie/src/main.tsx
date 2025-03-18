@@ -14,11 +14,6 @@ root.render(
   </React.StrictMode>
 );
 
-// Schedule daily notifications
-setInterval(() => {
-  checkTrack();
-}, 24 * 60 * 60 * 1000); // Run every 24 hours
-
 // register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/Rosie/service-worker.js')
