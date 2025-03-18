@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import App from './App';
+import { checkTrack } from './checkTrack';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
@@ -13,6 +14,11 @@ root.render(
   </React.StrictMode>
 );
 
+// Schedule daily notifications
+setInterval(() => {
+  checkTrack();
+}, 24 * 60 * 60 * 1000); // Run every 24 hours
+
 // register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/Rosie/service-worker.js')
@@ -22,3 +28,4 @@ if ('serviceWorker' in navigator) {
       console.log('Service Worker registration failed:', error);
   });
 }
+

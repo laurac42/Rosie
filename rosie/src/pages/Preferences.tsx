@@ -16,16 +16,82 @@ const Preferences: React.FC = () => {
         applyTheme(e.detail.value);
     };
 
-    function requestPermission() {
+    // modified from - https://github.com/mdn/serviceworker-cookbook/blob/master/push-payload/index.js
+    function setUpNotifications() {
+        // request permission if it isnt already given
         Notification.requestPermission().then((result) => {
             if (result === "granted") {
                 console.log("saving to local storage");
-                randomNotification();
+                //randomNotification();
             }
             localStorage.setItem('Notifications', result); // set the local storage to granted so it can be accessed everywhere
         })
-    }    
 
+        navigator.serviceWorker.ready
+            .then(function (registration) {
+                // Use the PushManager to get the user's subscription to the push service.
+                return registration.pushManager.getSubscription()
+                    .then(async function (subscription) {
+                        // If a subscription was found, return it.
+                        if (subscription) {
+                            return subscription;
+                        }
+
+                        // this link is a page that has the public key
+                        const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
+                        //console.log(response.text())
+                        const vapidPublicKey = await response.text();
+
+                        const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
+
+                        return registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: convertedVapidKey
+                        });
+                    });
+            }).then(function (subscription) {
+                var daily = "false"; 
+                if (notifications.includes("daily"))
+                {
+                    daily = "true";
+                }
+                // Send the subscription details to the server using the Fetch API.
+                fetch('https://rosie-production.up.railway.app/register', {
+                    method: 'post',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subscription: subscription,
+                        dailyNotifications: daily // send whether daily notifications have been set to the server
+                    }),
+                });
+
+            })
+
+    }
+
+    // This function is needed because Chrome doesn't accept a base64 encoded string
+    // as value for applicationServerKey in pushManager.subscribe yet
+    // taken from - https://github.com/mdn/serviceworker-cookbook/blob/master/tools.js
+    function urlBase64ToUint8Array(base64String: string) {
+        var padding = '='.repeat((4 - base64String.length % 4) % 4);
+        var base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        var rawData = window.atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+
+        for (var i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+    /**
+     * Store which notifications the user has clicked so we know which to send them 
+     */
     function clickedNotification(e: CustomEvent<any>) {
         console.log(e.detail.value);
         // if the notifications array includes what was clicked already, it needs to be removed
@@ -40,17 +106,6 @@ const Preferences: React.FC = () => {
         localStorage.chosenNotifications = JSON.stringify(notifications);
     }
 
-    function randomNotification() {
-        const notifTitle = "This is a notification";
-        const notifBody = `Created by Laura`;
-        const notifImg = `/Rosie/rose.png`;
-        const options = {
-          body: notifBody,
-          icon: notifImg,
-        };
-        new Notification(notifTitle, options);
-        //setTimeout(randomNotification, 30000);
-      }
 
     return (
         <IonPage>
@@ -79,7 +134,7 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={requestPermission} className="btn" size="large">Save Preferences</IonButton>
+                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>
