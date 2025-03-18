@@ -57,7 +57,7 @@ setupIonicReact();
 const App: React.FC = () => {
   useEffect(() => {
     loadTheme();
-    checkTrack();
+    //checkTrack();
   }, []);
 
   return (
