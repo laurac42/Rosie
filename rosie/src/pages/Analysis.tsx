@@ -137,28 +137,37 @@ const Analysis: React.FC = () => {
         headacheDays.length = 0;
 
         // load in all pain data and make sure it is sorted by date
-        var painDates = new Map<string, string>(JSON.parse(localStorage.painMap));
-        const newMap = Array.from(painDates).sort((a, b) => moment(a[1]).diff(moment(b[1])));
+        // check the pain map exists first
+        if (localStorage.painMap) {
+            var painDates = new Map<string, string>(JSON.parse(localStorage.painMap));
+            // check if pain dates exists first
+            if (painDates) {
+                const newMap = Array.from(painDates).sort((a, b) => moment(a[1]).diff(moment(b[1])));
 
-        const sortedPainDays = new Map(newMap);
+                const sortedPainDays = new Map(newMap);
 
-        // add each date to the corresponding pain type array
-        const today = moment();
-        sortedPainDays.forEach((pain: string, date: string) => {
-            const day = moment(date);
-            // only use tracking in the last month:
-            if (today.diff(day, 'days') < 31) {
-                if (!crampDays.includes(date) && pain == "Cramps") { crampDays.push(date); }
-                else if (!noPainDays.includes(date) && pain == "No Pain") { noPainDays.push(date); }
-                else if (!headacheDays.includes(date) && pain == "Headache") { headacheDays.push(date); }
-                else if (!backPainDays.includes(date) && pain == "Back Pain") { backPainDays.push(date); }
+                // add each date to the corresponding pain type array
+                const today = moment();
+                sortedPainDays.forEach((pain: string, date: string) => {
+                    const day = moment(date);
+                    // only use tracking in the last month:
+                    if (today.diff(day, 'days') < 31) {
+                        if (!crampDays.includes(date) && pain == "Cramps") { crampDays.push(date); }
+                        else if (!noPainDays.includes(date) && pain == "No Pain") { noPainDays.push(date); }
+                        else if (!headacheDays.includes(date) && pain == "Headache") { headacheDays.push(date); }
+                        else if (!backPainDays.includes(date) && pain == "Back Pain") { backPainDays.push(date); }
+                    }
+                    else {
+                        // because the array is ordered, if one day is over 31 days away, they will all be so we can exit the function
+                        return;
+                    }
+
+                });
             }
-            else {
-                // because the array is ordered, if one day is over 31 days away, they will all be so we can exit the function
-                return;
-            }
+        }
 
-        });
+
+
     }
 
 
@@ -295,32 +304,37 @@ const Analysis: React.FC = () => {
 
                         <IonRow><h2>Pain</h2></IonRow>
                         <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
-                        <IonRow><PieChart
-                            colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: noPainDays.length, label: 'No Pain' },
-                                        { id: 1, value: crampDays.length, label: 'Cramps' },
-                                        { id: 2, value: backPainDays.length, label: 'Back Pain' },
-                                        { id: 3, value: headacheDays.length, label: 'Headache Pain' },
-                                    ],
-                                    innerRadius: 5,
-                                    paddingAngle: 5,
-                                    cornerRadius: 5,
-                                },
-
-                            ]}
-                            slotProps={{
-                                legend: {
-                                    labelStyle: {
-                                        fill: 'var(--text)',
-                                    },
-                                },
-                            }}
-                            width={500}
-                            height={200}
-                        /> </IonRow>
+                        {crampDays.length === 0 && noPainDays.length === 0 && backPainDays.length === 0 && headacheDays.length === 0 ? (
+                            <IonRow class="ion-justify-content-center"><p>No pain data available. Head to the track page to start tracking!</p></IonRow>
+                        ) : (
+                            <IonRow>
+                                <PieChart
+                                    colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
+                                    series={[
+                                        {
+                                            data: [
+                                                { id: 0, value: noPainDays.length, label: 'No Pain' },
+                                                { id: 1, value: crampDays.length, label: 'Cramps' },
+                                                { id: 2, value: backPainDays.length, label: 'Back Pain' },
+                                                { id: 3, value: headacheDays.length, label: 'Headache Pain' },
+                                            ],
+                                            innerRadius: 5,
+                                            paddingAngle: 5,
+                                            cornerRadius: 5,
+                                        },
+                                    ]}
+                                    slotProps={{
+                                        legend: {
+                                            labelStyle: {
+                                                fill: 'var(--text)',
+                                            },
+                                        },
+                                    }}
+                                    width={500}
+                                    height={200}
+                                />
+                            </IonRow>
+                        )}
 
                     </IonGrid>
 
