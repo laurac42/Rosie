@@ -9,7 +9,7 @@ require("dotenv").config();
 const app = express();
 app.use(bodyParser.json()); // Middleware to parse JSON body requests
 app.use(cors({
-  origin: 'http://localhost:5173', // to allow cors
+  origin: '*', // to allow cors - this allows it everywhere
   credentials: true // If sending cookies/auth headers
 }));
 
@@ -80,10 +80,8 @@ function sendDailyNotifications() {
       webPush
         .sendNotification(subscription[0], payload)
         .then(() => console.log("Notification sent to:", subscription[0].endpoint))
-        .then(() => res.sendStatus(201))
         .catch((error) => {
           console.error("Error sending notification:", error);
-          res.sendStatus(500);
         });
     }
     else {
@@ -93,7 +91,7 @@ function sendDailyNotifications() {
 }
 
 
-cron.schedule("52 12 * * *", () => {
+cron.schedule("51 13 * * *", () => {
   console.log("Sending daily notifications...");
   sendDailyNotifications();
 });
