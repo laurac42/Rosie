@@ -29,7 +29,7 @@ const Details: React.FC = () => {
     };
 
     /* Funtion to save to local storage if period details were not added */
-    function saveWithoutPeriod () {
+    function saveWithoutPeriod() {
         var finished = true;
         const name = document.getElementById('name') as HTMLInputElement;
         localStorage.setItem('Name', name.value);
@@ -64,32 +64,59 @@ const Details: React.FC = () => {
     const saveWithPeriod = () => {
 
         // same as saving without period, but then also extra things
-        saveWithoutPeriod();
-        if (!periodStart1.value || !periodStart2.value || !periodStart3.value || !periodEnd1.value || !periodEnd2.value || !periodEnd3.value) {
+        var finished = true;
+        const name = document.getElementById('name') as HTMLInputElement;
+        localStorage.setItem('Name', name.value);
+        if (!name.value) {
+            alert('Name Required');
+            finished = false;
+            console.log("finished", finished);
+        }
+
+        const age = document.getElementById('age') as HTMLInputElement;
+        localStorage.setItem('Age', age.value);
+        if (!age.value) {
+            alert('Age Required');
+            finished = false;
+            console.log("finished", finished);
+        }
+
+        if (!Birthday) {
+            alert('Birthday Required');
+            finished = false;
+            console.log("finished", finished);
+        }
+        localStorage.setItem('Birthday', Birthday);
+        // now do the extra things for periods
+        if (!periodStart1 || !periodStart2|| !periodStart3 || !periodEnd1 || !periodEnd2 || !periodEnd3) {
             alert('You need to add all period data!');
-            return;
+            finished = false;
         }
-        // store all of the period start and end data in an array
-        const storedPeriods = [
-            { startDate: periodStart1, endDate: periodEnd1 },
-            { startDate: periodStart2, endDate: periodEnd2 },
-            { startDate: periodStart3, endDate: periodEnd3 }
-        ];
+        else {
+            // store all of the period start and end data in an array
+            const storedPeriods = [
+                { startDate: periodStart1, endDate: periodEnd1 },
+                { startDate: periodStart2, endDate: periodEnd2 },
+                { startDate: periodStart3, endDate: periodEnd3 }
+            ];
 
-        // now create a map of every single date between the dates
-        let periodMap = new Map<string, string>();
+            // now create a map of every single date between the dates
+            let periodMap = new Map<string, string>();
 
-        for (var i = 0; i < storedPeriods.length; i++) {
+            for (var i = 0; i < storedPeriods.length; i++) {
 
-            // find all dates between the start and end dates
-            var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
-            inBetweenDates.forEach(newDate => {
-                periodMap.set(newDate, "N/A");
-            });
+                // find all dates between the start and end dates
+                var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
+                inBetweenDates.forEach(newDate => {
+                    periodMap.set(newDate, "N/A");
+                });
+            }
+
+            // add everything in the periods map to local storage
+            localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
+            window.location.href = '/Rosie/SignUp/Preferences';
         }
 
-        // add everything in the periods map to local storage
-        localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
     }
 
     /* Get the dates between two dates - https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates*/
