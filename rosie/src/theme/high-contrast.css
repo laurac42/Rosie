@@ -34,6 +34,8 @@ ion-input {
   --complementary-colour: #115545;
   --complementary-colour2: #26004d;
   --complementary-colour3: #00264d; 
+  --complementary-colour4: #4d2600; 
+  --lighter-background: white;
 
   --ion-background-color: var(--background-color);
 
@@ -188,4 +190,8 @@ ion-button:hover {
 .contrast .profileIcon {
   color: var(--background-color) !important;
   
+}
+
+.contrast.fc {
+  --fc-today-bg-color: green;
 }

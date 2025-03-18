@@ -13,6 +13,10 @@
     overflow: hidden;
 }
 
+/*make today a different colour on contrast*/
+.contrast .fc {
+    --fc-today-bg-color: #f6d5dd;
+}
 
 .period-event {
     background-color: var(--mid-pink);
@@ -45,7 +49,7 @@
 }
 
 
-/* This is the text on the event that says period */
+/* This is the text on the events */
 .fc-event-main {
     font-family: "Delius", serif;
     overflow: hidden !important; /* Stop the text from overflowing */

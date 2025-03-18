@@ -33,12 +33,14 @@ ion-input {
   --complementary-colour: #D4582B;
   --complementary-colour2: #D42BA7;
   --complementary-colour3: #FFCC00; 
+  --lighter-background: black;
+  --complementary-colour4: #0066ff;
 
   --ion-background-color: var(--background-color);
 
   --ion-text-color: var(--text);
 
-  --ion-toolbar-color: var(--darker-background) !important;
+  --ion-toolbar-color: var(--text);
 
   --ion-toolbar-background: var(--darker-background);
 
