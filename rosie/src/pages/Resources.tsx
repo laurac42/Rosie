@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonPage, IonMenu, IonTitle, IonToolbar, IonButto
 import { flower, informationCircle, personCircle } from 'ionicons/icons';
 import React from 'react';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 
 const Resources: React.FC = () => {
     return (
@@ -59,6 +60,7 @@ const Resources: React.FC = () => {
                         </IonRow>
                     </IonGrid>
                 </IonContent>
+                <Tabs/>
             </IonPage>
         </>
     );

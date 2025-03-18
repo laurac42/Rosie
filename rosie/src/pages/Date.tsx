@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { usePhotoGallery, UserPhoto } from './hooks/usePhotoGallery';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 import './Date.css'
 
 const Date: React.FC = () => {
@@ -93,6 +94,7 @@ const Date: React.FC = () => {
                     />
 
                 </IonContent>
+                <Tabs/>
             </IonPage>
         </>
     );

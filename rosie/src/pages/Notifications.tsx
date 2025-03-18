@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonRadioGroup, IonRadio, IonCheckbox, IonMenu, IonList, IonLabel } from '@ionic/react';
 import { flower, personCircle } from 'ionicons/icons';
 import Menu from '../components/Menu'
-
+import Tabs from '../components/Tabs'
 
 const Notifications: React.FC = () => {
     return (
@@ -33,6 +33,7 @@ const Notifications: React.FC = () => {
                     </IonRow>
                 </IonGrid>
             </IonContent>
+            <Tabs/>
         </IonPage >
         </>
     );

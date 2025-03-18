@@ -1,6 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonRow, IonGrid } from '@ionic/react';
 import { flower } from 'ionicons/icons';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 
  const Welcome: React.FC = () => {
     return (
@@ -27,6 +28,7 @@ import Menu from '../components/Menu'
                     </IonRow>
                 </IonGrid>
             </IonContent>
+            <Tabs/>
         </IonPage>
         </>
     );

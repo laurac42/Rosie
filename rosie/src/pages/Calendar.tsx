@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useHistory } from 'react-router-dom';
 import Menu from '../components/Menu'
-
+import Tabs from '../components/Tabs'
 const PHOTO_STORAGE = 'photos';
 import './Calendar.css';
 
@@ -109,6 +109,7 @@ const Calendar: React.FC = () => {
             />
           </IonGrid>
         </IonContent>
+        <Tabs/>
       </IonPage >
     </>
   );

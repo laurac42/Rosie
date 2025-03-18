@@ -3,6 +3,7 @@ import { calendar, clipboard, colorPalette, folderOpen, informationCircle, lockC
 import { CircularProgressbar } from 'react-circular-progressbar';
 import React, { useState, useEffect } from 'react';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 import moment from 'moment';
 import './Cycle.css';
 
@@ -146,6 +147,7 @@ return (
           </IonRow>
         </IonGrid>
       </IonContent>
+      <Tabs/>
     </IonPage>
   </>
 );

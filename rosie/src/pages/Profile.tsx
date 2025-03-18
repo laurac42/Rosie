@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonItem, IonInput, IonToolbar
 import { backspace, calendarOutline, flower, nuclear, personCircle, today } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 import moment from 'moment';
 
 const Profile: React.FC = () => {
@@ -171,6 +172,7 @@ const Profile: React.FC = () => {
                     </IonGrid>
 
                 </IonContent>
+                <Tabs/>
             </IonPage>
         </>
     );

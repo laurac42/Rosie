@@ -1,6 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid } from '@ionic/react';
 import { flower, personCircle } from 'ionicons/icons';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 
 const MenuPrivacy: React.FC = () => {
     return (
@@ -79,6 +80,7 @@ const MenuPrivacy: React.FC = () => {
                         </IonRow>
                     </IonGrid>
                 </IonContent>
+                <Tabs/>
             </IonPage >
         </>
     );

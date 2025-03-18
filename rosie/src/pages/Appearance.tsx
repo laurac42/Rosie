@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIco
 import { flower, colorPalette, notifications, people, lockClosed, informationCircle, personCircle, settings, trendingUp, clipboard, calendar, radioButtonOff, folderOpen } from 'ionicons/icons';
 import React, { useState, useEffect } from 'react';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 import { applyTheme } from "../theme";
 
 
@@ -49,6 +50,7 @@ const Appearance: React.FC = () => {
                         </IonRow>
                     </IonGrid>
                 </IonContent>
+                <Tabs/>
             </IonPage>
         </>
     );
