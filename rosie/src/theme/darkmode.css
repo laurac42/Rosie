@@ -164,3 +164,7 @@ ion-item {
   color: rgb(255, 255, 255) !important;
   --ion-text-color: white;
 }
+
+.dark .dangerText {
+  color: var(--background-color) !important;
+}

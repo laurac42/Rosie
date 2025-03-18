@@ -162,10 +162,10 @@ const Profile: React.FC = () => {
 
                     <IonGrid class="dangerGrid" fixed={true}>
                         <IonRow class='ion-justify-content-center'>
-                            <h1 className='heading'><IonIcon icon={nuclear} className='dangerIcon'></IonIcon>Danger Zone<IonIcon icon={nuclear} className='dangerIcon'></IonIcon></h1>
+                            <h1 className='heading dangerText'><IonIcon icon={nuclear} className='dangerIcon'></IonIcon><b>Danger Zone</b><IonIcon icon={nuclear} className='dangerIcon'></IonIcon></h1>
                         </IonRow>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn dangerButton" onClick={deleteProfile} size="large">Delete Profile</IonButton>
+                            <IonButton className="btn dangerButton" onClick={deleteProfile} size="large"><b>Delete Profile</b></IonButton>
                         </IonRow>
 
                     </IonGrid>
