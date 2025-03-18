@@ -12,7 +12,7 @@ const Menu: React.FC = () => {
       </IonHeader>
       <IonContent>
 
-        <IonList>
+        <IonList class="menu">
           <IonAccordionGroup>
             <IonAccordion class="accordionIcon" value="first">
               <IonItem className="menuHover" slot="header">

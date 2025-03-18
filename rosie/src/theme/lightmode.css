@@ -161,7 +161,7 @@ ion-button:active, ion-button:hover{
   --background: var(--darker-pink);
 }
 
-/* Prevent buttons from turning blue on iOS when hovered */
+/* Prevent buttons from turning blue when hovered */
 ion-button::-webkit-touch-callout, 
 ion-button::-webkit-user-select, 
 ion-button::selection {
@@ -210,7 +210,7 @@ ion-button::selection {
 }
 
 /*colour of the lines between the menu items*/
-ion-item {
+.menu ion-item {
   border-bottom: 1px solid var(--text); /* Change color/thickness as needed */
 }
 
