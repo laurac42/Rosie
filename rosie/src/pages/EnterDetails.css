@@ -7,3 +7,24 @@
 h3 {
     padding-top: 50px;
 }
+
+.datePickerIcon {
+    color: var(--text);
+}
+
+ion-datetime::part(calendar-day) {
+    font-family: "Delius", serif;
+    color: black;
+}
+
+ion-picker .ion-picker-column{
+    color: green;
+}
+
+ion-picker::part(column) {
+    color: rgb(0, 186, 40) !important; /* Change the text color */
+  }
+  
+  ion-picker::part(button) {
+    color: blue !important; /* Change button colors */
+  }
