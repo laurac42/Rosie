@@ -12,13 +12,10 @@
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
-    },
-    {
-      "gcm_sender_id": "103953800507"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#dc5675",
-  "background_color": "#fbeaee"
+  "theme_color": "var(--darker-background)",
+  "background_color": "#eeaaba"
 }
