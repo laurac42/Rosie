@@ -9,6 +9,7 @@ import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
 import { usePhotoGallery} from './hooks/usePhotoGallery';
 import Menu from '../components/Menu'
+import Tabs from '../components/Tabs'
 
 const Track: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -307,6 +308,7 @@ const Track: React.FC = () => {
           </IonGrid>
         </IonContent>
       </IonPage>
+      <Tabs/>
     </>
   );
 };

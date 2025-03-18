@@ -5,6 +5,7 @@ import { BarChart, PieChart } from '@mui/x-charts';
 import Menu from '../components/Menu'
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import Tabs from '../components/Tabs'
 import './Analysis.css';
 
 const Analysis: React.FC = () => {
@@ -273,6 +274,7 @@ const Analysis: React.FC = () => {
                     </IonGrid>
 
                 </IonContent>
+                <Tabs/>
             </IonPage>
         </>
     );

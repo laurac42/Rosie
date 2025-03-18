@@ -118,24 +118,6 @@ const App: React.FC = () => {
               <Redirect to="/SignUp" />
             </Route>
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="Rosie" href="/Cycle">
-              <IonIcon aria-hidden="true" icon={radioButtonOff} />
-              <IonLabel>Cycle</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Calendar" href="/Calendar">
-              <IonIcon aria-hidden="true" icon={calendar} />
-              <IonLabel>Calendar</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Track" href="/Track">
-              <IonIcon aria-hidden="true" icon={clipboard} />
-              <IonLabel>Track</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Analysis" href="/Analysis">
-              <IonIcon aria-hidden="true" icon={trendingUp} />
-              <IonLabel>Analysis</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
         </IonTabs>
       </IonReactRouter>
     </IonApp>
