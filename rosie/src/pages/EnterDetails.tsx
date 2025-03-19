@@ -212,7 +212,7 @@ const Details: React.FC = () => {
                             <IonInput required className="custom-font" label="Birthday:" placeholder='dd/mm/yyyy' value={Birthday}>
                             </IonInput>
                             <IonIcon className='datePickerIcon' icon={calendarOutline} size='small'></IonIcon>
-                            <IonPopover trigger="bday" show-backdrop="false">
+                            <IonPopover trigger="bday" show-backdrop="false" size="cover" side="top" alignment="center">
                                 <IonDatetime
                                     class='popoverDateTime'
                                     presentation='date'
@@ -248,7 +248,7 @@ const Details: React.FC = () => {
                                         value={periodStart1}
                                     ></IonInput>
                                     <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodStart1" show-backdrop="false">
+                                    <IonPopover trigger="periodStart1" show-backdrop="false" side="top" alignment="center" size='cover'>
                                         <IonDatetime
                                             class="popoverDateTime"
                                             presentation="date"
@@ -270,7 +270,7 @@ const Details: React.FC = () => {
                                         value={periodEnd1}
                                     ></IonInput>
                                     <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodEnd1" show-backdrop="false">
+                                    <IonPopover trigger="periodEnd1" show-backdrop="false" side="top" alignment="center" size='cover'>
                                         <IonDatetime
                                             class="popoverDateTime"
                                             presentation="date"
@@ -293,7 +293,7 @@ const Details: React.FC = () => {
                                         value={periodStart2}
                                     ></IonInput>
                                     <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodStart2" show-backdrop="false">
+                                    <IonPopover className='popoverNamemiddle' trigger="periodStart2" show-backdrop="false" side="top" alignment="center" size='cover'>
                                         <IonDatetime
                                             class="popoverDateTime"
                                             presentation="date"
@@ -315,7 +315,7 @@ const Details: React.FC = () => {
                                         value={periodEnd2}
                                     ></IonInput>
                                     <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodEnd2" show-backdrop="false">
+                                    <IonPopover className='popoverNamemiddle' trigger="periodEnd2" show-backdrop="false" side="top" alignment="center" size='cover'>
                                         <IonDatetime
                                             class="popoverDateTime"
                                             presentation="date"
@@ -338,7 +338,7 @@ const Details: React.FC = () => {
                                         value={periodStart3}
                                     ></IonInput>
                                     <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodStart3" show-backdrop="false">
+                                    <IonPopover className='popoverName' trigger="periodStart3" show-backdrop="false" side="top" alignment="center" size='cover'>
                                         <IonDatetime
                                             class="popoverDateTime"
                                             presentation="date"
@@ -360,7 +360,7 @@ const Details: React.FC = () => {
                                         value={periodEnd3}
                                     ></IonInput>
                                     <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodEnd3" show-backdrop="false">
+                                    <IonPopover className='popoverName' trigger="periodEnd3" show-backdrop="false" side="top" alignment="center" size='cover'>
                                         <IonDatetime
                                             class="popoverDateTime"
                                             presentation="date"
