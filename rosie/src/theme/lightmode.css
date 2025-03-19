@@ -234,6 +234,6 @@ ion-checkbox {
   color: var(--text);
 }
 
-.menuHover ion-item:hover{
-  color: rgb(255, 255, 255) !important;
+.light .menuHover ion-item:hover{
+  color: rgb(255, 0, 0) !important;
 }

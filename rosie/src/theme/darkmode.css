@@ -172,8 +172,8 @@ ion-item {
 
 
 /* make menu items white on hover */
-.menuHover ion-label:hover {
-  color: rgb(255, 255, 255) !important;
+.dark .menuHover ion-label:hover {
+  color: white !important;
   --ion-text-color: white;
 }
 
