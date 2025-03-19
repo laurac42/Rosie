@@ -14,6 +14,7 @@ const PHOTO_STORAGE = 'photos';
 export function usePhotoGallery() {
 
     const [photos, setPhotos] = useState<UserPhoto[]>([]);
+    const [allPhotos, setAllPhotos] = useState<UserPhoto[]>([]);
     const { date } = useParams<{ date: string }>();
 
     /**
@@ -27,14 +28,17 @@ export function usePhotoGallery() {
 
             // filter the photos so that only the ones with the date given are shown
             var filteredPhotos: UserPhoto[] = [];
-            var i = 1
+            var allPhoto: UserPhoto[] = [];
             photosInPreferences.forEach(photo => {
-                console.log("Checking photo:", photo.filepath, " ", i);
+                // all photos should get added to the all photos array - they are being pushed twice???
+                if (!allPhoto.includes(photo))
+                {
+                    allPhoto.push(photo);
+                }
                 // ok it likes it when you hard code the date, but doesn't like it if you use the date variable
                 if (photo.filepath.includes(date)) {
                     filteredPhotos.push(photo);
                 }
-                i++;
             });
             // If running on the web...
             if (!isPlatform('hybrid')) {
@@ -46,8 +50,17 @@ export function usePhotoGallery() {
                     // Web platform only: Load the photo as base64 data
                     photo.webviewPath = `data:image/jpeg;base64,${file.data}`;
                 }
+                for (let photo of allPhoto) {
+                    const file = await Filesystem.readFile({
+                        path: photo.filepath,
+                        directory: Directory.Data
+                    });
+                    // Web platform only: Load the photo as base64 data
+                    photo.webviewPath = `data:image/jpeg;base64,${file.data}`;
+                }
             }
             setPhotos(filteredPhotos);
+            setAllPhotos(allPhoto);
         };
         loadSaved();
     }, []);
@@ -128,10 +141,15 @@ export function usePhotoGallery() {
 
     const deletePhoto = async (photo: UserPhoto) => {
         // Remove this photo from the Photos reference data array
+        // need to do this using the all photos array so that photos from other dates aren't deleted by overwriting
+        // otherwise the non-deleted photos from this day are all that is left and other days get deleted by overwriting
+        const newAllPhotos = allPhotos.filter(p => p.filepath !== photo.filepath);
+
         const newPhotos = photos.filter(p => p.filepath !== photo.filepath);
 
         // Update photos array cache by overwriting the existing photo array
-        Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+        // this should overwrite the existing array but either its appending to it, or there is duplication on filter
+        Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newAllPhotos) });
 
         // delete photo file from filesystem
         const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);
@@ -139,7 +157,7 @@ export function usePhotoGallery() {
             path: filename,
             directory: Directory.Data
         });
-        setPhotos(newPhotos);
+        setPhotos(newPhotos); // the photos to show for this page still needs to be the filtered photos
     };
 
     return {

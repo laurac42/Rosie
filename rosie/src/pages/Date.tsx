@@ -24,6 +24,21 @@ const Date: React.FC = () => {
     const emotion = emotionsMap.get(date);
     const skin = skinMap.get(date);
 
+    /**
+     * Delete the photo and also handle deleting from the dates array
+     * @param photo the photo to delete
+     */
+    const handleDeletePhoto = (photo: UserPhoto) => {
+        // check if there are other photos on the page
+        const remainingPhotos = photos.filter((p) => p !== photo);
+        if (remainingPhotos.length === 0) {
+            // if there are no other photos on the page, remove the date from the photo dates in local storage
+            const photoDates = JSON.parse(localStorage.getItem("photoDates") || "[]");
+            const updatedPhotoDates = photoDates.filter((d: string) => d !== date);
+            localStorage.setItem("photoDates", JSON.stringify(updatedPhotoDates));
+        }
+    };
+
     return (
         <>
             <Menu />
@@ -54,7 +69,7 @@ const Date: React.FC = () => {
                         {skin && <IonRow><p><b>Skin:</b> {skin}</p></IonRow>}
                         {photos.length > 0 && (
                             <div>
-                                <h3>Photos:</h3>
+                                <h3><b>Skin Photos:</b></h3>
                                 <p>Tap a photo and choose delete if you wish to delete it</p>
                                 <IonRow>
                                     {photos.map((photo, index) => (
@@ -73,6 +88,7 @@ const Date: React.FC = () => {
                                 </IonFabButton>
                             </IonFab></IonRow>
                     </IonGrid>
+                    {/* delete stuff came from here - https://codesandbox.io/p/sandbox/photo-gallery-capacitor-react-85m2c?file=%2Fsrc%2Fpages%2FTab2.tsx%3A54%2C27 */}
                     <IonActionSheet
                         isOpen={!!photoToDelete}
                         buttons={[{
@@ -82,6 +98,7 @@ const Date: React.FC = () => {
                             handler: () => {
                                 if (photoToDelete) {
                                     deletePhoto(photoToDelete);
+                                    //handleDeletePhoto(photoToDelete);
                                     setPhotoToDelete(undefined);
                                 }
                             }

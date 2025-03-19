@@ -52,8 +52,6 @@ const Calendar: React.FC = () => {
     storedPhotos.forEach((date: string) => {
       photoEvents.push({ title: "Photo", date: date, className: 'photo-event' });
     });
-    console.log(photoEvents);
-    console.log(skinEvents);
     // combine all events
     setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents, ...photoEvents]);
   }, []);
