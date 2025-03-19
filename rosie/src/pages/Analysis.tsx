@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow } from '@ionic/react';
-import {  personCircle } from 'ionicons/icons';
+import { personCircle } from 'ionicons/icons';
 import React from 'react';
 import { BarChart, PieChart } from '@mui/x-charts';
 import Menu from '../components/Menu'
@@ -42,28 +42,31 @@ const Analysis: React.FC = () => {
      * Get all of the period data, calculate start and end dates, and calculate the average period length
      */
     function getAveragePeriodLength() {
-
         // check number of start and end dates is equal
         if (startDates.length != endDates.length) {
             console.log("error with calculating start and end dates: ", startDates.length, endDates.length);
             return;
         }
         periodLengths.length = 0; // reset it each time it is calculated
-        for (let i = 0; i < startDates.length; i++) {
+        // start dates length -1 to ignore the last one which is only required for cycle calculations
+        for (let i = 0; i < startDates.length - 1; i++) {
             const startMoment = moment(startDates[i]);
             const endMoment = moment(endDates[i]);
             const periodLength = endMoment.diff(startMoment, 'days') + 1;
-            periodLengths.push({ length: periodLength, startDate: startDates[i] });
+
+
+            periodLengths.push({ length: periodLength, startDate: startMoment.format("DD/MM") });
         }
 
         // calculate average
         var sum = 0;
-        for (let i = 0; i < periodLengths.length; i++) {
+        for (let i = 0; i < periodLengths.length - 1; i++) {
             sum += periodLengths[i].length;
         }
         var averagePeriodLength = (sum / periodLengths.length) || 0;
-
+        periodLengths.reverse();
         setAveragePeriodLength(Math.round(averagePeriodLength * 10) / 10);
+
     }
 
     /**
@@ -77,9 +80,9 @@ const Analysis: React.FC = () => {
             for (let i = 1; i < startDates.length; i++) {
                 const startMoment = moment(startDates[i - 1]);
                 const endMoment = moment(startDates[i]);
-                const cycleLength = endMoment.diff(startMoment, 'days');
-                //console.log(cycleLength);
-                cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
+                const cycleLength = startMoment.diff(endMoment, 'days');
+
+                cycleLengths.push({ length: cycleLength, startDate: startMoment.format("DD/MM") });
             }
 
             // calculate average
@@ -88,7 +91,7 @@ const Analysis: React.FC = () => {
                 sum += cycleLengths[i].length;
             }
             var averageCycleLength = (sum / cycleLengths.length) || 0;
-
+            cycleLengths.reverse(); // so they are in order from oldest to newest on the graph
             setAverageCycleLength(Math.round(averageCycleLength * 10) / 10);
         }
     }
@@ -100,34 +103,55 @@ const Analysis: React.FC = () => {
         // clear any old data first:
         periods.length = 0;
         startDates.length = 0;
+        endDates.length = 0
         // first, load in all period data and make sure it is sorted by date
         if (localStorage.periodMap) {
             var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
             periodDates.forEach((flow: string, date: string) => {
                 if (!periods.includes(date)) { periods.push(date); }
             });
-            periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
-
-            // the first period is definitely a start date
-            if (!startDates.includes(periods[0])) { startDates.push(periods[0]); }
-
-            for (let i = 1; i < periods.length; i++) {
-                // for date 1 onward, check if day before was a period, if yes, i is not a start date
-                // if day before was not a period, periods[i] is a start date
-                var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
-                if (periods[i - 1] != dayBefore) {
-                    // periods i is a start date
-                    if (!startDates.includes(periods[i])) { startDates.push(periods[i]); }
-                }
-
-                // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
-                var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
-                if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
-                    // periods i is an end date
-                    if (!endDates.includes(periods[i])) { endDates.push(periods[i]); }
+            periods.sort((a, b) => (new Date(b).getTime() - new Date(a).getTime())); // from newest
+            console.log(periods)
+            // the first period is definitely a end date as they are ordered newest first
+            if (!endDates.includes(periods[0])) {
+                endDates.push(periods[0]);
+                console.log("pushing to end dates: ", periods[0])
+                // check that periods 0 is not a one day period, which would mean it is also a start date
+                var dayBefore = moment(periods[0]).subtract(1, 'day').format("YYYY-MM-DD");
+                console.log(dayBefore)
+                if (periods.length == 1 || periods[1] != dayBefore) {
+                    // periods i is also a start date
+                    if (!startDates.includes(periods[0])) {
+                        startDates.push(periods[0]);
+                    }
                 }
             }
+            for (let i = 1; i < periods.length; i++) {
+                // only calculate the last 6 periods
+                if (startDates.length < 6) {
+                    // for date 1 onward, check if day before was a period, if yes, i is not a start date
+                    // if day before was not a period, periods[i] is a start date
+                    var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
+                    console.log("period day : ", periods[i])
+                    console.log(periods[i - 1])
+                    console.log(dayAfter)
+                    if (periods[i - 1] != dayAfter)
 
+                        if (!endDates.includes(periods[i])) {
+                            endDates.push(periods[i]);
+                            console.log("pushing to end dates: ", periods[i])
+                        }
+                    // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
+                    var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
+                    if (i + 1 > periods.length || periods[i + 1] != dayBefore) {
+                        // periods i is an end date
+                        if (!startDates.includes(periods[i])) {
+                            startDates.push(periods[i]);
+                        }
+                    }
+                }
+
+            }
             // call functions to do calculations based on start and end dates
             getAverageCycleLength();
             getAveragePeriodLength();
@@ -180,7 +204,7 @@ const Analysis: React.FC = () => {
 
     return (
         <>
-            <Menu/>
+            <Menu />
             <IonPage id="main-content">
                 <IonHeader>
                     <IonToolbar>
@@ -189,7 +213,7 @@ const Analysis: React.FC = () => {
                         </IonButtons>
                         <IonTitle>Analysis</IonTitle>
                         <IonButtons slot="end">
-                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                            <IonButton className='profileButton' href="/Rosie/Profile">
                                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
                             </IonButton>
                         </IonButtons>
@@ -198,7 +222,8 @@ const Analysis: React.FC = () => {
                 <IonContent fullscreen>
                     <IonGrid fixed={true}>
                         <IonRow><h2>Period Length</h2></IonRow>
-                        {periodLengths.length > 0 ?(<IonRow><BarChart
+                        <IonRow class="ion-justify-content-center"><p>(Last 5 periods)</p></IonRow>
+                        {periodLengths.length > 0 ? (<IonRow><BarChart
                             dataset={periodLengths}
                             xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
                             series={[
@@ -218,10 +243,11 @@ const Analysis: React.FC = () => {
                         <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
                         <IonRow><h2>Cycle Length</h2></IonRow>
+                        <IonRow class="ion-justify-content-center"><p>(Last 5 cycles)</p></IonRow>
                         {/* Show a message if no cycle length data */}
                         {cycleLengths.length > 0 ? (<IonRow><BarChart
                             dataset={cycleLengths}
-                            xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
+                            xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
                             series={[
                                 { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
                             ]}
@@ -234,7 +260,7 @@ const Analysis: React.FC = () => {
                             }}
                             {...chartSetting}
                         /></IonRow>) :
-                        (<IonRow><p>No cycle data available. Two periods are required to calculate cycle length. Head to the track page to start tracking!</p></IonRow>)}
+                            (<IonRow><p>No cycle data available. Two periods are required to calculate cycle length. Head to the track page to start tracking!</p></IonRow>)}
                         <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
                         <IonRow><h2>Pain</h2></IonRow>
@@ -274,7 +300,7 @@ const Analysis: React.FC = () => {
                     </IonGrid>
 
                 </IonContent>
-                <Tabs/>
+                <Tabs />
             </IonPage>
         </>
     );
