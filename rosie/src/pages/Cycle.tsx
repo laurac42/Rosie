@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonMenu } from '@ionic/react';
-import { calendar, clipboard, colorPalette, folderOpen, informationCircle, lockClosed, notifications, people, personCircle, radioButtonOff, settings, trendingUp } from 'ionicons/icons';
+import {  personCircle } from 'ionicons/icons';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import React, { useState, useEffect } from 'react';
 import Menu from '../components/Menu'
@@ -19,13 +19,15 @@ const Cycle: React.FC = () => {
   // calculate the average cycle length only on first render
   useEffect(() => {
     calculateAverageCycleLength();
-  }, []);
-
-  // calculate the day of period when start dates is updated
-  useEffect(() => {
     calculateDay();
     calculatePeriodPrediction();
-  }, [startDates]);
+  }, []);
+
+  // calculate average period length when either of the things it is based on update so it updates properly
+  useEffect(() => {
+    calculatePeriodPrediction();
+  }, [averageCycleLength, day]);
+
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
@@ -81,7 +83,7 @@ const Cycle: React.FC = () => {
         }
         var averageCycleLength = (sum / cycleLengths.length) || 0;
 
-        setAverageCycleLength(Math.round(averageCycleLength * 10) / 10);
+        setAverageCycleLength(Math.round(averageCycleLength));// want whole number predictions on this page
         console.log("average cycle length", averageCycleLength);
       }
       else {
@@ -97,7 +99,7 @@ function calculateDay() {
   // if there are some periods stored,
   if (startDates.length > 0) {
     // calculate the number of days since start of last period and today
-    const lastPeriodStartDate = moment(startDates[0]);
+    const lastPeriodStartDate = moment(startDates.findLast(() => true)); // theyre ordered in reverse so needs to be the last day
     const today = moment();
     const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
     setDay(dayOfCycle);
@@ -105,7 +107,8 @@ function calculateDay() {
 }
 
 function calculatePeriodPrediction() {
-  setAverageCycleLength(28)
+  console.log("average cycle length", averageCycleLength);
+  console.log("day of cycle", day);
   if (averageCycleLength - day > 0)
   {
     setPeriodPrediction(averageCycleLength - day+1);
