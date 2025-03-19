@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Delius&family=Playwrite+IT+Moderna:wght@100..400&display=swap');
 
-h1,h2, h3{
+h1,h2{
   color: var(--text);
   font-family: "Playwrite IT Moderna", serif;
 }
@@ -12,7 +12,7 @@ h1,h2, h3{
   padding-bottom: 20px;
 }
 
-p {
+p, h3 {
   color: var(--text);
   font-family: "Delius", serif;
   font-weight: 400;
