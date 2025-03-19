@@ -56,6 +56,7 @@ const Details: React.FC = () => {
         // only move to the next page if the user has entered all details 
         console.log("finished after reading", finished);
         if (finished == true) {
+            localStorage.setItem("LoggedIn", "true");
             window.location.href = '/Rosie/SignUp/Preferences';
         }
     };
@@ -88,10 +89,8 @@ const Details: React.FC = () => {
             console.log("finished", finished);
         }
         localStorage.setItem('Birthday', Birthday);
+
         // now do the extra things for periods
-
-
-
         if (!periodStart1 || !periodStart2 || !periodStart3 || !periodEnd1 || !periodEnd2 || !periodEnd3) {
             alert('You need to add all period data!');
             finished = false;
@@ -139,6 +138,7 @@ const Details: React.FC = () => {
                 localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
                 if (overlapping == false)
                 {
+                    localStorage.setItem("LoggedIn", "true");
                     window.location.href = '/Rosie/SignUp/Preferences';
                 }
                 else {
