@@ -72,6 +72,7 @@ const Profile: React.FC = () => {
         if (window.confirm("Are you sure you want to delete your profile? This includes all period data. Once deleted, your profile is unrecoverable.")) {
             console.log("deleting profile")
             localStorage.clear();
+            window.location.href = '/Rosie/SignUp'; // send them back to sign up page
         }
         else {
             console.log("profile is kept")

@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import {
   IonApp,
   IonIcon,
@@ -21,7 +21,6 @@ import Details from './pages/EnterDetails';
 import Preferences from './pages/Preferences';
 import Privacy from './pages/PrivacyPolicy';
 import { loadTheme } from "./theme";
-import {checkTrack} from "./checkTrack";
 import Welcome from './pages/Welcome';  
 import Date from './pages/Date'
 import Profile from './pages/Profile'
@@ -55,10 +54,34 @@ setupIonicReact();
 
 // load the theme colour on page load
 const App: React.FC = () => {
+  const [loggedIn, setLoggedIn] = useState<string>();
+
   useEffect(() => {
     loadTheme();
-    //checkTrack();
+    // check if the user is logged in or not
+    if (localStorage.LoggedIn)
+    {
+      setLoggedIn(localStorage.LoggedIn)
+    }
+    else
+    {
+      setLoggedIn("false");
+    }
+    console.log(loggedIn);
   }, []);
+
+  useEffect(() => {
+    // check if the user is logged in or not
+    if (localStorage.LoggedIn)
+    {
+      setLoggedIn(localStorage.LoggedIn)
+    }
+    else
+    {
+      setLoggedIn("false");
+    }
+    console.log(loggedIn);
+  }, [loggedIn]);
 
   return (
     <IonApp>
@@ -114,9 +137,15 @@ const App: React.FC = () => {
             <Route exact path="/Menu/Resources">
               <Resources />
             </Route>
-            <Route exact path="/">
+            {/* Choose the default page depending on whether the user is logged in or not */}
+            {loggedIn == "true" ?
+            (<Route exact path="/">
+              <Redirect to="/Cycle" />
+            </Route> ): 
+            (<Route exact path="/">
               <Redirect to="/SignUp" />
-            </Route>
+            </Route>)}
+            
           </IonRouterOutlet>
         </IonTabs>
       </IonReactRouter>
