@@ -98,7 +98,7 @@ const Date: React.FC = () => {
                             handler: () => {
                                 if (photoToDelete) {
                                     deletePhoto(photoToDelete);
-                                    //handleDeletePhoto(photoToDelete);
+                                    handleDeletePhoto(photoToDelete);
                                     setPhotoToDelete(undefined);
                                 }
                             }
