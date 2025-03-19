@@ -67,7 +67,6 @@ const App: React.FC = () => {
     {
       setLoggedIn("false");
     }
-    console.log(loggedIn);
   }, []);
 
   useEffect(() => {
@@ -80,7 +79,6 @@ const App: React.FC = () => {
     {
       setLoggedIn("false");
     }
-    console.log(loggedIn);
   }, [loggedIn]);
 
   return (

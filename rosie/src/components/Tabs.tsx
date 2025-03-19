@@ -4,7 +4,7 @@ import { radioButtonOff, calendar, clipboard, trendingUp } from "ionicons/icons"
 const Tabs: React.FC = () => {
     return (
         <IonTabBar slot="bottom">
-            <IonTabButton tab="Rosie" href="/Cycle">
+            <IonTabButton tab="Cycle" href="/Cycle">
                 <IonIcon aria-hidden="true" icon={radioButtonOff} />
                 <IonLabel>Cycle</IonLabel>
             </IonTabButton>

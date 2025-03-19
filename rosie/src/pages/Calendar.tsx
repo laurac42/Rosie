@@ -24,8 +24,6 @@ const Calendar: React.FC = () => {
     const storedEmotions = new Map<string, string>(JSON.parse(localStorage.emotionsMap || '[]'));
     const storedSkin = new Map<string, string>(JSON.parse(localStorage.skinMap || '[]'));
     const storedPhotos: string[] = (JSON.parse(localStorage.photoDates || '[]')); // this is just the dates not actual photos
-    console.log("photos", storedPhotos);
-    console.log("skin", storedSkin);
 
     const periodEvents: { title: string, date: string, className: string }[] = [];
     const painEvents: { title: string, date: string, className: string }[] = [];
@@ -52,11 +50,10 @@ const Calendar: React.FC = () => {
     storedPhotos.forEach((date: string) => {
       photoEvents.push({ title: "Photo", date: date, className: 'photo-event' });
     });
-    console.log(photoEvents);
-    console.log(skinEvents);
     // combine all events
     setEvents([...periodEvents, ...painEvents, ...emotionEvents, ...skinEvents, ...photoEvents]);
   }, []);
+
 
   /**
    * When a date is clicked it should take the user to a new page, with all the details for that date
