@@ -116,7 +116,7 @@ const Analysis: React.FC = () => {
                 startDates.push(periods[0]);
                 console.log(periods[0] + " is a start date")
                 // check that periods 0 is not a one day period, which would mean it is also an end date
-                var dayAfter = moment(periods[1]).add(1, 'day').format("YYYY-MM-DD");
+                var dayAfter = moment(periods[0]).add(1, 'day').format("YYYY-MM-DD");
                 if (periods.length == 1 || periods[1] != dayAfter) {
                     // periods i is an end date
                     if (!endDates.includes(periods[0])) {
