@@ -31,27 +31,27 @@ const Resources: React.FC = () => {
                         </IonRow>
                         <IonList>
                             <IonItem href="https://www.nhs.uk/conditions/periods/" target="_blank">
-                                <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                                <IonIcon className="menuIcon"  icon={informationCircle} slot="start"></IonIcon>
                                 <IonLabel>NHS Guide to Periods</IonLabel>
                             </IonItem>
                             <IonItem href="https://periodpoverty.uk/" target="_blank">
-                                <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                                <IonIcon className="menuIcon" icon={informationCircle} slot="start"></IonIcon>
                                 <IonLabel>Period Poverty Support</IonLabel>
                             </IonItem>
                             <IonItem href="https://www.endometriosis-uk.org/" target="_blank">
-                                <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                                <IonIcon className="menuIcon" icon={informationCircle} slot="start"></IonIcon>
                                 <IonLabel>Endometriosis UK (Support & Advice)</IonLabel>
                             </IonItem>
                             <IonItem href="https://www.irise.org.uk/" target="_blank">
-                                <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                                <IonIcon className="menuIcon"  icon={informationCircle} slot="start"></IonIcon>
                                 <IonLabel>iRise (Menstrual Equity & Education)</IonLabel>
                             </IonItem>
                             <IonItem href="https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/" target="_blank">
-                                <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                                <IonIcon className="menuIcon"  icon={informationCircle} slot="start"></IonIcon>
                                 <IonLabel>PCOS Information (NHS)</IonLabel>
                             </IonItem>
                             <IonItem href="https://www.wellbeingofwomen.org.uk/what-we-do/campaigns/just-a-period/periods-information-hub/" target="_blank">
-                                <IonIcon className="menuIcon" aria-hidden="true" icon={informationCircle} slot="start"></IonIcon>
+                                <IonIcon className="menuIcon"  icon={informationCircle} slot="start"></IonIcon>
                                 <IonLabel>Wellbeing Women Period Information</IonLabel>
                             </IonItem>
                         </IonList>

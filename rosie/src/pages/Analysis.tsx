@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow } from '@ionic/react';
-import {  personCircle } from 'ionicons/icons';
+import { personCircle } from 'ionicons/icons';
 import React from 'react';
 import { BarChart, PieChart } from '@mui/x-charts';
 import Menu from '../components/Menu'
@@ -42,6 +42,7 @@ const Analysis: React.FC = () => {
      * Get all of the period data, calculate start and end dates, and calculate the average period length
      */
     function getAveragePeriodLength() {
+        console.log("calculating average period length")
 
         // check number of start and end dates is equal
         if (startDates.length != endDates.length) {
@@ -100,6 +101,7 @@ const Analysis: React.FC = () => {
         // clear any old data first:
         periods.length = 0;
         startDates.length = 0;
+        endDates.length = 0
         // first, load in all period data and make sure it is sorted by date
         if (localStorage.periodMap) {
             var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
@@ -107,177 +109,196 @@ const Analysis: React.FC = () => {
                 if (!periods.includes(date)) { periods.push(date); }
             });
             periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
+            console.log(periods)
 
             // the first period is definitely a start date
-            if (!startDates.includes(periods[0])) { startDates.push(periods[0]); }
-
-            for (let i = 1; i < periods.length; i++) {
-                // for date 1 onward, check if day before was a period, if yes, i is not a start date
-                // if day before was not a period, periods[i] is a start date
-                var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
-                if (periods[i - 1] != dayBefore) {
-                    // periods i is a start date
-                    if (!startDates.includes(periods[i])) { startDates.push(periods[i]); }
-                }
-
-                // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
-                var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
-                if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
+            if (!startDates.includes(periods[0])) {
+                startDates.push(periods[0]);
+                console.log(periods[0] + " is a start date")
+                // check that periods 0 is not a one day period, which would mean it is also an end date
+                var dayAfter = moment(periods[1]).add(1, 'day').format("YYYY-MM-DD");
+                if (periods.length == 1 || periods[1] != dayAfter) {
                     // periods i is an end date
-                    if (!endDates.includes(periods[i])) { endDates.push(periods[i]); }
+                    if (!endDates.includes(periods[0])) {
+                        endDates.push(periods[0]);
+                        console.log(periods[0] + " is an end date");
+                    }
                 }
             }
 
-            // call functions to do calculations based on start and end dates
-            getAverageCycleLength();
-            getAveragePeriodLength();
-        }
+        for (let i = 1; i < periods.length; i++) {
+            // for date 1 onward, check if day before was a period, if yes, i is not a start date
+            // if day before was not a period, periods[i] is a start date
+            var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
+            if (periods[i - 1] != dayBefore) {
+                // periods i is a start date
+                if (!startDates.includes(periods[i])) {
+                    startDates.push(periods[i]);
+                    console.log(periods[i] + " is a start date")
+                }
+            }
 
-    }
-
-    // get the pain data
-    function getPainData() {
-        // first empty old data
-        crampDays.length = 0;
-        noPainDays.length = 0;
-        backPainDays.length = 0;
-        headacheDays.length = 0;
-
-        // load in all pain data and make sure it is sorted by date
-        // check the pain map exists first
-        if (localStorage.painMap) {
-            var painDates = new Map<string, string>(JSON.parse(localStorage.painMap));
-            // check if pain dates exists first
-            if (painDates) {
-                const newMap = Array.from(painDates).sort((a, b) => moment(a[1]).diff(moment(b[1])));
-
-                const sortedPainDays = new Map(newMap);
-
-                // add each date to the corresponding pain type array
-                const today = moment();
-                sortedPainDays.forEach((pain: string, date: string) => {
-                    const day = moment(date);
-                    // only use tracking in the last month:
-                    if (today.diff(day, 'days') < 31) {
-                        if (!crampDays.includes(date) && pain == "Cramps") { crampDays.push(date); }
-                        else if (!noPainDays.includes(date) && pain == "No Pain") { noPainDays.push(date); }
-                        else if (!headacheDays.includes(date) && pain == "Headache") { headacheDays.push(date); }
-                        else if (!backPainDays.includes(date) && pain == "Back Pain") { backPainDays.push(date); }
-                    }
-                    else {
-                        // because the array is ordered, if one day is over 31 days away, they will all be so we can exit the function
-                        return;
-                    }
-
-                });
+            // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
+            var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
+            if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
+                // periods i is an end date
+                if (!endDates.includes(periods[i])) {
+                    endDates.push(periods[i]);
+                    console.log(periods[i] + " is an end date");
+                }
             }
         }
 
+        // call functions to do calculations based on start and end dates
+        getAverageCycleLength();
+        getAveragePeriodLength();
+    }
 
+}
 
+// get the pain data
+function getPainData() {
+    // first empty old data
+    crampDays.length = 0;
+    noPainDays.length = 0;
+    backPainDays.length = 0;
+    headacheDays.length = 0;
+
+    // load in all pain data and make sure it is sorted by date
+    // check the pain map exists first
+    if (localStorage.painMap) {
+        var painDates = new Map<string, string>(JSON.parse(localStorage.painMap));
+        // check if pain dates exists first
+        if (painDates) {
+            const newMap = Array.from(painDates).sort((a, b) => moment(a[1]).diff(moment(b[1])));
+
+            const sortedPainDays = new Map(newMap);
+
+            // add each date to the corresponding pain type array
+            const today = moment();
+            sortedPainDays.forEach((pain: string, date: string) => {
+                const day = moment(date);
+                // only use tracking in the last month:
+                if (today.diff(day, 'days') < 31) {
+                    if (!crampDays.includes(date) && pain == "Cramps") { crampDays.push(date); }
+                    else if (!noPainDays.includes(date) && pain == "No Pain") { noPainDays.push(date); }
+                    else if (!headacheDays.includes(date) && pain == "Headache") { headacheDays.push(date); }
+                    else if (!backPainDays.includes(date) && pain == "Back Pain") { backPainDays.push(date); }
+                }
+                else {
+                    // because the array is ordered, if one day is over 31 days away, they will all be so we can exit the function
+                    return;
+                }
+
+            });
+        }
     }
 
 
-    return (
-        <>
-            <Menu/>
-            <IonPage id="main-content">
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
-                        <IonTitle>Analysis</IonTitle>
-                        <IonButtons slot="end">
-                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-                                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-                            </IonButton>
-                        </IonButtons>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent fullscreen>
-                    <IonGrid fixed={true}>
-                        <IonRow><h2>Period Length</h2></IonRow>
-                        {periodLengths.length > 0 ?(<IonRow><BarChart
-                            dataset={periodLengths}
-                            xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
-                            series={[
-                                { dataKey: 'length', label: 'Period Length', color: 'var(--lighter-pink)' },
-                            ]}
-                            slotProps={{
-                                legend: {
-                                    labelStyle: {
-                                        fill: 'var(--text)',
-                                    },
-                                },
-                            }}
-                            {...chartSetting}
-                        /></IonRow>) : (
-                            <IonRow><p>No period data available. Head to the track page to start tracking!</p></IonRow>
-                        )}
-                        <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
-                        <IonRow><h2>Cycle Length</h2></IonRow>
-                        {/* Show a message if no cycle length data */}
-                        {cycleLengths.length > 0 ? (<IonRow><BarChart
-                            dataset={cycleLengths}
-                            xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
-                            series={[
-                                { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
-                            ]}
-                            slotProps={{
-                                legend: {
-                                    labelStyle: {
-                                        fill: 'var(--text)',
-                                    },
+}
+
+
+return (
+    <>
+        <Menu />
+        <IonPage id="main-content">
+            <IonHeader>
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonMenuButton></IonMenuButton>
+                    </IonButtons>
+                    <IonTitle>Analysis</IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton className='profileButton' href="/Rosie/Profile">
+                            <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent fullscreen>
+                <IonGrid fixed={true}>
+                    <IonRow><h2>Period Length</h2></IonRow>
+                    {periodLengths.length > 0 ? (<IonRow><BarChart
+                        dataset={periodLengths}
+                        xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
+                        series={[
+                            { dataKey: 'length', label: 'Period Length', color: 'var(--lighter-pink)' },
+                        ]}
+                        slotProps={{
+                            legend: {
+                                labelStyle: {
+                                    fill: 'var(--text)',
                                 },
-                            }}
-                            {...chartSetting}
-                        /></IonRow>) :
+                            },
+                        }}
+                        {...chartSetting}
+                    /></IonRow>) : (
+                        <IonRow><p>No period data available. Head to the track page to start tracking!</p></IonRow>
+                    )}
+                    <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+
+                    <IonRow><h2>Cycle Length</h2></IonRow>
+                    {/* Show a message if no cycle length data */}
+                    {cycleLengths.length > 0 ? (<IonRow><BarChart
+                        dataset={cycleLengths}
+                        xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
+                        series={[
+                            { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
+                        ]}
+                        slotProps={{
+                            legend: {
+                                labelStyle: {
+                                    fill: 'var(--text)',
+                                },
+                            },
+                        }}
+                        {...chartSetting}
+                    /></IonRow>) :
                         (<IonRow><p>No cycle data available. Two periods are required to calculate cycle length. Head to the track page to start tracking!</p></IonRow>)}
-                        <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+                    <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
 
-                        <IonRow><h2>Pain</h2></IonRow>
-                        <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
-                        {crampDays.length === 0 && noPainDays.length === 0 && backPainDays.length === 0 && headacheDays.length === 0 ? (
-                            <IonRow class="ion-justify-content-center"><p>No pain data available. Head to the track page to start tracking!</p></IonRow>
-                        ) : (
-                            <IonRow>
-                                <PieChart
-                                    colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
-                                    series={[
-                                        {
-                                            data: [
-                                                { id: 0, value: noPainDays.length, label: 'No Pain' },
-                                                { id: 1, value: crampDays.length, label: 'Cramps' },
-                                                { id: 2, value: backPainDays.length, label: 'Back Pain' },
-                                                { id: 3, value: headacheDays.length, label: 'Headache Pain' },
-                                            ],
-                                            innerRadius: 5,
-                                            paddingAngle: 5,
-                                            cornerRadius: 5,
+                    <IonRow><h2>Pain</h2></IonRow>
+                    <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
+                    {crampDays.length === 0 && noPainDays.length === 0 && backPainDays.length === 0 && headacheDays.length === 0 ? (
+                        <IonRow class="ion-justify-content-center"><p>No pain data available. Head to the track page to start tracking!</p></IonRow>
+                    ) : (
+                        <IonRow>
+                            <PieChart
+                                colors={['var(--lighter-pink)', 'var(--complementary-colour)', 'var(--complementary-colour2)', 'var(--complementary-colour3)']}
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: noPainDays.length, label: 'No Pain' },
+                                            { id: 1, value: crampDays.length, label: 'Cramps' },
+                                            { id: 2, value: backPainDays.length, label: 'Back Pain' },
+                                            { id: 3, value: headacheDays.length, label: 'Headache Pain' },
+                                        ],
+                                        innerRadius: 5,
+                                        paddingAngle: 5,
+                                        cornerRadius: 5,
+                                    },
+                                ]}
+                                slotProps={{
+                                    legend: {
+                                        labelStyle: {
+                                            fill: 'var(--text)',
                                         },
-                                    ]}
-                                    slotProps={{
-                                        legend: {
-                                            labelStyle: {
-                                                fill: 'var(--text)',
-                                            },
-                                        },
-                                    }}
-                                    width={500}
-                                    height={200}
-                                />
-                            </IonRow>
-                        )}
+                                    },
+                                }}
+                                width={500}
+                                height={200}
+                            />
+                        </IonRow>
+                    )}
 
-                    </IonGrid>
+                </IonGrid>
 
-                </IonContent>
-                <Tabs/>
-            </IonPage>
-        </>
-    );
+            </IonContent>
+            <Tabs />
+        </IonPage>
+    </>
+);
 };
 
 export default Analysis;
