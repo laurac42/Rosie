@@ -28,3 +28,13 @@ ion-picker::part(column) {
   ion-picker::part(button) {
     color: blue !important; /* Change button colors */
   }
+
+/*This moves the bottom date pickers which fall of the edge of the screen up*/
+ion-popover.popoverName {
+    --offset-y: -200px !important;
+}
+
+/* Move the middle ones up slightly less */
+ion-popover.popoverNamemiddle {
+    --offset-y: -100px !important;
+}
