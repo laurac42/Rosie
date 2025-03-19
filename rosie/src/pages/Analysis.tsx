@@ -42,8 +42,6 @@ const Analysis: React.FC = () => {
      * Get all of the period data, calculate start and end dates, and calculate the average period length
      */
     function getAveragePeriodLength() {
-        console.log("calculating average period length")
-
         // check number of start and end dates is equal
         if (startDates.length != endDates.length) {
             console.log("error with calculating start and end dates: ", startDates.length, endDates.length);
@@ -54,7 +52,9 @@ const Analysis: React.FC = () => {
             const startMoment = moment(startDates[i]);
             const endMoment = moment(endDates[i]);
             const periodLength = endMoment.diff(startMoment, 'days') + 1;
-            periodLengths.push({ length: periodLength, startDate: startDates[i] });
+            
+            
+            periodLengths.push({ length: periodLength, startDate: startMoment.format("DD/MM")});
         }
 
         // calculate average
@@ -79,8 +79,8 @@ const Analysis: React.FC = () => {
                 const startMoment = moment(startDates[i - 1]);
                 const endMoment = moment(startDates[i]);
                 const cycleLength = endMoment.diff(startMoment, 'days');
-                //console.log(cycleLength);
-                cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
+                
+                cycleLengths.push({ length: cycleLength, startDate: startMoment.format("DD/MM") });
             }
 
             // calculate average
@@ -109,19 +109,16 @@ const Analysis: React.FC = () => {
                 if (!periods.includes(date)) { periods.push(date); }
             });
             periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
-            console.log(periods)
 
             // the first period is definitely a start date
             if (!startDates.includes(periods[0])) {
                 startDates.push(periods[0]);
-                console.log(periods[0] + " is a start date")
                 // check that periods 0 is not a one day period, which would mean it is also an end date
                 var dayAfter = moment(periods[0]).add(1, 'day').format("YYYY-MM-DD");
                 if (periods.length == 1 || periods[1] != dayAfter) {
                     // periods i is an end date
                     if (!endDates.includes(periods[0])) {
                         endDates.push(periods[0]);
-                        console.log(periods[0] + " is an end date");
                     }
                 }
             }
@@ -134,7 +131,6 @@ const Analysis: React.FC = () => {
                 // periods i is a start date
                 if (!startDates.includes(periods[i])) {
                     startDates.push(periods[i]);
-                    console.log(periods[i] + " is a start date")
                 }
             }
 
@@ -144,7 +140,6 @@ const Analysis: React.FC = () => {
                 // periods i is an end date
                 if (!endDates.includes(periods[i])) {
                     endDates.push(periods[i]);
-                    console.log(periods[i] + " is an end date");
                 }
             }
         }
@@ -242,7 +237,7 @@ return (
                     {/* Show a message if no cycle length data */}
                     {cycleLengths.length > 0 ? (<IonRow><BarChart
                         dataset={cycleLengths}
-                        xAxis={[{ scaleType: 'band', dataKey: 'startDate' }]}
+                        xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
                         series={[
                             { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
                         ]}
