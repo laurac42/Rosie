@@ -202,3 +202,8 @@ ion-button:hover {
 ion-item {
   color: var(--text);
 }
+
+.contrast .menuHover ion-label:hover {
+  color: black !important;
+  --ion-text-color: black;
+}

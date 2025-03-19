@@ -108,7 +108,7 @@ ion-radio.md {
   --color-checked: var(--darker-pink);
 }
 
-/* Ios needs extra styling for the buttons to show up outlined */
+/* Ios needs extra styling for the radio buttons to show up outlined */
 ion-radio.ios::part(container) {
   width: 20px;
   height: 20px;
@@ -234,6 +234,6 @@ ion-checkbox {
   color: var(--text);
 }
 
-.menuHover ion-item:hover{
-  color: rgb(255, 255, 255) !important;
+.light .menuHover ion-item:hover{
+  color: rgb(255, 0, 0) !important;
 }

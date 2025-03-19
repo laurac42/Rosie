@@ -68,7 +68,7 @@ ion-input {
 
 .dark ion-tab-button {
   --background: var(--darker-background);
-  --color: var(--text);
+  color: var(--text);
 }
 
 
@@ -78,6 +78,18 @@ ion-input {
   color: var(--background-color);
 }
 
+
+.dark ion-tab-button:hover::part(native) {
+  background: var(--lighter-pink);
+  color: var(--text) !important;
+}
+
+
+/* change the background colour of the selected tab on hover */
+.dark ion-tab-button.tab-selected:hover::part(native) {
+  background: var(--darker-pink);
+  color: var(--background-color) !important;
+}
 
 /* Center the title */
 ion-title {
@@ -160,8 +172,8 @@ ion-item {
 
 
 /* make menu items white on hover */
-.menuHover ion-label:hover {
-  color: rgb(255, 255, 255) !important;
+.dark .menuHover ion-label:hover {
+  color: white !important;
   --ion-text-color: white;
 }
 
