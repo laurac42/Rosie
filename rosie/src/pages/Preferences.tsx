@@ -19,7 +19,9 @@ const Preferences: React.FC = () => {
     // modified from - https://github.com/mdn/serviceworker-cookbook/blob/master/push-payload/index.js
     function setUpNotifications() {
         // request permission if it isnt already given
+        console.log("set up notifications");
         Notification.requestPermission().then((result) => {
+            console.log("permission request")
             if (result === "granted") {
                 console.log("saving to local storage");
                 //randomNotification();
@@ -51,9 +53,14 @@ const Preferences: React.FC = () => {
                     });
             }).then(function (subscription) {
                 var daily = "false"; 
+                var upcoming = "false"; 
                 if (notifications.includes("daily"))
                 {
                     daily = "true";
+                }
+                if (notifications.includes("upcoming"))
+                {
+                    upcoming = "true";
                 }
 
                 // Send the subscription details to the server using the Fetch API.
@@ -64,7 +71,8 @@ const Preferences: React.FC = () => {
                     },
                     body: JSON.stringify({
                         subscription: subscription,
-                        dailyNotifications: daily // send whether daily notifications have been set to the server
+                        dailyNotifications: daily, // send whether daily notifications have been set to the server
+                        upcomingNotifications: upcoming // tell the server whether it needs to send upcoming period notifications
                     }),
                 });
 

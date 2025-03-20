@@ -9,8 +9,8 @@ require("dotenv").config();
 const app = express();
 app.use(bodyParser.json()); // Middleware to parse JSON body requests
 app.use(cors({
-  origin: '*', // to allow cors - this allows it everywhere
-  credentials: true // If sending cookies/auth headers
+  origin: '*', // to allow cors - this allows it everywhere which is less secure but it means it works on localhost and also the actual deployment
+  credentials: true 
 }));
 
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
@@ -35,19 +35,22 @@ app.get("/vapidPublicKey", (req, res) => {
 
 
 // ideally stored in a database but this does the job for now
+// because they are stored this way it means that if the server is restarted, anyone who signed up for notifications before no longer gets them
 const subscriptions = [];
+const periodPredictions = [];
 
 app.post("/register", function (req, res) {
   // store the subscription when the user registers so it can be used to send to again
   const subscription = req.body.subscription;
   const daily = req.body.dailyNotifications;
-  console.log("daily", daily);
-  // find out whether they registered for daily notifications or not
-  subscriptions.push([subscription, daily]);
+  const upcoming = req.body.upcomingNotifications;
+
+  // store whether they registered for daily and upcoming notifications or not
+  subscriptions.push([subscription, daily, upcoming]);
   res.sendStatus(201);
 });
 
-
+// this isnt really needed because i dont think i ever call it? i used it when the user clicked a button to send a notification
 app.post("/sendNotification", (req, res) => {
 
   const payload = req.body.payload;
@@ -66,16 +69,19 @@ app.post("/sendNotification", (req, res) => {
   }, req.body.delay * 1000);
 });
 
+// handle the user sending an upcoming period notification
+app.post("/updatePrediction", (req, res) => {
+  subscriptions.forEach((subscription) => {
+    
+  })
+});
+
 // Function to send notifications to all registered subscriptions
 function sendDailyNotifications() {
   const payload = "Track your period to help understand your symptoms!"
 
   // find out if there are any subscriptions
-  console.log(subscriptions);
   subscriptions.forEach((subscription) => {
-    // check if the second part of the subscription is set to true
-    console.log("subscription0", subscription[0]);
-    console.log("subscription1", subscription[1]);
     if (subscription[1] == "true" || subscription[1] == true) {
       webPush
         .sendNotification(subscription[0], payload)
@@ -90,8 +96,14 @@ function sendDailyNotifications() {
   })
 }
 
+// send a reminder to track notification at 2 every day
+cron.schedule("* 14 * * *", () => {
+  console.log("Sending daily notifications...");
+  sendDailyNotifications();
+});
 
-cron.schedule("51 13 * * *", () => {
+// send an upcoming period notification at 9 if the user's period is upcoming
+cron.schedule("* 9 * * *", () => {
   console.log("Sending daily notifications...");
   sendDailyNotifications();
 });
@@ -109,7 +121,3 @@ app.get("/", (req, res) => {
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
-// to stop CORS error
-app.use(cors({
-  origin: 'http://localhost:5173', // You can also use '*' to allow all origins (not recommended in production)
-}));
