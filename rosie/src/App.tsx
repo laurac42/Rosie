@@ -54,32 +54,13 @@ setupIonicReact();
 
 // load the theme colour on page load
 const App: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState<string>();
+  const [loggedIn, setLoggedIn] = useState<string>(localStorage.getItem("LoggedIn") || "false"); // make false the default
 
   useEffect(() => {
     loadTheme();
     // check if the user is logged in or not
-    if (localStorage.LoggedIn)
-    {
-      setLoggedIn(localStorage.LoggedIn)
-    }
-    else
-    {
-      setLoggedIn("false");
-    }
+    console.log(loggedIn);
   }, []);
-
-  useEffect(() => {
-    // check if the user is logged in or not
-    if (localStorage.LoggedIn)
-    {
-      setLoggedIn(localStorage.LoggedIn)
-    }
-    else
-    {
-      setLoggedIn("false");
-    }
-  }, [loggedIn]);
 
   return (
     <IonApp>
