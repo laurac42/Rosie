@@ -15,7 +15,6 @@ const Cycle: React.FC = () => {
   const [endDates, setEndDates] = useState<string[]>([]);
   const [cycleLengths, setCycleLengths] = useState<{ length: number, startDate: string }[]>([]);
   const [periodPrediction, setPeriodPrediction] = useState<any>();
-  const [predictionNumber, setPredictionNumber] = useState<number>();
 
   // calculate the average cycle length only on first render
   useEffect(() => {
@@ -29,44 +28,6 @@ const Cycle: React.FC = () => {
     calculatePeriodPrediction();
   }, [averageCycleLength, day]);
 
-  // send a period prediction update to the server if it updates
-  useEffect(() => {
-    navigator.serviceWorker.ready
-      .then(function (registration) {
-        // Use the PushManager to get the user's subscription to the push service.
-        return registration.pushManager.getSubscription()
-          .then(async function (subscription) {
-            // If a subscription was found, return it.
-            if (subscription) {
-              return subscription;
-            }
-            const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
-            const vapidPublicKey = await response.text();
-
-            const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
-
-            return registration.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: convertedVapidKey
-            });
-          });
-      }).then(function (subscription) {
-        var notifications = localStorage.chosenNotifications;
-        if (notifications.includes("upcoming")) {
-          // Send the updates period prediction to the server every time it updates
-          fetch('https://rosie-production.up.railway.app/upcomingNotifications', {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              subscription: subscription,
-              periodPrediction: predictionNumber
-            }),
-          });
-        }
-      })
-  }, [predictionNumber]);
 
   // This function is needed because Chrome doesn't accept a base64 encoded string
   // as value for applicationServerKey in pushManager.subscribe yet
@@ -169,13 +130,48 @@ const Cycle: React.FC = () => {
       setPeriodPrediction(averageCycleLength - day + 1);
     }
     else if (averageCycleLength - day == 0) {
-      console.log(averageCycleLength - day + 1)
       setPeriodPrediction("Today")
     }
     else {
       setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
     }
-    setPredictionNumber(averageCycleLength - day);
+    var predictionNumber = averageCycleLength - day;
+    navigator.serviceWorker.ready
+      .then(function (registration) {
+        // Use the PushManager to get the user's subscription to the push service.
+        return registration.pushManager.getSubscription()
+          .then(async function (subscription) {
+            // If a subscription was found, return it.
+            if (subscription) {
+              return subscription;
+            }
+            const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
+            const vapidPublicKey = await response.text();
+
+            const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
+
+            return registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: convertedVapidKey
+            });
+          });
+      }).then(function (subscription) {
+        var notifications = localStorage.chosenNotifications;
+        if (notifications.includes("upcoming")) {
+          console.log("prediction update: ", predictionNumber);
+          // Send the updates period prediction to the server every time it updates
+          fetch('https://rosie-production.up.railway.app/updatePrediction', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              subscription: subscription,
+              periodPrediction: predictionNumber
+            }),
+          });
+        }
+      })
   }
 
   return (

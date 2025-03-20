@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json()); // Middleware to parse JSON body requests
 app.use(cors({
   origin: '*', // to allow cors - this allows it everywhere which is less secure but it means it works on localhost and also the actual deployment
-  credentials: true 
+  credentials: true
 }));
 
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
@@ -37,16 +37,18 @@ app.get("/vapidPublicKey", (req, res) => {
 // ideally stored in a database but this does the job for now
 // because they are stored this way it means that if the server is restarted, anyone who signed up for notifications before no longer gets them
 const subscriptions = [];
-const periodPredictions = [];
 
 app.post("/register", function (req, res) {
+  console.log("in register function")
   // store the subscription when the user registers so it can be used to send to again
   const subscription = req.body.subscription;
   const daily = req.body.dailyNotifications;
   const upcoming = req.body.upcomingNotifications;
 
   // store whether they registered for daily and upcoming notifications or not
-  subscriptions.push([subscription, daily, upcoming]);
+  subscriptions.push({ subscription: subscription, dailyNotifications: daily, upcomingNotifications: upcoming, periodPrediction: "none" });
+  console.log("registering subscription: ", subscription)
+  console.log(subscriptions)
   res.sendStatus(201);
 });
 
@@ -69,23 +71,31 @@ app.post("/sendNotification", (req, res) => {
   }, req.body.delay * 1000);
 });
 
-// handle the user sending an upcoming period notification
+// handle the user's period prediction updating
 app.post("/updatePrediction", (req, res) => {
-  subscriptions.forEach((subscription) => {
-    
+  console.log("updating prediction")
+  subscriptions.forEach((storedSubscription) => {
+    if (JSON.stringify(storedSubscription.subscription) == JSON.stringify(req.body.subscription)) {
+      storedSubscription.periodPrediction = req.body.periodPrediction;
+      console.log("updated preditcion: ",req.body.periodPrediction )
+      console.log("updated subscription prediction: ", storedSubscription.periodPrediction);
+    }
+    else {
+      console.log("subscription doesnt match: ", JSON.stringify(storedSubscription.subscription) + " " + JSON.stringify(req.body.subscription))
+    }
   })
 });
 
-// Function to send notifications to all registered subscriptions
+// Function to send daily notifications to all registered subscriptions
 function sendDailyNotifications() {
   const payload = "Track your period to help understand your symptoms!"
 
   // find out if there are any subscriptions
-  subscriptions.forEach((subscription) => {
-    if (subscription[1] == "true" || subscription[1] == true) {
+  subscriptions.forEach((storedSubscription) => {
+    if (storedSubscription.dailyNotifications == "true" || storedSubscription.dailyNotifications == true) {
       webPush
-        .sendNotification(subscription[0], payload)
-        .then(() => console.log("Notification sent to:", subscription[0].endpoint))
+        .sendNotification(storedSubscription.subscription, payload)
+        .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
         .catch((error) => {
           console.error("Error sending notification:", error);
         });
@@ -96,16 +106,54 @@ function sendDailyNotifications() {
   })
 }
 
+// Function to send upcoming notifications to all registered subscriptions that have upcoming periods
+function sendUpcomingNotifications() {
+  // find out if there are any subscriptions
+  console.log(subscriptions)
+  console.log("inside upcoming notifications function")
+  subscriptions.forEach((storedSubscription) => {
+    console.log("this is a sunscription")
+    // check they have subscribed to upcoming notifications and there has been a prediction set
+    if ((storedSubscription.upcomingNotifications == "true" || storedSubscription.upcomingNotifications == true) && storedSubscription.periodPrediction != "none") {
+      console.log("this is a sunscription that has a prediction")
+      if (Number(storedSubscription.periodPrediction) <=3)
+      {
+        console.log("prediction: ", storedSubscription.periodPrediction)
+        var payload = `Your period is due in ${storedSubscription.periodPrediction} days`
+        if (parseInt(storedSubscription.periodPrediction) <=0)
+        {
+          payload = `Your period is due today`
+        }
+        webPush
+        .sendNotification(storedSubscription.subscription, payload)
+        .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
+        .catch((error) => {
+          console.error("Error sending notification:", error);
+        });
+      }
+      else {
+        console.log("period is not due yet");
+        console.log(storedSubscription.periodPrediction);
+      }
+    }
+    else {
+      console.log("upcoming notifications have not been set")
+      console.log(storedSubscription.upcomingNotifications);
+      console.log(storedSubscription.periodPrediction)
+    }
+  })
+}
+
 // send a reminder to track notification at 2 every day
-cron.schedule("* 14 * * *", () => {
+cron.schedule("21 14 * * *", () => {
   console.log("Sending daily notifications...");
   sendDailyNotifications();
 });
 
 // send an upcoming period notification at 9 if the user's period is upcoming
-cron.schedule("* 9 * * *", () => {
-  console.log("Sending daily notifications...");
-  sendDailyNotifications();
+cron.schedule("49 14 * * *", () => {
+  console.log("Sending upcoming notification...");
+  sendUpcomingNotifications();
 });
 
 // Set up the port correctly

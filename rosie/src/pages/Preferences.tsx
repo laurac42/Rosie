@@ -64,6 +64,7 @@ const Preferences: React.FC = () => {
                 }
 
                 // Send the subscription details to the server using the Fetch API.
+                console.log("fetch request");
                 fetch('https://rosie-production.up.railway.app/register', {
                     method: 'post',
                     headers: {
@@ -143,7 +144,7 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={setUpNotifications} href='/Rosie/SignUp/PrivacyPolicy' className="btn" size="large">Save Preferences</IonButton>
+                        <IonButton onClick={setUpNotifications}  className="btn" size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>
