@@ -240,7 +240,7 @@ const Analysis: React.FC = () => {
                         /></IonRow>) : (
                             <IonRow><p>No period data available. Head to the track page to start tracking!</p></IonRow>
                         )}
-                        <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+                        <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> </IonRow>
 
                         <IonRow><h2>Cycle Length</h2></IonRow>
                         <IonRow class="ion-justify-content-center"><p>(Last 5 cycles)</p></IonRow>
@@ -261,7 +261,7 @@ const Analysis: React.FC = () => {
                             {...chartSetting}
                         /></IonRow>) :
                             (<IonRow><p>No cycle data available. Two periods are required to calculate cycle length. Head to the track page to start tracking!</p></IonRow>)}
-                        <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> <IonButton>More Details</IonButton> </IonRow>
+                        <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> </IonRow>
 
                         <IonRow><h2>Pain</h2></IonRow>
                         <IonRow><p>This chart shows tracked pain data from the last 31 days:</p></IonRow>
