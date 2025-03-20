@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonRadioGroup, IonRadio, IonCheckbox, IonMenu, IonList, IonLabel } from '@ionic/react';
-import { checkmarkDoneOutline, flower, personCircle } from 'ionicons/icons';
+import { checkmarkDoneOutline, flower, personCircle, saveOutline } from 'ionicons/icons';
 import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
 import { useState } from 'react';
@@ -21,6 +21,43 @@ const Notifications: React.FC = () => {
             notifications.push(e.detail.value);
         }
         localStorage.chosenNotifications = JSON.stringify(notifications);
+    }
+
+
+    // save the notifications the user has chosen and send it to the server
+    function saveNotifications() {
+        // unsubscribe them if there is nothing stored
+        var notifications = JSON.parse(localStorage.getItem("chosenNotifications") ||"[]")
+        if (notifications == 0)
+        {
+            console.log("unsibscribing")
+            navigator.serviceWorker.ready.then((reg) => {
+                // https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/unsubscribe
+                reg.pushManager.getSubscription().then((subscription) => {
+                  if (subscription) {
+                    subscription
+                      .unsubscribe()
+                      .then(function (subscription) {
+                        // tell the server to unsubscribe the user
+                        console.log("unsibscrigibing")
+                        fetch('https://rosie-production.up.railway.app/unsubscribe', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                subscription: subscription
+                            }),
+                        });
+                      })
+                      .catch((e) => {
+                        console.log(e);
+                      });
+                  }
+                });
+              });
+        }
+        
     }
 
     return (
@@ -48,7 +85,7 @@ const Notifications: React.FC = () => {
                         <IonRow class="checkbox"><IonCheckbox id="upcoming" onIonChange={clickedNotification} checked={notifications.includes("upcoming")} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                         <IonRow><IonCheckbox id="daily" onIonChange={clickedNotification} checked={notifications.includes("daily")} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                         <IonRow class="ion-justify-content-center">
-                            <IonButton className="btn" href="/Rosie/Cycle" size="large">Save Notifications</IonButton>
+                            <IonButton onClick={saveNotifications} className="btn" href="/Rosie/Cycle" size="large">Save Notifications</IonButton>
                         </IonRow>
                     </IonGrid>
                 </IonContent>

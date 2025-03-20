@@ -158,7 +158,6 @@ const Cycle: React.FC = () => {
       }).then(function (subscription) {
         var notifications = localStorage.chosenNotifications;
         if (notifications.includes("upcoming")) {
-          console.log("prediction update: ", predictionNumber);
           // Send the updates period prediction to the server every time it updates
           fetch('https://rosie-production.up.railway.app/updatePrediction', {
             method: 'post',

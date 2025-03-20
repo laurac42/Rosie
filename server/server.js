@@ -82,6 +82,18 @@ app.post("/updatePrediction", (req, res) => {
   })
 });
 
+
+// handle a user unsubscribing
+app.post("/unsubscribe", (req, res) => {
+  console.log("unsubscribing");
+  // remove their subscription from the stored subscription
+  subscriptions = subscriptions.filter(
+    (storedSubscription) =>
+      JSON.stringify(storedSubscription.subscription) !== JSON.stringify(req.body.subscription)
+  );
+  console.log(subscriptions);
+});
+
 // Function to send daily notifications to all registered subscriptions
 function sendDailyNotifications() {
   const payload = "Track your period to help understand your symptoms!"
@@ -105,16 +117,11 @@ function sendDailyNotifications() {
 // Function to send upcoming notifications to all registered subscriptions that have upcoming periods
 function sendUpcomingNotifications() {
   // find out if there are any subscriptions
-  console.log(subscriptions)
-  console.log("inside upcoming notifications function")
   subscriptions.forEach((storedSubscription) => {
-    console.log("this is a sunscription")
     // check they have subscribed to upcoming notifications and there has been a prediction set
     if ((storedSubscription.upcomingNotifications == "true" || storedSubscription.upcomingNotifications == true) && storedSubscription.periodPrediction != "none") {
-      console.log("this is a sunscription that has a prediction")
       if (Number(storedSubscription.periodPrediction) <=3)
       {
-        console.log("prediction: ", storedSubscription.periodPrediction)
         var payload = `Your period is due in ${storedSubscription.periodPrediction} days`
         if (parseInt(storedSubscription.periodPrediction) <=0)
         {
@@ -129,7 +136,6 @@ function sendUpcomingNotifications() {
       }
       else {
         console.log("period is not due yet");
-        console.log(storedSubscription.periodPrediction);
       }
     }
   })
@@ -137,6 +143,15 @@ function sendUpcomingNotifications() {
 
 // send a reminder to track notification at 2 every day
 cron.schedule("* 14 * * *", () => {
+  sendDailyNotifications();
+});
+
+// send a reminder to track notification at 2 every day
+cron.schedule("* 17 * * *", () => {
+  sendDailyNotifications();
+});
+
+cron.schedule("1 17 * * *", () => {
   sendDailyNotifications();
 });
 
