@@ -22,7 +22,9 @@ const Preferences: React.FC = () => {
         console.log("set up notifications");
         Notification.requestPermission().then((result) => {
             console.log("permission request")
+            console.log("result")
             if (result === "granted") {
+                
                 navigator.serviceWorker.ready
                     .then(function (registration) {
                         // Use the PushManager to get the user's subscription to the push service.
@@ -54,7 +56,7 @@ const Preferences: React.FC = () => {
                         if (notifications.includes("upcoming")) {
                             upcoming = "true";
                         }
-
+                        console.log("registering")
                         // Send the subscription details to the server using the Fetch API.
                         fetch('https://rosie-production.up.railway.app/register', {
                             method: 'post',
@@ -139,7 +141,7 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Preferences</IonButton>
+                        <IonButton onClick={setUpNotifications}  className="btn" size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>

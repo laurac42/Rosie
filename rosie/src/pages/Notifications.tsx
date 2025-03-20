@@ -26,98 +26,137 @@ const Notifications: React.FC = () => {
 
     // save the notifications the user has chosen and send it to the server
     function saveNotifications() {
-        // unsubscribe them first to get rid of previous subscription
-        navigator.serviceWorker.ready.then((reg) => {
-            // https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/unsubscribe
-            reg.pushManager.getSubscription().then((subscription) => {
-                if (subscription) {
-                    subscription
-                        .unsubscribe()
-                        .then(function (subscription) {
-                            // tell the server to unsubscribe the user
-                            console.log("unsibscrigibing")
-                            fetch('https://rosie-production.up.railway.app/unsubscribe', {
-                                method: 'post',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    subscription: subscription
-                                }),
-                            });
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                }
-            });
-        });
-        // if the user has chosen any notifications, resubscribe them
-        if (notifications.length > 0) {
-            // subscribe the user to what they have chosen to subscribe to
+        var storedNotifications = JSON.parse(localStorage.getItem("chosenNotifications") || "[]");
+        // if they have selected no notifications, unsubscribe
+        if (storedNotifications.length == 0) {
             navigator.serviceWorker.ready.then((reg) => {
-                // https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/unsubscribe
                 reg.pushManager.getSubscription().then((subscription) => {
                     if (subscription) {
-                        subscription
-                            .unsubscribe()
-                            .then(function (subscription) {
-                                // tell the server to unsubscribe the user
-                                console.log("unsibscrigibing")
-                                fetch('https://rosie-production.up.railway.app/register', {
-                                    method: 'post',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        subscription: subscription
-                                    }),
-                                });
-                            })
-                            .catch((e) => {
-                                console.log(e);
-                            });
+
+                        console.log("Unsubscribing");
+                        fetch('https://rosie-production.up.railway.app/unsubscribe', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                subscription: subscription
+                            }),
+                        });
+                        subscription.unsubscribe()
                     }
+                }).catch((e) => {
+                    console.log(e);
                 });
-            });
+            })
         }
+    else {
+        console.log(storedNotifications);
+        console.log(storedNotifications.length);
+
+        navigator.serviceWorker.ready.then(async function (registration) {
+            const subscription = await registration.pushManager.getSubscription();
+            var daily = storedNotifications.includes("daily") ? "true" : "false";
+            var upcoming = storedNotifications.includes("upcoming") ? "true" : "false";
+
+            if (subscription) {
+                console.log("updating existing subscription")
+                // Update the server with the existing subscription
+                fetch('https://rosie-production.up.railway.app/updateSubscription', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        subscription: subscription,
+                        dailyNotifications: daily,
+                        upcomingNotifications: upcoming
+                    }),
+                });
+            } else {
+                /// create new subscription
+                console.log("creating new subscription")
+                const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
+                const vapidPublicKey = await response.text();
+                const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+
+                return registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: convertedVapidKey
+                }).then((newSubscription) => {
+                    // Send new subscription to the server
+                    fetch('https://rosie-production.up.railway.app/register', {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            subscription: newSubscription,
+                            dailyNotifications: daily,
+                            upcomingNotifications: upcoming
+                        }),
+                    });
+                });
+            }
+        });
     }
+}
+
+
+// This function is needed because Chrome doesn't accept a base64 encoded string
+// as value for applicationServerKey in pushManager.subscribe yet
+// taken from - https://github.com/mdn/serviceworker-cookbook/blob/master/tools.js
+function urlBase64ToUint8Array(base64String: string) {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
 
 
 
-    return (
-        <>
-            <Menu />
-            <IonPage id="main-content">
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                            <IonMenuButton></IonMenuButton>
-                        </IonButtons>
-                        <IonTitle>Notifications</IonTitle>
-                        <IonButtons slot="end">
-                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-                                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-                            </IonButton>
-                        </IonButtons>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent fullscreen>
-                    <IonGrid fixed={true}>
-                        <IonRow class="ion-justify-content-start">
-                            <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Choose Your Notifications <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
-                        </IonRow>
-                        <IonRow class="checkbox"><IonCheckbox id="upcoming" onIonChange={clickedNotification} checked={notifications.includes("upcoming")} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
-                        <IonRow><IonCheckbox id="daily" onIonChange={clickedNotification} checked={notifications.includes("daily")} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
-                        <IonRow class="ion-justify-content-center">
-                            <IonButton onClick={saveNotifications} className="btn" href="/Rosie/Cycle" size="large">Save Notifications</IonButton>
-                        </IonRow>
-                    </IonGrid>
-                </IonContent>
-                <Tabs />
-            </IonPage >
-        </>
-    );
+
+return (
+    <>
+        <Menu />
+        <IonPage id="main-content">
+            <IonHeader>
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonMenuButton></IonMenuButton>
+                    </IonButtons>
+                    <IonTitle>Notifications</IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                            <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent fullscreen>
+                <IonGrid fixed={true}>
+                    <IonRow class="ion-justify-content-start">
+                        <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Choose Your Notifications <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
+                    </IonRow>
+                    <IonRow class="checkbox"><IonCheckbox id="upcoming" onIonChange={clickedNotification} checked={notifications.includes("upcoming")} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
+                    <IonRow><IonCheckbox id="daily" onIonChange={clickedNotification} checked={notifications.includes("daily")} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
+                    <IonRow class="ion-justify-content-center">
+                        <IonButton onClick={saveNotifications} className="btn" size="large">Save Notifications</IonButton>
+                    </IonRow>
+                </IonGrid>
+            </IonContent>
+            <Tabs />
+        </IonPage >
+    </>
+);
 };
 
 export default Notifications;
