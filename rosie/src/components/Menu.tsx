@@ -45,7 +45,6 @@ const Menu: React.FC = () => {
               </div>
             </IonAccordion>
 
-
             <IonAccordion class="accordionIcon" value="second">
               <IonItem className="menuHover" slot="header">
                 <IonIcon className="menuIcon"  icon={settings} slot="start"></IonIcon>

@@ -54,3 +54,7 @@
     border-color: var(--mid-pink);
     --fc-event-text-color: var(--mid-pink);
 }
+
+.h3-padding {
+    padding-top: 0px;
+}

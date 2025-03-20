@@ -215,6 +215,7 @@ const Track: React.FC = () => {
             />
           </IonGrid>
           <IonGrid fixed={true}>
+            <IonRow><h3 className="h3-padding">Select a date and track your symptoms (you don't need to track them all)</h3></IonRow>
             <IonRow class="ion-justify-content-start">
               <h2>Period Flow</h2>
             </IonRow>
@@ -262,8 +263,7 @@ const Track: React.FC = () => {
                 <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Headache<IonRippleEffect className="custom-ripple" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-between">
-              <IonCol size="3"><h2>Skin</h2></IonCol>
-              <IonCol size="3"><IonButton onClick={() => takePhoto(selectedDate)} size='small'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton></IonCol>
+              <IonCol><h2>Skin</h2></IonCol>
             </IonRow>
             <IonRow className="track-page trackRows">
               <IonCol
@@ -286,6 +286,11 @@ const Track: React.FC = () => {
                 className={`ion-activatable ripple-parent ${clickedSkin.includes('Dry') ? 'clicked clickedIcon' : ''}`}
                 onClick={handleSkinClick}>
                 <IonIcon icon={bandage} className='colourIcon'></IonIcon><br></br>Dry<IonRippleEffect className="custom-ripple" /></IonCol>
+            </IonRow>
+            <IonRow><h1>Add Skin Photo</h1></IonRow>
+            <IonRow><p>Add a skin photo to help you understand how your skin changes throughout the month</p></IonRow>
+            <IonRow class='ion-justify-content-center'>
+              <IonButton onClick={() => takePhoto(selectedDate)} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>
             <IonRow class="ion-justify-content-start">
               <h2>Emotions</h2>
@@ -313,7 +318,7 @@ const Track: React.FC = () => {
                 <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-center">
-              <IonButton className="btn" href="/Rosie/Cycle" onClick={saveTracking} size="large">Save</IonButton>
+              <IonButton className="btn" href="/Rosie/Cycle" onClick={saveTracking} size="large">Save All</IonButton>
             </IonRow>
           </IonGrid>
         </IonContent>
