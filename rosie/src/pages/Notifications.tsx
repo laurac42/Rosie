@@ -26,39 +26,64 @@ const Notifications: React.FC = () => {
 
     // save the notifications the user has chosen and send it to the server
     function saveNotifications() {
-        // unsubscribe them if there is nothing stored
-        var notifications = JSON.parse(localStorage.getItem("chosenNotifications") ||"[]")
-        if (notifications == 0)
-        {
-            console.log("unsibscribing")
+        // unsubscribe them first to get rid of previous subscription
+        navigator.serviceWorker.ready.then((reg) => {
+            // https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/unsubscribe
+            reg.pushManager.getSubscription().then((subscription) => {
+                if (subscription) {
+                    subscription
+                        .unsubscribe()
+                        .then(function (subscription) {
+                            // tell the server to unsubscribe the user
+                            console.log("unsibscrigibing")
+                            fetch('https://rosie-production.up.railway.app/unsubscribe', {
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    subscription: subscription
+                                }),
+                            });
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                }
+            });
+        });
+        // if the user has chosen any notifications, resubscribe them
+        if (notifications.length > 0) {
+            // subscribe the user to what they have chosen to subscribe to
             navigator.serviceWorker.ready.then((reg) => {
                 // https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/unsubscribe
                 reg.pushManager.getSubscription().then((subscription) => {
-                  if (subscription) {
-                    subscription
-                      .unsubscribe()
-                      .then(function (subscription) {
-                        // tell the server to unsubscribe the user
-                        console.log("unsibscrigibing")
-                        fetch('https://rosie-production.up.railway.app/unsubscribe', {
-                            method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                subscription: subscription
-                            }),
-                        });
-                      })
-                      .catch((e) => {
-                        console.log(e);
-                      });
-                  }
+                    if (subscription) {
+                        subscription
+                            .unsubscribe()
+                            .then(function (subscription) {
+                                // tell the server to unsubscribe the user
+                                console.log("unsibscrigibing")
+                                fetch('https://rosie-production.up.railway.app/register', {
+                                    method: 'post',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        subscription: subscription
+                                    }),
+                                });
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                            });
+                    }
                 });
-              });
+            });
         }
-        
     }
+
+
 
     return (
         <>
