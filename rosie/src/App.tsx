@@ -2,16 +2,11 @@ import { Redirect, Route } from 'react-router-dom';
 import React, {useEffect, useState } from 'react';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
   IonTabs,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, radioButtonOff, square, triangle, calendar, clipboard, trendingUp } from 'ionicons/icons';
 import Cycle from './pages/Cycle';
 import Calendar from './pages/Calendar';
 import Track from './pages/Track';
