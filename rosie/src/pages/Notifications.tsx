@@ -23,28 +23,6 @@ const Notifications: React.FC = () => {
         localStorage.chosenNotifications = JSON.stringify(notifications);
     }
 
-    // the outcome of this function determines whether or not the daily checkmark is automatically checked or not
-    function checkDailyNotifications() {
-        const dailyElement = document.getElementById("daily");
-        if (dailyElement && notifications.includes(dailyElement.id)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    // the outcome of this function determines whether or not the upcoming checkmark is automatically checked or not
-    function checkUpcomingNotifications() {
-        const upcomingElement = document.getElementById("upcoming");
-        if (upcomingElement && notifications.includes(upcomingElement.id)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
     return (
         <>
             <Menu />
@@ -67,8 +45,8 @@ const Notifications: React.FC = () => {
                         <IonRow class="ion-justify-content-start">
                             <IonRow class="ion-justify-content-center"><h1 className="heading"><IonIcon icon={flower} className='colourIcon'></IonIcon> Choose Your Notifications <IonIcon icon={flower} className='colourIcon'></IonIcon></h1></IonRow>
                         </IonRow>
-                        <IonRow class="checkbox"><IonCheckbox id="upcoming" onIonChange={clickedNotification} checked={checkUpcomingNotifications()} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
-                        <IonRow><IonCheckbox id="daily" onIonChange={clickedNotification} checked={checkDailyNotifications()} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
+                        <IonRow class="checkbox"><IonCheckbox id="upcoming" onIonChange={clickedNotification} checked={notifications.includes("upcoming")} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
+                        <IonRow><IonCheckbox id="daily" onIonChange={clickedNotification} checked={notifications.includes("daily")} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                         <IonRow class="ion-justify-content-center">
                             <IonButton className="btn" href="/Rosie/Cycle" size="large">Save Notifications</IonButton>
                         </IonRow>
