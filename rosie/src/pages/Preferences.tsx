@@ -22,62 +22,59 @@ const Preferences: React.FC = () => {
         console.log("set up notifications");
         Notification.requestPermission().then((result) => {
             console.log("permission request")
+            console.log("result")
             if (result === "granted") {
-                console.log("saving to local storage");
-                //randomNotification();
+                
+                navigator.serviceWorker.ready
+                    .then(function (registration) {
+                        // Use the PushManager to get the user's subscription to the push service.
+                        return registration.pushManager.getSubscription()
+                            .then(async function (subscription) {
+                                // If a subscription was found, return it.
+                                if (subscription) {
+                                    return subscription;
+                                }
+
+                                // this link is a page that has the public key
+                                const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
+                                //console.log(response.text())
+                                const vapidPublicKey = await response.text();
+
+                                const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
+
+                                return registration.pushManager.subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: convertedVapidKey
+                                });
+                            });
+                    }).then(function (subscription) {
+                        var daily = "false";
+                        var upcoming = "false";
+                        if (notifications.includes("daily")) {
+                            daily = "true";
+                        }
+                        if (notifications.includes("upcoming")) {
+                            upcoming = "true";
+                        }
+                        console.log("registering")
+                        // Send the subscription details to the server using the Fetch API.
+                        fetch('https://rosie-production.up.railway.app/register', {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                subscription: subscription,
+                                dailyNotifications: daily, // send whether daily notifications have been set to the server
+                                upcomingNotifications: upcoming // tell the server whether it needs to send upcoming period notifications
+                            }),
+                        });
+
+                    })
             }
-            localStorage.setItem('Notifications', result); // set the local storage to granted so it can be accessed everywhere
         })
 
-        navigator.serviceWorker.ready
-            .then(function (registration) {
-                // Use the PushManager to get the user's subscription to the push service.
-                return registration.pushManager.getSubscription()
-                    .then(async function (subscription) {
-                        // If a subscription was found, return it.
-                        if (subscription) {
-                            return subscription;
-                        }
 
-                        // this link is a page that has the public key
-                        const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
-                        //console.log(response.text())
-                        const vapidPublicKey = await response.text();
-
-                        const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
-
-                        return registration.pushManager.subscribe({
-                            userVisibleOnly: true,
-                            applicationServerKey: convertedVapidKey
-                        });
-                    });
-            }).then(function (subscription) {
-                var daily = "false"; 
-                var upcoming = "false"; 
-                if (notifications.includes("daily"))
-                {
-                    daily = "true";
-                }
-                if (notifications.includes("upcoming"))
-                {
-                    upcoming = "true";
-                }
-
-                // Send the subscription details to the server using the Fetch API.
-                console.log("fetch request");
-                fetch('https://rosie-production.up.railway.app/register', {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        subscription: subscription,
-                        dailyNotifications: daily, // send whether daily notifications have been set to the server
-                        upcomingNotifications: upcoming // tell the server whether it needs to send upcoming period notifications
-                    }),
-                });
-
-            })
 
     }
 

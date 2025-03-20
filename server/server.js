@@ -36,7 +36,7 @@ app.get("/vapidPublicKey", (req, res) => {
 
 // ideally stored in a database but this does the job for now
 // because they are stored this way it means that if the server is restarted, anyone who signed up for notifications before no longer gets them
-const subscriptions = [];
+var subscriptions = [];
 
 app.post("/register", function (req, res) {
   console.log("in register function")
@@ -47,38 +47,15 @@ app.post("/register", function (req, res) {
 
   // store whether they registered for daily and upcoming notifications or not
   subscriptions.push({ subscription: subscription, dailyNotifications: daily, upcomingNotifications: upcoming, periodPrediction: "none" });
-  console.log("registering subscription: ", subscription)
-  console.log(subscriptions)
+  console.log("subscriptions", subscriptions)
   res.sendStatus(201);
-});
-
-// this isnt really needed because i dont think i ever call it? i used it when the user clicked a button to send a notification
-app.post("/sendNotification", (req, res) => {
-
-  const payload = req.body.payload;
-  const options = {
-    TTL: req.body.ttl,
-  };
-
-  setTimeout(() => {
-    webPush
-      .sendNotification(subscription, payload, options)
-      .then(() => res.sendStatus(201))
-      .catch((error) => {
-        console.error("Error sending notification:", error);
-        res.sendStatus(500);
-      });
-  }, req.body.delay * 1000);
 });
 
 // handle the user's period prediction updating
 app.post("/updatePrediction", (req, res) => {
-  console.log("updating prediction")
   subscriptions.forEach((storedSubscription) => {
     if (JSON.stringify(storedSubscription.subscription) == JSON.stringify(req.body.subscription)) {
       storedSubscription.periodPrediction = req.body.periodPrediction;
-      console.log("updated preditcion: ",req.body.periodPrediction )
-      console.log("updated subscription prediction: ", storedSubscription.periodPrediction);
     }
     else {
       console.log("subscription doesnt match: ", JSON.stringify(storedSubscription.subscription) + " " + JSON.stringify(req.body.subscription))
@@ -86,13 +63,45 @@ app.post("/updatePrediction", (req, res) => {
   })
 });
 
+
+// handle a user unsubscribing
+app.post("/unsubscribe", (req, res) => {
+  console.log("unsubscribing");
+  // remove their subscription from the stored subscription
+  subscriptions = subscriptions.filter(
+    (storedSubscription) =>
+      storedSubscription.subscription.endpoint !== storedSubscription.subscription.endpoint
+  );
+  console.log(subscriptions);
+});
+
+// update a users subscription
+app.post("/updateSubscription", (req, res) => {
+  console.log("updating subscription");
+  // remove their subscription from the stored subscription and re add
+  subscriptions = subscriptions.filter(
+    (storedSubscription) =>
+      storedSubscription.subscription.endpoint !== storedSubscription.subscription.endpoint
+  );
+  const subscription = req.body.subscription;
+  const daily = req.body.dailyNotifications;
+  const upcoming = req.body.upcomingNotifications;
+
+  // store whether they registered for daily and upcoming notifications or not
+  subscriptions.push({ subscription: subscription, dailyNotifications: daily, upcomingNotifications: upcoming, periodPrediction: "none" });
+  console.log("subscriptions", subscriptions)
+});
+
+
 // Function to send daily notifications to all registered subscriptions
 function sendDailyNotifications() {
   const payload = "Track your period to help understand your symptoms!"
-
+  console.log(subscriptions)
   // find out if there are any subscriptions
   subscriptions.forEach((storedSubscription) => {
+    console.log("subscription")
     if (storedSubscription.dailyNotifications == "true" || storedSubscription.dailyNotifications == true) {
+      console.log("sending notification")
       webPush
         .sendNotification(storedSubscription.subscription, payload)
         .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
@@ -109,31 +118,23 @@ function sendDailyNotifications() {
 // Function to send upcoming notifications to all registered subscriptions that have upcoming periods
 function sendUpcomingNotifications() {
   // find out if there are any subscriptions
-  console.log(subscriptions)
-  console.log("inside upcoming notifications function")
   subscriptions.forEach((storedSubscription) => {
-    console.log("this is a sunscription")
     // check they have subscribed to upcoming notifications and there has been a prediction set
     if ((storedSubscription.upcomingNotifications == "true" || storedSubscription.upcomingNotifications == true) && storedSubscription.periodPrediction != "none") {
-      console.log("this is a sunscription that has a prediction")
-      if (Number(storedSubscription.periodPrediction) <=3)
-      {
-        console.log("prediction: ", storedSubscription.periodPrediction)
+      if (Number(storedSubscription.periodPrediction) <= 3) {
         var payload = `Your period is due in ${storedSubscription.periodPrediction} days`
-        if (parseInt(storedSubscription.periodPrediction) <=0)
-        {
+        if (parseInt(storedSubscription.periodPrediction) <= 0) {
           payload = `Your period is due today`
         }
         webPush
-        .sendNotification(storedSubscription.subscription, payload)
-        .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
-        .catch((error) => {
-          console.error("Error sending notification:", error);
-        });
+          .sendNotification(storedSubscription.subscription, payload)
+          .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
+          .catch((error) => {
+            console.error("Error sending notification:", error);
+          });
       }
       else {
         console.log("period is not due yet");
-        console.log(storedSubscription.periodPrediction);
       }
     }
   })
@@ -144,6 +145,7 @@ cron.schedule("* 14 * * *", () => {
   sendDailyNotifications();
 });
 
+
 // send an upcoming period notification at 9 if the user's period is upcoming
 cron.schedule("* 9 * * *", () => {
   sendUpcomingNotifications();
@@ -152,8 +154,7 @@ cron.schedule("* 9 * * *", () => {
 // schedule all users upcoming period prediction to decrement every day at midnight as tis means they 
 cron.schedule("* 0 * * *", () => {
   subscriptions.forEach((storedSubscription) => {
-    if (storedSubscription.periodPrediction != "none")
-    {
+    if (storedSubscription.periodPrediction != "none") {
       var decrement = Number(storedSubscription.periodPrediction) - 1;
       storedSubscription.periodPrediction = decrement;
     }
