@@ -130,9 +130,9 @@ ion-checkbox {
 }
 
 ion-button {
-  --background: var(--mid-pink) !important;
+  --background: var(--darker-pink) !important;
  
-  --ion-color-base: var(--mid-pink);
+  --ion-color-base: var(--darker-pink);
   --color: var(--darker-text); /*for higher contrast*/
 
   --border-radius: 15px;

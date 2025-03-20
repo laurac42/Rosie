@@ -22,4 +22,3 @@ if ('serviceWorker' in navigator) {
       console.log('Service Worker registration failed:', error);
   });
 }
-
