@@ -136,24 +136,28 @@ function sendUpcomingNotifications() {
         console.log(storedSubscription.periodPrediction);
       }
     }
-    else {
-      console.log("upcoming notifications have not been set")
-      console.log(storedSubscription.upcomingNotifications);
-      console.log(storedSubscription.periodPrediction)
-    }
   })
 }
 
 // send a reminder to track notification at 2 every day
-cron.schedule("21 14 * * *", () => {
-  console.log("Sending daily notifications...");
+cron.schedule("* 14 * * *", () => {
   sendDailyNotifications();
 });
 
 // send an upcoming period notification at 9 if the user's period is upcoming
-cron.schedule("49 14 * * *", () => {
-  console.log("Sending upcoming notification...");
+cron.schedule("* 9 * * *", () => {
   sendUpcomingNotifications();
+});
+
+// schedule all users upcoming period prediction to decrement every day at midnight as tis means they 
+cron.schedule("* 0 * * *", () => {
+  subscriptions.forEach((storedSubscription) => {
+    if (storedSubscription.periodPrediction != "none")
+    {
+      var decrement = Number(storedSubscription.periodPrediction) - 1;
+      storedSubscription.periodPrediction = decrement;
+    }
+  })
 });
 
 // Set up the port correctly
