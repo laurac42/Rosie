@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonMenu } from '@ionic/react';
-import {  personCircle } from 'ionicons/icons';
+import { notifications, personCircle } from 'ionicons/icons';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import React, { useState, useEffect } from 'react';
 import Menu from '../components/Menu'
@@ -28,6 +28,24 @@ const Cycle: React.FC = () => {
     calculatePeriodPrediction();
   }, [averageCycleLength, day]);
 
+
+  // This function is needed because Chrome doesn't accept a base64 encoded string
+  // as value for applicationServerKey in pushManager.subscribe yet
+  // taken from - https://github.com/mdn/serviceworker-cookbook/blob/master/tools.js
+  function urlBase64ToUint8Array(base64String: string) {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {
@@ -94,76 +112,110 @@ const Cycle: React.FC = () => {
 
   }
 
-/* Calculate what day of their cycle the user is currently on */
-function calculateDay() {
-  // if there are some periods stored,
-  if (startDates.length > 0) {
-    // calculate the number of days since start of last period and today
-    const lastPeriodStartDate = moment(startDates.findLast(() => true)); // theyre ordered in reverse so needs to be the last day
-    const today = moment();
-    const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
-    setDay(dayOfCycle);
+  /* Calculate what day of their cycle the user is currently on */
+  function calculateDay() {
+    // if there are some periods stored,
+    if (startDates.length > 0) {
+      // calculate the number of days since start of last period and today
+      const lastPeriodStartDate = moment(startDates.findLast(() => true)); // theyre ordered in reverse so needs to be the last day
+      const today = moment();
+      const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
+      setDay(dayOfCycle);
+    }
   }
-}
 
-function calculatePeriodPrediction() {
-  console.log("average cycle length", averageCycleLength);
-  console.log("day of cycle", day);
-  if (averageCycleLength - day > 0)
-  {
-    setPeriodPrediction(averageCycleLength - day+1);
-  }
-  else if (averageCycleLength - day == 0){
-    console.log(averageCycleLength - day+1)
-    setPeriodPrediction("Today")
-  }
-  else {
-    setPeriodPrediction(day-averageCycleLength-1+ " days ago")
-  }
-}
+  function calculatePeriodPrediction() {
 
-return (
-  <>
-    <Menu/>
-    <IonPage id="main-content">
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton></IonMenuButton>
-          </IonButtons>
-          <IonTitle>Cycle</IonTitle>
-          <IonButtons slot="end">
-            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
-              <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        
-        <IonGrid className="progress" class="ion-justify-content-center">
-          {startDates.length > 0 && (<IonRow class="cycleWidth">
-            <CircularProgressbar value={day} maxValue={averageCycleLength} text={`Day ${day}`} />
-          </IonRow>)}
-          {startDates.length <= 0 && (
-            <IonRow><h3>You haven't tracked any periods yet! Start tracking to start getting predictions</h3></IonRow>
-          )}
-        </IonGrid>
-        <IonGrid fixed={true}>
-        <IonRow><h3 >Day of Cycle: <b>{day}</b></h3></IonRow>
-        <IonRow><h3 className="cycleDetails">Average Cycle Length: <b>{averageCycleLength} days </b></h3></IonRow>
-        <IonRow><h3 className="cycleDetails">Predicted days until next period: <b>{periodPrediction}</b></h3></IonRow>
-        </IonGrid>
-        <IonGrid>
-          <IonRow class="ion-justify-content-center">
-            <IonButton className="btn" href="/Rosie/Track" size="large">Track</IonButton>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-      <Tabs/>
-    </IonPage>
-  </>
-);
+    if (averageCycleLength - day > 0) {
+      setPeriodPrediction(averageCycleLength - day + 1);
+    }
+    else if (averageCycleLength - day == 0) {
+      setPeriodPrediction("Today")
+    }
+    else {
+      setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
+    }
+    var predictionNumber = averageCycleLength - day;
+    navigator.serviceWorker.ready
+      .then(function (registration) {
+        // Use the PushManager to get the user's subscription to the push service.
+        return registration.pushManager.getSubscription()
+          .then(async function (subscription) {
+            // If a subscription was found, return it.
+            if (subscription) {
+              return subscription;
+            }
+            const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
+            const vapidPublicKey = await response.text();
+
+            const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
+
+            return registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: convertedVapidKey
+            });
+          });
+      }).then(function (subscription) {
+        var notifications = localStorage.chosenNotifications;
+        if (notifications.includes("upcoming")) {
+          console.log("prediction update: ", predictionNumber);
+          // Send the updates period prediction to the server every time it updates
+          fetch('https://rosie-production.up.railway.app/updatePrediction', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              subscription: subscription,
+              periodPrediction: predictionNumber
+            }),
+          });
+        }
+      })
+  }
+
+  return (
+    <>
+      <Menu />
+      <IonPage id="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
+            <IonTitle>Cycle</IonTitle>
+            <IonButtons slot="end">
+              <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent fullscreen>
+
+          <IonGrid className="progress" class="ion-justify-content-center">
+            {startDates.length > 0 && (<IonRow class="cycleWidth">
+              <CircularProgressbar value={day} maxValue={averageCycleLength} text={`Day ${day}`} />
+            </IonRow>)}
+            {startDates.length <= 0 && (
+              <IonRow><h3>You haven't tracked any periods yet! Start tracking to start getting predictions</h3></IonRow>
+            )}
+          </IonGrid>
+          <IonGrid fixed={true}>
+            <IonRow><h3 >Day of Cycle: <b>{day}</b></h3></IonRow>
+            <IonRow><h3 className="cycleDetails">Average Cycle Length: <b>{averageCycleLength} days </b></h3></IonRow>
+            <IonRow><h3 className="cycleDetails">Predicted days until next period: <b>{periodPrediction}</b></h3></IonRow>
+          </IonGrid>
+          <IonGrid>
+            <IonRow class="ion-justify-content-center">
+              <IonButton className="btn" href="/Rosie/Track" size="large">Track</IonButton>
+            </IonRow>
+          </IonGrid>
+        </IonContent>
+        <Tabs />
+      </IonPage>
+    </>
+  );
 };
 
 export default Cycle;

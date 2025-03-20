@@ -9,8 +9,8 @@ require("dotenv").config();
 const app = express();
 app.use(bodyParser.json()); // Middleware to parse JSON body requests
 app.use(cors({
-  origin: '*', // to allow cors - this allows it everywhere
-  credentials: true // If sending cookies/auth headers
+  origin: '*', // to allow cors - this allows it everywhere which is less secure but it means it works on localhost and also the actual deployment
+  credentials: true
 }));
 
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
@@ -35,19 +35,24 @@ app.get("/vapidPublicKey", (req, res) => {
 
 
 // ideally stored in a database but this does the job for now
+// because they are stored this way it means that if the server is restarted, anyone who signed up for notifications before no longer gets them
 const subscriptions = [];
 
 app.post("/register", function (req, res) {
+  console.log("in register function")
   // store the subscription when the user registers so it can be used to send to again
   const subscription = req.body.subscription;
   const daily = req.body.dailyNotifications;
-  console.log("daily", daily);
-  // find out whether they registered for daily notifications or not
-  subscriptions.push([subscription, daily]);
+  const upcoming = req.body.upcomingNotifications;
+
+  // store whether they registered for daily and upcoming notifications or not
+  subscriptions.push({ subscription: subscription, dailyNotifications: daily, upcomingNotifications: upcoming, periodPrediction: "none" });
+  console.log("registering subscription: ", subscription)
+  console.log(subscriptions)
   res.sendStatus(201);
 });
 
-
+// this isnt really needed because i dont think i ever call it? i used it when the user clicked a button to send a notification
 app.post("/sendNotification", (req, res) => {
 
   const payload = req.body.payload;
@@ -66,20 +71,31 @@ app.post("/sendNotification", (req, res) => {
   }, req.body.delay * 1000);
 });
 
-// Function to send notifications to all registered subscriptions
+// handle the user's period prediction updating
+app.post("/updatePrediction", (req, res) => {
+  console.log("updating prediction")
+  subscriptions.forEach((storedSubscription) => {
+    if (JSON.stringify(storedSubscription.subscription) == JSON.stringify(req.body.subscription)) {
+      storedSubscription.periodPrediction = req.body.periodPrediction;
+      console.log("updated preditcion: ",req.body.periodPrediction )
+      console.log("updated subscription prediction: ", storedSubscription.periodPrediction);
+    }
+    else {
+      console.log("subscription doesnt match: ", JSON.stringify(storedSubscription.subscription) + " " + JSON.stringify(req.body.subscription))
+    }
+  })
+});
+
+// Function to send daily notifications to all registered subscriptions
 function sendDailyNotifications() {
   const payload = "Track your period to help understand your symptoms!"
 
   // find out if there are any subscriptions
-  console.log(subscriptions);
-  subscriptions.forEach((subscription) => {
-    // check if the second part of the subscription is set to true
-    console.log("subscription0", subscription[0]);
-    console.log("subscription1", subscription[1]);
-    if (subscription[1] == "true" || subscription[1] == true) {
+  subscriptions.forEach((storedSubscription) => {
+    if (storedSubscription.dailyNotifications == "true" || storedSubscription.dailyNotifications == true) {
       webPush
-        .sendNotification(subscription[0], payload)
-        .then(() => console.log("Notification sent to:", subscription[0].endpoint))
+        .sendNotification(storedSubscription.subscription, payload)
+        .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
         .catch((error) => {
           console.error("Error sending notification:", error);
         });
@@ -90,10 +106,58 @@ function sendDailyNotifications() {
   })
 }
 
+// Function to send upcoming notifications to all registered subscriptions that have upcoming periods
+function sendUpcomingNotifications() {
+  // find out if there are any subscriptions
+  console.log(subscriptions)
+  console.log("inside upcoming notifications function")
+  subscriptions.forEach((storedSubscription) => {
+    console.log("this is a sunscription")
+    // check they have subscribed to upcoming notifications and there has been a prediction set
+    if ((storedSubscription.upcomingNotifications == "true" || storedSubscription.upcomingNotifications == true) && storedSubscription.periodPrediction != "none") {
+      console.log("this is a sunscription that has a prediction")
+      if (Number(storedSubscription.periodPrediction) <=3)
+      {
+        console.log("prediction: ", storedSubscription.periodPrediction)
+        var payload = `Your period is due in ${storedSubscription.periodPrediction} days`
+        if (parseInt(storedSubscription.periodPrediction) <=0)
+        {
+          payload = `Your period is due today`
+        }
+        webPush
+        .sendNotification(storedSubscription.subscription, payload)
+        .then(() => console.log("Notification sent to:", storedSubscription.subscription.endpoint))
+        .catch((error) => {
+          console.error("Error sending notification:", error);
+        });
+      }
+      else {
+        console.log("period is not due yet");
+        console.log(storedSubscription.periodPrediction);
+      }
+    }
+  })
+}
 
-cron.schedule("51 13 * * *", () => {
-  console.log("Sending daily notifications...");
+// send a reminder to track notification at 2 every day
+cron.schedule("* 14 * * *", () => {
   sendDailyNotifications();
+});
+
+// send an upcoming period notification at 9 if the user's period is upcoming
+cron.schedule("* 9 * * *", () => {
+  sendUpcomingNotifications();
+});
+
+// schedule all users upcoming period prediction to decrement every day at midnight as tis means they 
+cron.schedule("* 0 * * *", () => {
+  subscriptions.forEach((storedSubscription) => {
+    if (storedSubscription.periodPrediction != "none")
+    {
+      var decrement = Number(storedSubscription.periodPrediction) - 1;
+      storedSubscription.periodPrediction = decrement;
+    }
+  })
 });
 
 // Set up the port correctly
@@ -109,7 +173,3 @@ app.get("/", (req, res) => {
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
-// to stop CORS error
-app.use(cors({
-  origin: 'http://localhost:5173', // You can also use '*' to allow all origins (not recommended in production)
-}));

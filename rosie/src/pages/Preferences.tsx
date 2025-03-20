@@ -19,7 +19,9 @@ const Preferences: React.FC = () => {
     // modified from - https://github.com/mdn/serviceworker-cookbook/blob/master/push-payload/index.js
     function setUpNotifications() {
         // request permission if it isnt already given
+        console.log("set up notifications");
         Notification.requestPermission().then((result) => {
+            console.log("permission request")
             if (result === "granted") {
                 console.log("saving to local storage");
                 //randomNotification();
@@ -51,12 +53,18 @@ const Preferences: React.FC = () => {
                     });
             }).then(function (subscription) {
                 var daily = "false"; 
+                var upcoming = "false"; 
                 if (notifications.includes("daily"))
                 {
                     daily = "true";
                 }
+                if (notifications.includes("upcoming"))
+                {
+                    upcoming = "true";
+                }
 
                 // Send the subscription details to the server using the Fetch API.
+                console.log("fetch request");
                 fetch('https://rosie-production.up.railway.app/register', {
                     method: 'post',
                     headers: {
@@ -64,7 +72,8 @@ const Preferences: React.FC = () => {
                     },
                     body: JSON.stringify({
                         subscription: subscription,
-                        dailyNotifications: daily // send whether daily notifications have been set to the server
+                        dailyNotifications: daily, // send whether daily notifications have been set to the server
+                        upcomingNotifications: upcoming // tell the server whether it needs to send upcoming period notifications
                     }),
                 });
 
@@ -135,7 +144,7 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={setUpNotifications} href='/Rosie/SignUp/PrivacyPolicy' className="btn" size="large">Save Preferences</IonButton>
+                        <IonButton onClick={setUpNotifications}  className="btn" size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>
