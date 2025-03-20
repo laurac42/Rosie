@@ -145,6 +145,7 @@ cron.schedule("* 14 * * *", () => {
   sendDailyNotifications();
 });
 
+
 // send an upcoming period notification at 9 if the user's period is upcoming
 cron.schedule("* 9 * * *", () => {
   sendUpcomingNotifications();

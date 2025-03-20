@@ -136,41 +136,30 @@ const Cycle: React.FC = () => {
       setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
     }
     var predictionNumber = averageCycleLength - day;
-    navigator.serviceWorker.ready
-      .then(function (registration) {
-        // Use the PushManager to get the user's subscription to the push service.
-        return registration.pushManager.getSubscription()
-          .then(async function (subscription) {
-            // If a subscription was found, return it.
-            if (subscription) {
-              return subscription;
-            }
-            const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
-            const vapidPublicKey = await response.text();
 
-            const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
+    // should just update the existing notifications rather than trying to create a new one
+    navigator.serviceWorker.ready.then(async function (registration) {
+      const subscription = await registration.pushManager.getSubscription(); // get the user's subscription
+      var notifications = localStorage.chosenNotifications;
+      if (subscription && (notifications.includes("upcoming"))) {
+        console.log("updating prediction")
+        // Send the updates period prediction to the server every time it updates
+        fetch('https://rosie-production.up.railway.app/updatePrediction', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subscription: subscription,
+            periodPrediction: predictionNumber
+          }),
+        });
+      }
+      else {
+        console.log("not updating predicion")
+      }
 
-            return registration.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: convertedVapidKey
-            });
-          });
-      }).then(function (subscription) {
-        var notifications = localStorage.chosenNotifications;
-        if (notifications.includes("upcoming")) {
-          // Send the updates period prediction to the server every time it updates
-          fetch('https://rosie-production.up.railway.app/updatePrediction', {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              subscription: subscription,
-              periodPrediction: predictionNumber
-            }),
-          });
-        }
-      })
+    })
   }
 
   return (
