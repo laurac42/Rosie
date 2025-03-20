@@ -47,8 +47,6 @@ app.post("/register", function (req, res) {
 
   // store whether they registered for daily and upcoming notifications or not
   subscriptions.push({ subscription: subscription, dailyNotifications: daily, upcomingNotifications: upcoming, periodPrediction: "none" });
-  console.log("registering subscription: ", subscription)
-  console.log(subscriptions)
   res.sendStatus(201);
 });
 
@@ -77,8 +75,6 @@ app.post("/updatePrediction", (req, res) => {
   subscriptions.forEach((storedSubscription) => {
     if (JSON.stringify(storedSubscription.subscription) == JSON.stringify(req.body.subscription)) {
       storedSubscription.periodPrediction = req.body.periodPrediction;
-      console.log("updated preditcion: ",req.body.periodPrediction )
-      console.log("updated subscription prediction: ", storedSubscription.periodPrediction);
     }
     else {
       console.log("subscription doesnt match: ", JSON.stringify(storedSubscription.subscription) + " " + JSON.stringify(req.body.subscription))

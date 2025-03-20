@@ -149,8 +149,6 @@ const Details: React.FC = () => {
             else {
                 alert("Start date cannot be after end date!");
             }
-
-
         }
 
     }
