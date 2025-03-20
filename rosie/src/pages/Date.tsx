@@ -12,7 +12,6 @@ const Date: React.FC = () => {
     const { deletePhoto, photos, takePhoto } = usePhotoGallery();
     const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
 
-
     // get data for the clicked date from local storage
     const periodMap = new Map<string, string>(JSON.parse(localStorage.periodMap || '[]'));
     const painMap = new Map<string, string>(JSON.parse(localStorage.painMap || '[]'));
