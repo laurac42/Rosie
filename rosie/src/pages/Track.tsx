@@ -292,6 +292,7 @@ const Track: React.FC = () => {
             <IonRow class='ion-justify-content-center'>
               <IonButton onClick={() => takePhoto(selectedDate)} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>
+
             <IonRow class="ion-justify-content-start">
               <h2>Emotions</h2>
             </IonRow>
