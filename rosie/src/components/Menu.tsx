@@ -1,5 +1,5 @@
 import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonAccordionGroup, IonAccordion, IonItem, IonIcon, IonLabel } from "@ionic/react";
-import { folderOpen, radioButtonOff, calendar, clipboard, trendingUp, settings, colorPalette, notifications, people, lockClosed, informationCircle } from "ionicons/icons";
+import { folderOpen, radioButtonOff, calendar, clipboard, trendingUp, settings, colorPalette, notifications, people, lockClosed, informationCircle, personCircle } from "ionicons/icons";
 
 
 const Menu: React.FC = () => {
@@ -61,6 +61,12 @@ const Menu: React.FC = () => {
                 <IonItem className="menuHover" href='/Rosie/Menu/Notifications'>
                   <IonIcon className="menuIcon"  icon={notifications} slot="start"></IonIcon>
                   <IonLabel>Notifications</IonLabel>
+                </IonItem>
+              </div>
+              <div className="ion-padding" slot="content">
+                <IonItem className="menuHover" href='/Rosie/Profile'>
+                  <IonIcon className="menuIcon"  icon={personCircle} slot="start"></IonIcon>
+                  <IonLabel>Profile</IonLabel>
                 </IonItem>
               </div>
             </IonAccordion>
