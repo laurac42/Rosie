@@ -201,6 +201,7 @@ const Details: React.FC = () => {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']}>
                                     <MobileDatePicker
+                                        views={['year', 'month', 'day']}
                                         maxDate={today}
                                         label="Enter Birthday"
                                         value={Birthday ? dayjs(Birthday) : null} // Ensure value is a valid dayjs object
