@@ -28,16 +28,29 @@ ion-input {
 
 .dark {
   --text: #f2c0cb;
-  --background-color: #3f0d19;
+  --background-color: #2a0911;
   --mid-pink: #e58098;
   --lighter-pink: #d84164;
   --darker-pink: #e16b86;
   --darker-background: #7f1a32;
-  --complementary-colour: #D4582B;
-  --complementary-colour2: #D42BA7;
-  --complementary-colour3: #FFCC00; 
+
+  --complementary-colour: #be4f27;
+  --complementary-light: #eebcaa;
+  --complementary-text: black;
+
+  --complementary-colour2: #be2796;
+  --complementary2-light: #eeaadc;
+  --complementary2-text: black;
+
+  --complementary-colour3: #e6b800; 
+  --complementary3-text: black;
+  --complementary3-light: #ffeb99;
+
+  --contrast: black;
+  
   --lighter-background: black;
-  --complementary-colour4: #0066ff;
+  
+  --complementary-colour4: #4d94ff;
 
   --ion-background-color: var(--background-color);
 

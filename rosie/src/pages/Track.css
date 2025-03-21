@@ -38,8 +38,8 @@
 .ion-activatable.clickedPain {
     background-color: var(--complementary-colour2);
     /* Highlight color */
-    color: white;
-    --ion-icon-color: white;
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
 }
 
 /* Skin track page */
@@ -61,16 +61,16 @@
 .custom-ripple-skin {
     color: var(--complementary-text);
 }
-
 .ion-activatable.clickedSkin {
     background-color: var(--complementary-colour);
     /* Highlight color */
-    color: white;
-    --ion-icon-color: white;
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
 }
 
+
 /* period track page */
-.track-period {
+.light .track-period {
     background-color: var(--darker-background);
     border: var(--text);
     border-width: .1em;
@@ -80,20 +80,46 @@
     font-family: "Delius", serif;
 }
 
-.track-period ion-icon {
+.light .track-period ion-icon {
     color: var(--text)
 }
 
 
-.custom-ripple-period {
+.light .custom-ripple-period {
     color: var(--text);
 }
 
-.ion-activatable.clickedPeriod {
+.light .ion-activatable.clickedPeriod {
     background-color: var(--darker-pink);
     /* Highlight color */
-    color: white;
-    --ion-icon-color: white;
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
+}
+
+.dark .track-period {
+    background-color: var(--mid-pink);
+    border: black;
+    border-width: .1em;
+    border-style: solid;
+    color: black;
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.dark .track-period ion-icon {
+    color:black;
+}
+
+
+.dark .custom-ripple-period {
+    color: black;
+}
+
+.dark .ion-activatable.clickedPeriod {
+    background-color: var(--lighter-pink);
+    /* Highlight color */
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
 }
 
 /* emotions track page */
@@ -119,13 +145,13 @@
 .ion-activatable.clickedEmotion {
     background-color: var(--complementary-colour3);
     /* Highlight color */
-    color: white;
-    --ion-icon-color: white;
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
 }
 
 /* colour for clicked icon */
 .clickedIcon ion-icon {
-    color: white
+    color: var(--contrast);
 }
 
 
@@ -156,5 +182,5 @@
 
 .photo-button {
     --background: var(--complementary-colour4) !important;
-    --color: white !important;
+    --color: var(--contrast) !important;
 }
