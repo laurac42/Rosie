@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonMenu } from '@ionic/react';
-import { notifications, personCircle } from 'ionicons/icons';
+import { personCircle } from 'ionicons/icons';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import React, { useState, useEffect } from 'react';
 import Menu from '../components/Menu'
@@ -28,24 +28,6 @@ const Cycle: React.FC = () => {
     calculatePeriodPrediction();
   }, [averageCycleLength, day]);
 
-
-  // This function is needed because Chrome doesn't accept a base64 encoded string
-  // as value for applicationServerKey in pushManager.subscribe yet
-  // taken from - https://github.com/mdn/serviceworker-cookbook/blob/master/tools.js
-  function urlBase64ToUint8Array(base64String: string) {
-    var padding = '='.repeat((4 - base64String.length % 4) % 4);
-    var base64 = (base64String + padding)
-      .replace(/\-/g, '+')
-      .replace(/_/g, '/');
-
-    var rawData = window.atob(base64);
-    var outputArray = new Uint8Array(rawData.length);
-
-    for (var i = 0; i < rawData.length; ++i) {
-      outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
-  }
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
   function calculateAverageCycleLength() {

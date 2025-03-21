@@ -34,10 +34,22 @@ ion-input {
   --mid-pink: #d42b53;
   --darker-pink: #bb2649;
   --darker-background: #f2c0cb;
+
   --complementary-colour: #be4f27;
+  --complementary-text: #3f1a0d;
+  --complementary-light: #e9ac95;
+
   --complementary-colour2: #be2796;
+  --complementary2-text: #3f0d32;
+  --complementary2-light: #f2c0e5;
+
   --complementary-colour3: #802bd4; 
+  --complementary3-text: #260d3f;
+  --complementary3-light: #d9c0f2;
+
   --complementary-colour4: #0066ff;
+
+  --contrast: white;
 
   --ion-background-color: var(--background-color);
 
@@ -64,7 +76,7 @@ ion-input {
 
 /* change the background colour of the selected tab */
 .light ion-tab-button.tab-selected {
-  --background: var(--mid-pink);
+  --background: var(--darker-pink);
   color: var(--background-color);
 }
 

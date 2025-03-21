@@ -7,42 +7,175 @@
     --fc-today-bg-color: var(--background-color);
 }
 
-/* Style the grid the calendar is in for different screen sizes */
-    .calendarWidthTrack {
-        height: 200px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 20px;
-    }
+.calendarWidthTrack {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
 
-/* the ion column changes only apply to the track page */
-.track-page ion-col {
+/* pain track page */
+.track-pain {
+    background-color: var(--complementary2-light);
+    border: var(--complementary2-text) .1em solid;
+    color: var(--complementary2-text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.track-pain ion-icon {
+    color: var(--complementary2-text)
+}
+
+
+.custom-ripple-pain {
+    color: var(--complementary2-text);
+}
+
+.ion-activatable.clickedPain {
+    background-color: var(--complementary-colour2);
+    /* Highlight color */
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
+}
+
+
+/* Skin track page */
+.track-skin {
+    background-color: var(--complementary-light);
+    border: var(--complementary-text) solid 0.1em !important;
+    color: var(--complementary-text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.track-skin ion-icon {
+    color: var(--complementary-text)
+}
+
+
+.custom-ripple-skin {
+    color: var(--complementary-text);
+}
+
+.ion-activatable.clickedSkin {
+    background-color: var(--complementary-colour) !important;
+    /* Highlight color */
+    color: var(--contrast) !important;
+    --ion-icon-color: var(--contrast) !important;
+}
+
+
+/* period track page */
+.light .track-period {
     background-color: var(--darker-background);
-    border: var(--mid-pink);
-    border-width: .1em;
-    border-style: solid;
+    border: var(--text) .1em solid;
     color: var(--text);
     text-align: center;
     font-family: "Delius", serif;
 }
 
-/* colour for clicked icon */
-.clickedIcon ion-icon {
-    color: var(--background-color)
+
+.light .track-period ion-icon {
+    color: var(--text);
 }
 
 
-.custom-ripple {
+.light .custom-ripple-period {
+    color: var(--text);
+}
+
+.light .ion-activatable.clickedPeriod ion-icon {
+    color: var(--contrast);
+}
+
+.light .ion-activatable.clickedPeriod {
+    background-color: var(--darker-pink);
+    /* Highlight color */
+    color: white;
+}
+
+.dark .track-period {
+    background-color: var(--mid-pink);
+    border: black .1em solid;
+    color: black;
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.dark .track-period ion-icon {
+    color:black;
+}
+
+
+.dark .custom-ripple-period {
+    color: black;
+}
+
+.dark .ion-activatable.clickedPeriod {
+    background-color: var(--lighter-pink);
+    /* Highlight color */
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
+}
+
+.contrast .track-period {
+    background-color: white;
+    border: var(--mid-pink) .1em solid;
     color: var(--mid-pink);
+    text-align: center;
+    font-family: "Delius", serif;
 }
 
-.ion-activatable.clicked {
+.contrast .track-period ion-icon {
+    color:black;
+}
+
+
+.contrast .custom-ripple-period {
+    color: black;
+}
+
+.contrast .ion-activatable.clickedPeriod {
     background-color: var(--mid-pink);
     /* Highlight color */
-    color: var(--background-color);
-    --ion-icon-color: var(--background-color);
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
 }
+
+/* emotions track page */
+.track-emotion {
+    background-color: var(--complementary3-light);
+    border: var(--complementary3-text);
+    border-width: .1em;
+    border-style: solid;
+    color: var(--complementary3-text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.track-emotion ion-icon {
+    color: var(--complementary3-text)
+}
+
+
+.custom-ripple-emotion {
+    color: var(--complementary3-text);
+}
+
+.ion-activatable.clickedEmotion {
+    background-color: var(--complementary-colour3);
+    /* Highlight color */
+    color: var(--contrast);
+    --ion-icon-color: var(--contrast);
+}
+
+/* colour for clicked icon */
+.clickedIcon ion-icon {
+    color: var(--contrast);
+}
+
 
 .trackRows {
     padding-bottom: 20px;
@@ -57,4 +190,25 @@
 
 .h3-padding {
     padding-top: 0px;
+}
+
+/*Fix the save button to the bottom at all times */
+.save-btn {
+    position: fixed;
+    bottom: 10px;
+}
+
+.track-bottom {
+    padding-bottom: 120px;
+}
+
+.photo-button {
+    --background: var(--complementary-colour4) !important;
+    --color: var(--contrast) !important;
+}
+
+.back {
+    position: fixed;
+    top: 60px;
+    left:0;
 }
