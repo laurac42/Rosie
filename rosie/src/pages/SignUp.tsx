@@ -6,8 +6,9 @@ import './SignUp.css';
 import { useEffect } from 'react';
 
 const SignUp: React.FC = () => {
+    
     const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
-    console.log("sign up")
+    // came from:: https://github.com/zoltangy/react-pwa-install
     const handleClick = () => {
         pwaInstall({
             title: "Install Rosie",
