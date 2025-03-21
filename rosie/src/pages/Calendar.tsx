@@ -14,7 +14,11 @@ import Date from './Date';
 const Calendar: React.FC = () => {
   const [events, setEvents] = useState<{ title: string, date: string, className: string }[]>([]);
   const history = useHistory();
+  const [isMounted, setIsMounted] = useState(false);
 
+  useEffect(() => {
+      setIsMounted(true);
+  }, []);
 
 
   useEffect(() => {
@@ -103,6 +107,7 @@ const Calendar: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
+             {isMounted && (
             <FullCalendar
             key={events.length}
               plugins={[dayGridPlugin, interactionPlugin]}
@@ -117,7 +122,7 @@ const Calendar: React.FC = () => {
               eventContent={renderEventContent} // Custom function to render the event content
               dateClick={handleDateClick}
               eventClick={handleEventClick}
-            />
+            />)}
           </IonGrid>
         </IonContent>
         <Tabs/>

@@ -141,18 +141,18 @@ function sendUpcomingNotifications() {
 }
 
 // send a reminder to track notification at 2 every day
-cron.schedule("* 14 * * *", () => {
+cron.schedule("0 14 * * *", () => {
   sendDailyNotifications();
 });
 
 
 // send an upcoming period notification at 9 if the user's period is upcoming
-cron.schedule("* 9 * * *", () => {
+cron.schedule("0 9 * * *", () => {
   sendUpcomingNotifications();
 });
 
 // schedule all users upcoming period prediction to decrement every day at midnight as tis means they 
-cron.schedule("* 0 * * *", () => {
+cron.schedule("0 0 * * *", () => {
   subscriptions.forEach((storedSubscription) => {
     if (storedSubscription.periodPrediction != "none") {
       var decrement = Number(storedSubscription.periodPrediction) - 1;
