@@ -6,34 +6,37 @@ import Tabs from '../components/Tabs'
 import moment from 'moment';
 
 const Profile: React.FC = () => {
-    const [name, setName] = useState<string>('No name');
+    const [name, setName] = useState<string>(localStorage.Name || 'No name');
     const [age, setAge] = useState<any>("No Age Available");
-    const [birthday, setBirthday] = useState<string>('No Birthday');
+    const [birthday, setBirthday] = useState<string>(localStorage.Birthday || "No Birthday");
     const [editDetailsBool, setEditDetailsBool] = useState<boolean>(false);
     const [today, setToday] = useState<any>();
 
     useEffect(() => {
-        // get all profile data from local storage
-        if (localStorage.Name) { setName(localStorage.Name); }
-        if (localStorage.Birthday) { setBirthday(localStorage.Birthday); }
-        // use birthday to calculate age, checking it is a number first
-        if (isNaN(getAge(birthday))) {
-            setAge("No age availale")
+        if (birthday) {
+            // use birthday to calculate age, checking it is a number first
+            var age = getAge(birthday)
+            console.log(age)
+            if (isNaN(age)) {
+                setAge("No age availale")
+            }
+            else {
+                setAge(getAge(birthday))
+            }
         }
-        else {
-            setAge(getAge(birthday))
-        }
+
         // only allow the user to choose up to today
         const today = moment().format("YYYY-MM-DD")
         setToday(today);
 
-    }, [ editDetailsBool]); 
+    }, [editDetailsBool]);
 
     // function to get age from birthday - taken from: https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
     function getAge(dateString: string) {
         var today = new Date();
         var birthDate = new Date(dateString);
         var age = today.getFullYear() - birthDate.getFullYear();
+
         var m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
@@ -173,7 +176,7 @@ const Profile: React.FC = () => {
                     </IonGrid>
 
                 </IonContent>
-                <Tabs/>
+                <Tabs />
             </IonPage>
         </>
     );
