@@ -1,26 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonDatetime, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonInput, IonPopover } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonDatetime, IonToolbar, IonButton, IonIcon, IonRow, IonGrid, IonCol, IonItem, IonInput, IonPopover, IonLabel } from '@ionic/react';
 import { calculatorOutline, calendar, calendarOutline, flower, heart, person, personCircle, rose } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import './EnterDetails.css';
 import moment from 'moment';
 
 const Details: React.FC = () => {
     const [showPeriodInput, setShowPeriodInput] = useState(false);
     const [Birthday, setBirthday] = useState<any>();
-    const [today, setToday] = useState<any>();
+    const today = dayjs();
     const [periodStart1, setPeriodStart1] = useState<any>();
     const [periodStart2, setPeriodStart2] = useState<any>();
     const [periodStart3, setPeriodStart3] = useState<any>();
     const [periodEnd1, setPeriodEnd1] = useState<any>();
     const [periodEnd2, setPeriodEnd2] = useState<any>();
     const [periodEnd3, setPeriodEnd3] = useState<any>();
-
-
-    useEffect(() => {
-        // only allow the user to choose up to today
-        const today = moment().format("YYYY-MM-DD")
-        setToday(today);
-    }, []);
 
 
     // make period input appear when button is clicked
@@ -125,7 +124,7 @@ const Details: React.FC = () => {
                     // find all dates between the start and end dates
                     var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
                     inBetweenDates.forEach(newDate => {
-                        if(periodMap.get(newDate)) // check if the user is storing overlaping period dates
+                        if (periodMap.get(newDate)) // check if the user is storing overlaping period dates
                         {
                             console.log("overlapping periods")
                             overlapping = true;
@@ -136,15 +135,16 @@ const Details: React.FC = () => {
 
                 // add everything in the periods map to local storage
                 localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
-                if (overlapping == false)
-                {
-                    localStorage.setItem("LoggedIn", "true");
-                    window.location.href = '/Rosie/SignUp/Preferences';
+                if (overlapping == false) {
+                    if (finished == true) {
+                        localStorage.setItem("LoggedIn", "true");
+                        window.location.href = '/Rosie/SignUp/Preferences';
+                    }
                 }
                 else {
                     alert("Overlapping period dates! Fix this to continue");
                 }
-                
+
             }
             else {
                 alert("Start date cannot be after end date!");
@@ -172,18 +172,9 @@ const Details: React.FC = () => {
             year = d.getFullYear();
 
         if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
+        if (day.length < 2) month = '0' + day;
 
         return [year, month, day].join('-');
-    }
-
-    /**
-     * Used to set the birthday variable to the chosen date
-     */
-    function changeBirthday(e: CustomEvent<any>) {
-
-        const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-        setBirthday(formattedDate);
     }
 
     return (
@@ -206,19 +197,19 @@ const Details: React.FC = () => {
                             <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder="Enter Your Age"></IonInput>
                         </IonItem>
                         </IonRow>
-                        <IonRow> <IonItem id='bday'>
-                            <IonInput required className="custom-font" label="Birthday:" placeholder='dd/mm/yyyy' value={Birthday}>
-                            </IonInput>
-                            <IonIcon className='datePickerIcon' icon={calendarOutline} size='small'></IonIcon>
-                            <IonPopover trigger="bday" show-backdrop="false" size="cover" side="top" alignment="center">
-                                <IonDatetime
-                                    class='popoverDateTime'
-                                    presentation='date'
-                                    max={today}
-                                    onIonChange={changeBirthday}
-                                ></IonDatetime>
-                            </IonPopover>
-                        </IonItem>
+                        <IonRow>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DatePicker']}>
+                                    <MobileDatePicker
+                                        maxDate={today}
+                                        label="Enter Birthday"
+                                        value={Birthday ? dayjs(Birthday) : null} // Ensure value is a valid dayjs object
+                                        onChange={(newValue) => {
+                                            setBirthday(newValue ? newValue.format("YYYY-MM-DD") : null);
+                                        }}
+                                    />
+                                </DemoContainer>
+                            </LocalizationProvider>
                         </IonRow>
                     </IonGrid>
                     {/* This content disappears when showPeriodInput is set to true*/}
@@ -238,138 +229,90 @@ const Details: React.FC = () => {
                         <IonGrid>
                             <IonRow class="ion-justify-content-start"><p><b>Most Recent Period:</b></p></IonRow>
                             <IonRow>
-                                <IonItem id="periodStart1">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="Start Date:"
-                                        placeholder="Enter Period Start Date"
-                                        value={periodStart1}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodStart1" show-backdrop="false" side="top" alignment="center" size='cover'>
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-                                                setPeriodStart1(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            maxDate={today}
+                                            label="Start Date 1"
+                                            value={periodStart1 ? dayjs(periodStart1) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setPeriodStart1(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow>
-                                <IonItem id="periodEnd1">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="End Date:"
-                                        placeholder="Enter Period End Date"
-                                        value={periodEnd1}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="periodEnd1" show-backdrop="false" side="top" alignment="center" size='cover'>
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-                                                setPeriodEnd1(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            maxDate={today}
+                                            label="End Date 1"
+                                            value={periodEnd1 ? dayjs(periodEnd1) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setPeriodEnd1(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow class="ion-justify-content-start"><p><b>Second Most Recent Period:</b></p></IonRow>
                             <IonRow>
-                                <IonItem id="periodStart2">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="Start Date:"
-                                        placeholder="Enter Period Start Date"
-                                        value={periodStart2}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover className='popoverNamemiddle' trigger="periodStart2" show-backdrop="false" side="top" alignment="center" size='cover'>
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-                                                setPeriodStart2(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            maxDate={today}
+                                            label="Start Date 2"
+                                            value={periodStart2 ? dayjs(periodStart2) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setPeriodStart2(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow>
-                                <IonItem id="periodEnd2">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="End Date:"
-                                        placeholder="Enter Period End Date"
-                                        value={periodEnd2}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover className='popoverNamemiddle' trigger="periodEnd2" show-backdrop="false" side="top" alignment="center" size='cover'>
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-                                                setPeriodEnd2(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            maxDate={today}
+                                            label="End Date 2"
+                                            value={periodEnd2 ? dayjs(periodEnd2) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setPeriodEnd2(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow class="ion-justify-content-start"><p><b>Third Most Recent Period:</b></p></IonRow>
                             <IonRow>
-                                <IonItem id="periodStart3">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="Start Date:"
-                                        placeholder="Enter Period Start Date"
-                                        value={periodStart3}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover className='popoverName' trigger="periodStart3" show-backdrop="false" side="top" alignment="center" size='cover'>
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-                                                setPeriodStart3(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            maxDate={today}
+                                            label="Start Date 3"
+                                            value={periodStart3 ? dayjs(periodStart3) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setPeriodStart3(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow>
-                                <IonItem id="periodEnd3">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="End Date:"
-                                        placeholder="Enter Period End Date"
-                                        value={periodEnd3}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover className='popoverName' trigger="periodEnd3" show-backdrop="false" side="top" alignment="center" size='cover'>
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD")
-                                                setPeriodEnd3(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            maxDate={today}
+                                            label="End Date 3"
+                                            value={periodEnd3 ? dayjs(periodEnd3) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setPeriodEnd3(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow class="ion-justify-content-center">
                                 <IonButton className="btn" onClick={saveWithPeriod} size="large">Save Details</IonButton>
