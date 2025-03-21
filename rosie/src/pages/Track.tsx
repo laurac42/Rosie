@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
 import { add, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
 import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
@@ -217,7 +217,7 @@ const Track: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow><h3 className="h3-padding">Select a date and track your symptoms (you don't need to track them all)</h3></IonRow>
             <IonRow class="ion-justify-content-start">
-              <h2>Period Flow</h2>
+              <h2><b>Period Flow</b></h2>
             </IonRow>
             <IonRow className="track-page trackRows">
               <IonCol
@@ -238,7 +238,7 @@ const Track: React.FC = () => {
                 <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Light<IonRippleEffect className="custom-ripple" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-start">
-              <h2>Pain</h2>
+              <h2><b>Pain</b></h2>
             </IonRow>
             <IonRow className="track-page trackRows">
               <IonCol
@@ -263,7 +263,7 @@ const Track: React.FC = () => {
                 <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Headache<IonRippleEffect className="custom-ripple" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-between">
-              <IonCol><h2>Skin</h2></IonCol>
+              <IonCol><h2><b>Skin</b></h2></IonCol>
             </IonRow>
             <IonRow className="track-page trackRows">
               <IonCol
@@ -287,16 +287,16 @@ const Track: React.FC = () => {
                 onClick={handleSkinClick}>
                 <IonIcon icon={bandage} className='colourIcon'></IonIcon><br></br>Dry<IonRippleEffect className="custom-ripple" /></IonCol>
             </IonRow>
-            <IonRow><h1>Add Skin Photo</h1></IonRow>
+            <IonRow><h2><b>Add Skin Photo</b></h2></IonRow>
             <IonRow><p>Add a skin photo to help you understand how your skin changes throughout the month</p></IonRow>
             <IonRow class='ion-justify-content-center'>
               <IonButton onClick={() => takePhoto(selectedDate)} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>
 
             <IonRow class="ion-justify-content-start">
-              <h2>Emotions</h2>
+              <h2><b>Emotions</b></h2>
             </IonRow>
-            <IonRow className="track-page trackRows">
+            <IonRow className="track-page trackRows track-bottom">
               <IonCol
                 // clicked css class is added when the column is clicked
                 className={`ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clicked clickedIcon' : ''}`}
@@ -319,11 +319,10 @@ const Track: React.FC = () => {
                 <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-center">
-              <IonButton className="btn" href="/Rosie/Cycle" onClick={saveTracking} size="large">Save All</IonButton>
+              <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
             </IonRow>
           </IonGrid>
         </IonContent>
-        <Tabs />
       </IonPage>
 
     </>
