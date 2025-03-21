@@ -49,7 +49,7 @@ const Analysis: React.FC = () => {
         }
         periodLengths.length = 0; // reset it each time it is calculated
         // use either 5 periods, or the number of periods if its less than 5
-        var numPeriods = startDates.length >5 ?5 : startDates.length;
+        var numPeriods = startDates.length > 5 ? 5 : startDates.length;
         console.log(numPeriods)
         // start dates length -1 to ignore the last one which is only required for cycle calculations
         for (let i = 0; i < numPeriods; i++) {
@@ -219,44 +219,54 @@ const Analysis: React.FC = () => {
                 <IonContent fullscreen>
                     <IonGrid fixed={true}>
                         <IonRow><h2>Period Length</h2></IonRow>
-                        <IonRow class="ion-justify-content-center"><p>(Last {startDates.length >5 ?5 : startDates.length} periods)</p></IonRow>
-                        {periodLengths.length > 0 ? (<IonRow><BarChart
-                            dataset={periodLengths}
-                            xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
-                            series={[
-                                { dataKey: 'length', label: 'Period Length', color: 'var(--lighter-pink)' },
-                            ]}
-                            slotProps={{
-                                legend: {
-                                    labelStyle: {
-                                        fill: 'var(--text)',
-                                    },
-                                },
-                            }}
-                            {...chartSetting}
-                        /></IonRow>) : (
+
+                        {periodLengths.length > 0 ? (
+                            <>
+                                <IonRow class="ion-justify-content-center"><p>(Last {startDates.length > 5 ? 5 : startDates.length} periods)</p></IonRow>
+                                <IonRow><BarChart
+                                    dataset={periodLengths}
+                                    xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
+                                    series={[
+                                        { dataKey: 'length', label: 'Period Length', color: 'var(--lighter-pink)' },
+                                    ]}
+                                    slotProps={{
+                                        legend: {
+                                            labelStyle: {
+                                                fill: 'var(--text)',
+                                            },
+                                        },
+                                    }}
+                                    {...chartSetting}
+                                /></IonRow>
+                            </>) : (
                             <IonRow><p>No period data available. Head to the track page to start tracking!</p></IonRow>
                         )}
                         <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> </IonRow>
 
                         <IonRow><h2>Cycle Length</h2></IonRow>
-                        <IonRow class="ion-justify-content-center"><p>(Last {startDates.length >6 ?5 : startDates.length-1} cycles)</p></IonRow>
+
                         {/* Show a message if no cycle length data */}
-                        {cycleLengths.length > 0 ? (<IonRow><BarChart
-                            dataset={cycleLengths}
-                            xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
-                            series={[
-                                { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
-                            ]}
-                            slotProps={{
-                                legend: {
-                                    labelStyle: {
-                                        fill: 'var(--text)',
-                                    },
-                                },
-                            }}
-                            {...chartSetting}
-                        /></IonRow>) :
+                        {cycleLengths.length > 0 ? (
+                            <>
+                                <IonRow class="ion-justify-content-center"><p>(Last {startDates.length > 6 ? 5 : startDates.length - 1} cycles)</p></IonRow>
+                                <IonRow><BarChart
+
+                                    dataset={cycleLengths}
+                                    xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
+                                    series={[
+                                        { dataKey: 'length', label: 'Cycle Length', color: 'var(--complementary-colour)' },
+                                    ]}
+                                    slotProps={{
+                                        legend: {
+                                            labelStyle: {
+                                                fill: 'var(--text)',
+                                            },
+                                        },
+                                    }}
+                                    {...chartSetting}
+                                /></IonRow>
+                            </>
+                        ) :
                             (<IonRow><p>No cycle data available. Two periods are required to calculate cycle length. Head to the track page to start tracking!</p></IonRow>)}
                         <IonRow class="ion-justify-content-between"><p><b>Average Cycle Length: {averageCycleLength} days</b></p> </IonRow>
 
