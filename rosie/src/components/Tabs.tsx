@@ -8,7 +8,7 @@ const Tabs: React.FC = () => {
                 <IonIcon icon={radioButtonOff} />
                 <IonLabel>Cycle</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="Calendar" href="/Calendar">
+            <IonTabButton tab="Calendar" href="/Calendar" >
                 <IonIcon icon={calendar} />
                 <IonLabel>Calendar</IonLabel>
             </IonTabButton>

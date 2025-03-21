@@ -1,8 +1,12 @@
 import { Redirect, Route } from 'react-router-dom';
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonApp,
+  IonIcon,
+  IonLabel,
   IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
   IonTabs,
   setupIonicReact
 } from '@ionic/react';
@@ -16,7 +20,7 @@ import Details from './pages/EnterDetails';
 import Preferences from './pages/Preferences';
 import Privacy from './pages/PrivacyPolicy';
 import { loadTheme } from "./theme";
-import Welcome from './pages/Welcome';  
+import Welcome from './pages/Welcome';
 import Date from './pages/Date'
 import Profile from './pages/Profile'
 import Appearance from './pages/Appearance';
@@ -45,6 +49,7 @@ import '@ionic/react/css/display.css';
 import './theme/darkmode.css';
 import './theme/lightmode.css';
 import './theme/high-contrast.css'
+import { radioButtonOff, calendar, clipboard, trendingUp } from 'ionicons/icons';
 
 setupIonicReact();
 
@@ -63,7 +68,6 @@ const App: React.FC = () => {
       <IonReactRouter basename="/Rosie">
         <IonTabs>
           <IonRouterOutlet>
-            {/*This is all of the different routes for tabs*/}
             <Route exact path="/Cycle">
               <Cycle />
             </Route>
@@ -107,20 +111,20 @@ const App: React.FC = () => {
               <Notifications />
             </Route>
             <Route exact path="/Menu/AboutUs">
-              <AboutUs/>
+              <AboutUs />
             </Route>
             <Route exact path="/Menu/Resources">
               <Resources />
             </Route>
             {/* Choose the default page depending on whether the user is logged in or not */}
             {loggedIn == "true" ?
-            (<Route exact path="/">
-              <Redirect to="/Cycle" />
-            </Route> ): 
-            (<Route exact path="/">
-              <Redirect to="/SignUp" />
-            </Route>)}
-            
+              (<Route exact path="/">
+                <Redirect to="/Cycle" />
+              </Route>) :
+              (<Route exact path="/">
+                <Redirect to="/SignUp" />
+              </Route>)}
+
           </IonRouterOutlet>
         </IonTabs>
       </IonReactRouter>
