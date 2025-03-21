@@ -22,7 +22,6 @@ const SignUp: React.FC = () => {
             ),
             description: "This is a period tracking app",
         })
-            .then(() => alert("App installed successfully or instructions for install shown"))
             .catch(() => alert("User opted out from installing"));
     };
 
