@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 /* pain track page */
@@ -205,4 +205,10 @@
 .photo-button {
     --background: var(--complementary-colour4) !important;
     --color: var(--contrast) !important;
+}
+
+.back {
+    position: fixed;
+    top: 60px;
+    left:0;
 }

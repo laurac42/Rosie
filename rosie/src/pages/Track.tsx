@@ -357,8 +357,8 @@ const Track: React.FC = () => {
             />
           </IonGrid>
           <IonGrid fixed={true}>
-            <IonRow class="ion-justify-content-start">
-              <IonButton href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
+            <IonRow>
+              <IonButton className='back' href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
             </IonRow>
             <IonRow><h3 className="h3-padding">Select a date and track your symptoms (you don't need to track them all)</h3></IonRow>
             <IonRow class="ion-justify-content-start">
