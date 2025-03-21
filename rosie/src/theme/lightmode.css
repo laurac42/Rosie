@@ -64,7 +64,7 @@ ion-input {
 
 /* change the background colour of the selected tab */
 .light ion-tab-button.tab-selected {
-  --background: var(--mid-pink);
+  --background: var(--darker-pink);
   color: var(--background-color);
 }
 

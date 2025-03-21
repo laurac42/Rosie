@@ -21,6 +21,14 @@ const Track: React.FC = () => {
   const [clickedEmotion, setClickedEmotion] = useState<string>('');
   const { deletePhoto, photos, takePhoto, setUpSave } = usePhotoGallery();
   const [photo, setPhoto] = useState<[string, Photo, string]>();
+  const [day, setDay] = useState(0);
+  const [averageCycleLength, setAverageCycleLength] = useState(0);
+  const [startDates, setStartDates] = useState<string[]>([]);
+  const [periods, setPeriods] = useState<string[]>([]);
+  const [endDates, setEndDates] = useState<string[]>([]);
+  const [cycleLengths, setCycleLengths] = useState<{ length: number, startDate: string }[]>([]);
+  const [periodPrediction, setPeriodPrediction] = useState<any>();
+
 
   useEffect(() => {
     // when the page loads, set the selected date to today as default
@@ -172,6 +180,8 @@ const Track: React.FC = () => {
         storedPeriod.set(selectedDate, clickedFlow);
         localStorage.periodMap = JSON.stringify(Array.from(storedPeriod.entries()));
       }
+
+      // update the server with a period prediction when the user tracks a period
     }
   }
 
@@ -195,6 +205,121 @@ const Track: React.FC = () => {
     }).catch(error => {
       console.error('Error taking photo:', error);
     });
+  }
+
+  /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
+  function calculateAverageCycleLength() {
+    console.log("calculating cycle length")
+    // clear any old data first:
+    periods.length = 0;
+    startDates.length = 0;
+    // first, load in all period data and make sure it is sorted by date
+    if (localStorage.periodMap) {
+      console.log("period map exists")
+      var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
+      periodDates.forEach((flow: string, date: string) => {
+        if (!periods.includes(date)) { periods.push(date); }
+      });
+      periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
+
+      // the first period is definitely a start date
+      if (!startDates.includes(periods[0])) { startDates.push(periods[0]); }
+
+      for (let i = 1; i < periods.length; i++) {
+        // for date 1 onward, check if day before was a period, if yes, i is not a start date
+        // if day before was not a period, periods[i] is a start date
+        var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
+        if (periods[i - 1] != dayBefore) {
+          // periods i is a start date
+          if (!startDates.includes(periods[i])) { startDates.push(periods[i]); }
+        }
+
+        // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
+        var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
+        if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
+          // periods i is an end date
+          if (!endDates.includes(periods[i])) { endDates.push(periods[i]); }
+        }
+      }
+
+      // then calculate the average based on the start and end dates
+      // can only calculate the cycle length if there are two start dates
+      if (startDates.length > 1) {
+        cycleLengths.length = 0; // reset it each time it is calculated
+        for (let i = 1; i < startDates.length; i++) {
+          const startMoment = moment(startDates[i - 1]);
+          const endMoment = moment(startDates[i]);
+          const cycleLength = endMoment.diff(startMoment, 'days');
+          //console.log(cycleLength);
+          cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
+        }
+
+        // calculate average
+        var sum = 0;
+        for (let i = 0; i < cycleLengths.length; i++) {
+          sum += cycleLengths[i].length;
+        }
+        var averageCycleLength = (sum / cycleLengths.length) || 0;
+
+        setAverageCycleLength(Math.round(averageCycleLength));// want whole number predictions on this page
+        console.log("average cycle length", averageCycleLength);
+      }
+      else {
+        // if the user hasn't had more than 2 periods, assume that their next cycle could be in 28 days
+        setAverageCycleLength(28);
+      }
+    }
+
+  }
+
+  /* Calculate what day of their cycle the user is currently on */
+  function calculateDay() {
+    // if there are some periods stored,
+    if (startDates.length > 0) {
+      // calculate the number of days since start of last period and today
+      const lastPeriodStartDate = moment(startDates.findLast(() => true)); // theyre ordered in reverse so needs to be the last day
+      const today = moment();
+      const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
+      setDay(dayOfCycle);
+    }
+  }
+
+  function calculatePeriodPrediction() {
+
+    if (averageCycleLength - day > 0) {
+      setPeriodPrediction(averageCycleLength - day + 1);
+    }
+    else if (averageCycleLength - day == 0) {
+      setPeriodPrediction("Today")
+    }
+    else {
+      setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
+    }
+    var predictionNumber = averageCycleLength - day;
+
+    // should just update the existing notifications rather than trying to create a new one
+    navigator.serviceWorker.ready.then(async function (registration) {
+      const subscription = await registration.pushManager.getSubscription(); // get the user's subscription
+      var notifications = localStorage.chosenNotifications;
+      if (subscription && (notifications.includes("upcoming"))) {
+        console.log("updating prediction")
+        // Send the updates period prediction to the server every time it updates
+        fetch('https://rosie-production.up.railway.app/updatePrediction', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subscription: subscription,
+            periodPrediction: predictionNumber
+          }),
+        });
+      }
+      else {
+        console.log("not updating predicion")
+      }
+
+    })
   }
 
   return (
@@ -232,9 +357,9 @@ const Track: React.FC = () => {
             />
           </IonGrid>
           <IonGrid fixed={true}>
-          <IonRow class="ion-justify-content-start">
-            <IonButton href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
-          </IonRow>
+            <IonRow class="ion-justify-content-start">
+              <IonButton href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
+            </IonRow>
             <IonRow><h3 className="h3-padding">Select a date and track your symptoms (you don't need to track them all)</h3></IonRow>
             <IonRow class="ion-justify-content-start">
               <h2><b>Period Flow</b></h2>
@@ -312,47 +437,47 @@ const Track: React.FC = () => {
             {/* if a photo has been taken, let the user know */}
             {photo ? (
               <>
-              <IonRow><p><b>Photo taken successfully. Click save all to save</b></p></IonRow>
-              <IonRow class='ion-justify-content-center'>
-              <IonButton onClick={addPhoto} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+                <IonRow><p><b>Photo taken successfully. Click save all to save</b></p></IonRow>
+                <IonRow class='ion-justify-content-center'>
+                  <IonButton onClick={addPhoto} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+                </IonRow>
+              </>
+
+            ) : (<IonRow class='ion-justify-content-center'>
+              <IonButton onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+            </IonRow>)}
+
+            <IonRow class="ion-justify-content-start">
+              <h2><b>Emotions</b></h2>
             </IonRow>
-            </>
-
-            ): (<IonRow class='ion-justify-content-center'>
-            <IonButton onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
-          </IonRow>)}
-
-          <IonRow class="ion-justify-content-start">
-            <h2><b>Emotions</b></h2>
-          </IonRow>
-          <IonRow className="track-page trackRows track-bottom">
-            <IonCol
-              // clicked css class is added when the column is clicked
-              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clicked clickedIcon' : ''}`}
-              onClick={handleEmotionClick}>
-              <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Happy<IonRippleEffect className="custom-ripple" /></IonCol>
-            <IonCol
-              // clicked css class is added when the column is clicked
-              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Sad') ? 'clicked clickedIcon' : ''}`}
-              onClick={handleEmotionClick}>
-              <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Sad<IonRippleEffect className="custom-ripple" /></IonCol>
-            <IonCol
-              // clicked css class is added when the column is clicked
-              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Angry') ? 'clicked clickedIcon' : ''}`}
-              onClick={handleEmotionClick}>
-              <IonIcon icon={thunderstorm} className='colourIcon'></IonIcon><br></br>Angry<IonRippleEffect className="custom-ripple" /></IonCol>
-            <IonCol
-              // clicked css class is added when the column is clicked
-              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Mood Swings') ? 'clicked clickedIcon' : ''}`}
-              onClick={handleEmotionClick}>
-              <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
-          </IonRow>
-          <IonRow class="ion-justify-content-center">
-            <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage >
+            <IonRow className="track-page trackRows track-bottom">
+              <IonCol
+                // clicked css class is added when the column is clicked
+                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clicked clickedIcon' : ''}`}
+                onClick={handleEmotionClick}>
+                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Happy<IonRippleEffect className="custom-ripple" /></IonCol>
+              <IonCol
+                // clicked css class is added when the column is clicked
+                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Sad') ? 'clicked clickedIcon' : ''}`}
+                onClick={handleEmotionClick}>
+                <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Sad<IonRippleEffect className="custom-ripple" /></IonCol>
+              <IonCol
+                // clicked css class is added when the column is clicked
+                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Angry') ? 'clicked clickedIcon' : ''}`}
+                onClick={handleEmotionClick}>
+                <IonIcon icon={thunderstorm} className='colourIcon'></IonIcon><br></br>Angry<IonRippleEffect className="custom-ripple" /></IonCol>
+              <IonCol
+                // clicked css class is added when the column is clicked
+                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Mood Swings') ? 'clicked clickedIcon' : ''}`}
+                onClick={handleEmotionClick}>
+                <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
+            </IonRow>
+            <IonRow class="ion-justify-content-center">
+              <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
+            </IonRow>
+          </IonGrid>
+        </IonContent>
+      </IonPage >
 
     </>
   );
