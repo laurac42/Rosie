@@ -48,8 +48,11 @@ const Analysis: React.FC = () => {
             return;
         }
         periodLengths.length = 0; // reset it each time it is calculated
+        // use either 5 periods, or the number of periods if its less than 5
+        var numPeriods = startDates.length >5 ?5 : startDates.length;
+        console.log(numPeriods)
         // start dates length -1 to ignore the last one which is only required for cycle calculations
-        for (let i = 0; i < startDates.length - 1; i++) {
+        for (let i = 0; i < numPeriods; i++) {
             const startMoment = moment(startDates[i]);
             const endMoment = moment(endDates[i]);
             const periodLength = endMoment.diff(startMoment, 'days') + 1;
@@ -58,9 +61,10 @@ const Analysis: React.FC = () => {
             periodLengths.push({ length: periodLength, startDate: startMoment.format("DD/MM") });
         }
 
+        console.log(periodLengths.length)
         // calculate average
         var sum = 0;
-        for (let i = 0; i < periodLengths.length - 1; i++) {
+        for (let i = 0; i < periodLengths.length; i++) {
             sum += periodLengths[i].length;
         }
         var averagePeriodLength = (sum / periodLengths.length) || 0;
@@ -111,14 +115,11 @@ const Analysis: React.FC = () => {
                 if (!periods.includes(date)) { periods.push(date); }
             });
             periods.sort((a, b) => (new Date(b).getTime() - new Date(a).getTime())); // from newest
-            console.log(periods)
             // the first period is definitely a end date as they are ordered newest first
             if (!endDates.includes(periods[0])) {
                 endDates.push(periods[0]);
-                console.log("pushing to end dates: ", periods[0])
                 // check that periods 0 is not a one day period, which would mean it is also a start date
                 var dayBefore = moment(periods[0]).subtract(1, 'day').format("YYYY-MM-DD");
-                console.log(dayBefore)
                 if (periods.length == 1 || periods[1] != dayBefore) {
                     // periods i is also a start date
                     if (!startDates.includes(periods[0])) {
@@ -132,14 +133,10 @@ const Analysis: React.FC = () => {
                     // for date 1 onward, check if day before was a period, if yes, i is not a start date
                     // if day before was not a period, periods[i] is a start date
                     var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
-                    console.log("period day : ", periods[i])
-                    console.log(periods[i - 1])
-                    console.log(dayAfter)
                     if (periods[i - 1] != dayAfter)
 
                         if (!endDates.includes(periods[i])) {
                             endDates.push(periods[i]);
-                            console.log("pushing to end dates: ", periods[i])
                         }
                     // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
                     var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
