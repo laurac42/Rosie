@@ -6,8 +6,9 @@ import './SignUp.css';
 import { useEffect } from 'react';
 
 const SignUp: React.FC = () => {
+    
     const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
-    console.log("sign up")
+    // came from:: https://github.com/zoltangy/react-pwa-install
     const handleClick = () => {
         pwaInstall({
             title: "Install Rosie",
@@ -22,7 +23,6 @@ const SignUp: React.FC = () => {
             ),
             description: "This is a period tracking app",
         })
-            .then(() => alert("App installed successfully or instructions for install shown"))
             .catch(() => alert("User opted out from installing"));
     };
 
