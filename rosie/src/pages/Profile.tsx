@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react';
 import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
 import moment from 'moment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import dayjs from 'dayjs';
 
 const Profile: React.FC = () => {
     const [name, setName] = useState<string>(localStorage.Name || 'No name');
@@ -139,26 +144,19 @@ const Profile: React.FC = () => {
                             </IonItem>
                             </IonRow>
                             <IonRow>
-                                <IonItem id="bday">
-                                    <IonInput
-                                        className="custom-font"
-                                        label="Birthday:"
-                                        placeholder="Enter Birthday"
-                                        value={birthday}
-                                    ></IonInput>
-                                    <IonIcon className="datePickerIcon" icon={calendarOutline} size="small"></IonIcon>
-                                    <IonPopover trigger="bday" show-backdrop="false">
-                                        <IonDatetime
-                                            class="popoverDateTime"
-                                            presentation="date"
-                                            max={today}
-                                            onIonChange={(e) => {
-                                                const formattedDate = moment(e.detail.value).format("YYYY-MM-DD");
-                                                setBirthday(formattedDate);
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <MobileDatePicker
+                                            views={['year', 'month', 'day']}
+                                            maxDate={today}
+                                            label="Enter Birthday"
+                                            value={birthday ? dayjs(birthday) : null} // Ensure value is a valid dayjs object
+                                            onChange={(newValue) => {
+                                                setBirthday(newValue ? newValue.format("YYYY-MM-DD") : null);
                                             }}
-                                        ></IonDatetime>
-                                    </IonPopover>
-                                </IonItem>
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </IonRow>
                             <IonRow class="ion-justify-content-center">
                                 <IonButton className="btn" onClick={saveDetails} size="large">Save Details</IonButton>

@@ -149,7 +149,7 @@ return (
                     <IonRow class="checkbox"><IonCheckbox id="upcoming" onIonChange={clickedNotification} checked={notifications.includes("upcoming")} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox id="daily" onIonChange={clickedNotification} checked={notifications.includes("daily")} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={saveNotifications} className="btn" size="large">Save Notifications</IonButton>
+                        <IonButton onClick={saveNotifications} href='/Rosie/Cycle' className="btn" size="large">Save Notifications</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>
