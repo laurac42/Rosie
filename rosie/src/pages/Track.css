@@ -7,9 +7,8 @@
     --fc-today-bg-color: var(--background-color);
 }
 
-/* Style the grid the calendar is in for different screen sizes */
     .calendarWidthTrack {
-        height: 200px;
+        height: 250px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -70,3 +69,4 @@
 .track-bottom {
     padding-bottom: 120px;
 }
+

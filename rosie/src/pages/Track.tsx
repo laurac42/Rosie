@@ -1,10 +1,10 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
-import { add, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
+import { add, backspace, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
 import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Photo} from '@capacitor/camera';
+import { Photo } from '@capacitor/camera';
 import './Track.css'; // styles the calendar
 import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
@@ -147,8 +147,7 @@ const Track: React.FC = () => {
       }
     }
     // if a photo has been taken, save it
-    if (photo)
-    {
+    if (photo) {
       setUpSave(photo[0], photo[1], photo[2])
     }
     savePeriodData();
@@ -233,6 +232,9 @@ const Track: React.FC = () => {
             />
           </IonGrid>
           <IonGrid fixed={true}>
+          <IonRow class="ion-justify-content-start">
+            <IonButton href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
+          </IonRow>
             <IonRow><h3 className="h3-padding">Select a date and track your symptoms (you don't need to track them all)</h3></IonRow>
             <IonRow class="ion-justify-content-start">
               <h2><b>Period Flow</b></h2>
@@ -307,41 +309,50 @@ const Track: React.FC = () => {
             </IonRow>
             <IonRow><h2><b>Add Skin Photo</b></h2></IonRow>
             <IonRow><p>Add a skin photo to help you understand how your skin changes throughout the month</p></IonRow>
-            <IonRow class='ion-justify-content-center'>
-              <IonButton onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+            {/* if a photo has been taken, let the user know */}
+            {photo ? (
+              <>
+              <IonRow><p><b>Photo taken successfully. Click save all to save</b></p></IonRow>
+              <IonRow class='ion-justify-content-center'>
+              <IonButton onClick={addPhoto} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>
+            </>
 
-            <IonRow class="ion-justify-content-start">
-              <h2><b>Emotions</b></h2>
-            </IonRow>
-            <IonRow className="track-page trackRows track-bottom">
-              <IonCol
-                // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clicked clickedIcon' : ''}`}
-                onClick={handleEmotionClick}>
-                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Happy<IonRippleEffect className="custom-ripple" /></IonCol>
-              <IonCol
-                // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Sad') ? 'clicked clickedIcon' : ''}`}
-                onClick={handleEmotionClick}>
-                <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Sad<IonRippleEffect className="custom-ripple" /></IonCol>
-              <IonCol
-                // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Angry') ? 'clicked clickedIcon' : ''}`}
-                onClick={handleEmotionClick}>
-                <IonIcon icon={thunderstorm} className='colourIcon'></IonIcon><br></br>Angry<IonRippleEffect className="custom-ripple" /></IonCol>
-              <IonCol
-                // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Mood Swings') ? 'clicked clickedIcon' : ''}`}
-                onClick={handleEmotionClick}>
-                <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
-            </IonRow>
-            <IonRow class="ion-justify-content-center">
-              <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
-            </IonRow>
-          </IonGrid>
-        </IonContent>
-      </IonPage>
+            ): (<IonRow class='ion-justify-content-center'>
+            <IonButton onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+          </IonRow>)}
+
+          <IonRow class="ion-justify-content-start">
+            <h2><b>Emotions</b></h2>
+          </IonRow>
+          <IonRow className="track-page trackRows track-bottom">
+            <IonCol
+              // clicked css class is added when the column is clicked
+              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clicked clickedIcon' : ''}`}
+              onClick={handleEmotionClick}>
+              <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Happy<IonRippleEffect className="custom-ripple" /></IonCol>
+            <IonCol
+              // clicked css class is added when the column is clicked
+              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Sad') ? 'clicked clickedIcon' : ''}`}
+              onClick={handleEmotionClick}>
+              <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Sad<IonRippleEffect className="custom-ripple" /></IonCol>
+            <IonCol
+              // clicked css class is added when the column is clicked
+              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Angry') ? 'clicked clickedIcon' : ''}`}
+              onClick={handleEmotionClick}>
+              <IonIcon icon={thunderstorm} className='colourIcon'></IonIcon><br></br>Angry<IonRippleEffect className="custom-ripple" /></IonCol>
+            <IonCol
+              // clicked css class is added when the column is clicked
+              className={`ion-activatable ripple-parent ${clickedEmotion.includes('Mood Swings') ? 'clicked clickedIcon' : ''}`}
+              onClick={handleEmotionClick}>
+              <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
+          </IonRow>
+          <IonRow class="ion-justify-content-center">
+            <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
+          </IonRow>
+        </IonGrid>
+      </IonContent>
+    </IonPage >
 
     </>
   );
