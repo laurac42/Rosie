@@ -104,6 +104,7 @@ const Calendar: React.FC = () => {
         <IonContent fullscreen>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
             <FullCalendar
+            key={events.length}
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView='dayGridMonth'
               weekends={true}
