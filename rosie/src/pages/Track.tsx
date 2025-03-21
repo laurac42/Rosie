@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { Photo} from '@capacitor/camera';
 import './Track.css'; // styles the calendar
 import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
@@ -18,7 +19,8 @@ const Track: React.FC = () => {
   const [clickedPain, setClickedPain] = useState<string>('');
   const [clickedSkin, setClickedSkin] = useState<string>('');
   const [clickedEmotion, setClickedEmotion] = useState<string>('');
-  const { deletePhoto, photos, takePhoto } = usePhotoGallery();
+  const { deletePhoto, photos, takePhoto, setUpSave } = usePhotoGallery();
+  const [photo, setPhoto] = useState<[string, Photo, string]>();
 
   useEffect(() => {
     // when the page loads, set the selected date to today as default
@@ -144,6 +146,11 @@ const Track: React.FC = () => {
         localStorage.skinMap = JSON.stringify(Array.from(storedSkin.entries()));
       }
     }
+    // if a photo has been taken, save it
+    if (photo)
+    {
+      setUpSave(photo[0], photo[1], photo[2])
+    }
     savePeriodData();
   }
 
@@ -179,6 +186,17 @@ const Track: React.FC = () => {
     );
   }
 
+  /**
+   * take a photo for the selected date and store the results
+   */
+  function addPhoto() {
+    takePhoto(selectedDate).then(result => {
+      // save the photo
+      setPhoto([result.fileName, result.photo, result.selectedDate])
+    }).catch(error => {
+      console.error('Error taking photo:', error);
+    });
+  }
 
   return (
     <>
@@ -290,7 +308,7 @@ const Track: React.FC = () => {
             <IonRow><h2><b>Add Skin Photo</b></h2></IonRow>
             <IonRow><p>Add a skin photo to help you understand how your skin changes throughout the month</p></IonRow>
             <IonRow class='ion-justify-content-center'>
-              <IonButton onClick={() => takePhoto(selectedDate)} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+              <IonButton onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>
 
             <IonRow class="ion-justify-content-start">
