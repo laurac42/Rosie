@@ -9,6 +9,7 @@ import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
 const PHOTO_STORAGE = 'photos';
 import './Calendar.css';
+import Date from './Date';
 
 const Calendar: React.FC = () => {
   const [events, setEvents] = useState<{ title: string, date: string, className: string }[]>([]);
@@ -62,6 +63,17 @@ const Calendar: React.FC = () => {
     history.push(`/Calendar/${info.dateStr}`);
   }
 
+  /**
+   * Handle the event being clicked, taking the user to a new page
+   */
+  function handleEventClick(info: any) {
+    console.log(info.event.startStr);
+    history.push(`/Calendar/${info.event.startStr}`);
+  }
+
+
+  
+
   /* Render the period onto the calendar */
   function renderEventContent(eventInfo: any) {
     return (
@@ -103,6 +115,7 @@ const Calendar: React.FC = () => {
               }}
               eventContent={renderEventContent} // Custom function to render the event content
               dateClick={handleDateClick}
+              eventClick={handleEventClick}
             />
           </IonGrid>
         </IonContent>

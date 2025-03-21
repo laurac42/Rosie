@@ -193,11 +193,7 @@ const Analysis: React.FC = () => {
                 });
             }
         }
-
-
-
     }
-
 
     return (
         <>
