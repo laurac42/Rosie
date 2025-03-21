@@ -367,45 +367,45 @@ const Track: React.FC = () => {
             <IonRow className="track-page trackRows">
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedFlow.includes('Heavy') ? 'clicked clickedIcon' : ''}`}
+                className={`track-period ion-activatable ripple-parent ${clickedFlow.includes('Heavy') ? 'clickedPeriod clickedIcon' : ''}`}
                 onClick={handleFlowClick}>
                 <IonIcon icon={water} className='colourIcon'></IonIcon> <br></br> Heavy<IonRippleEffect />
               </IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedFlow.includes('Medium') ? 'clicked clickedIcon' : ''}`}
+                className={`track-period ion-activatable ripple-parent ${clickedFlow.includes('Medium') ? 'clickedPeriod clickedIcon' : ''}`}
                 onClick={handleFlowClick}>
-                <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Medium<IonRippleEffect className="custom-ripple " /></IonCol>
+                <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Medium<IonRippleEffect className="custom-ripple-period" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedFlow.includes('Light') ? 'clicked clickedIcon' : ''}`}
+                className={`track-period ion-activatable ripple-parent ${clickedFlow.includes('Light') ? 'clickedPeriod clickedIcon' : ''}`}
                 onClick={handleFlowClick}>
-                <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Light<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Light<IonRippleEffect className="custom-ripple-period" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-start">
               <h2><b>Pain</b></h2>
             </IonRow>
-            <IonRow className="track-page trackRows">
+            <IonRow className="trackRows">
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedPain.includes('No Pain') ? 'clicked clickedIcon' : ''}`}
+                className={`track-pain ion-activatable ripple-parent ${clickedPain.includes('No Pain') ? 'clickedPain clickedIcon' : ''}`}
                 onClick={handlePainClick}>
-                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>No Pain<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>No Pain<IonRippleEffect className="custom-ripple-track" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedPain.includes('Cramps') ? 'clicked clickedIcon' : ''}`}
+                className={`track-pain ion-activatable ripple-parent ${clickedPain.includes('Cramps') ? 'clickedPain clickedIcon' : ''}`}
                 onClick={handlePainClick}>
-                <IonIcon icon={flash} className='colourIcon'></IonIcon><br></br>Cramps<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={flash} className='colourIcon'></IonIcon><br></br>Cramps<IonRippleEffect className="custom-ripple-track" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedPain.includes('Back Pain') ? 'clicked clickedIcon' : ''}`}
+                className={`track-pain ion-activatable ripple-parent ${clickedPain.includes('Back Pain') ? 'clickedPain clickedIcon' : ''}`}
                 onClick={handlePainClick}>
-                <IonIcon icon={man} className='colourIcon'></IonIcon><br></br>Back Pain<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={man} className='colourIcon'></IonIcon><br></br>Back Pain<IonRippleEffect className="custom-ripple-track" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedPain.includes('Headache') ? 'clicked clickedIcon' : ''}`}
+                className={`track-pain ion-activatable ripple-parent ${clickedPain.includes('Headache') ? 'clickedPain clickedIcon' : ''}`}
                 onClick={handlePainClick}>
-                <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Headache<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Headache<IonRippleEffect className="custom-ripple-track" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-between">
               <IonCol><h2><b>Skin</b></h2></IonCol>
@@ -413,24 +413,24 @@ const Track: React.FC = () => {
             <IonRow className="track-page trackRows">
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedSkin.includes('Good') ? 'clicked clickedIcon' : ''}`}
+                className={`track-skin ion-activatable ripple-parent ${clickedSkin.includes('Good') ? 'clickedSkin clickedIcon' : ''}`}
                 onClick={handleSkinClick}>
-                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Good<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Good<IonRippleEffect className="custom-ripple-skin" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedSkin.includes('Acne') ? 'clicked clickedIcon' : ''}`}
+                className={`track-skin ion-activatable ripple-parent ${clickedSkin.includes('Acne') ? 'clickedSkin clickedIcon' : ''}`}
                 onClick={handleSkinClick}>
-                <IonIcon icon={ellipsisHorizontal} className='colourIcon'></IonIcon><br></br>Acne<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={ellipsisHorizontal} className='colourIcon'></IonIcon><br></br>Acne<IonRippleEffect className="custom-ripple-skin" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedSkin.includes('Oily') ? 'clicked clickedIcon' : ''}`}
+                className={`track-skin ion-activatable ripple-parent ${clickedSkin.includes('Oily') ? 'clickedSkin clickedIcon' : ''}`}
                 onClick={handleSkinClick}>
-                <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Oily<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={water} className='colourIcon'></IonIcon><br></br>Oily<IonRippleEffect className="custom-ripple-skin" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedSkin.includes('Dry') ? 'clicked clickedIcon' : ''}`}
+                className={`track-skin ion-activatable ripple-parent ${clickedSkin.includes('Dry') ? 'clickedSkin clickedIcon' : ''}`}
                 onClick={handleSkinClick}>
-                <IonIcon icon={bandage} className='colourIcon'></IonIcon><br></br>Dry<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={bandage} className='colourIcon'></IonIcon><br></br>Dry<IonRippleEffect className="custom-ripple-skin" /></IonCol>
             </IonRow>
             <IonRow><h2><b>Add Skin Photo</b></h2></IonRow>
             <IonRow><p>Add a skin photo to help you understand how your skin changes throughout the month</p></IonRow>
@@ -439,38 +439,38 @@ const Track: React.FC = () => {
               <>
                 <IonRow><p><b>Photo taken successfully. Click save all to save</b></p></IonRow>
                 <IonRow class='ion-justify-content-center'>
-                  <IonButton onClick={addPhoto} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+                  <IonButton className='photo-button' onClick={addPhoto} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
                 </IonRow>
               </>
 
             ) : (<IonRow class='ion-justify-content-center'>
-              <IonButton onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+              <IonButton className='photo-button' onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>)}
 
             <IonRow class="ion-justify-content-start">
               <h2><b>Emotions</b></h2>
             </IonRow>
-            <IonRow className="track-page trackRows track-bottom">
+            <IonRow className="trackRows track-bottom">
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clicked clickedIcon' : ''}`}
+                className={`track-emotion ion-activatable ripple-parent ${clickedEmotion.includes('Happy') ? 'clickedEmotion clickedIcon' : ''}`}
                 onClick={handleEmotionClick}>
-                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Happy<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={happyOutline} className='colourIcon'></IonIcon><br></br>Happy<IonRippleEffect className="custom-ripple-emotion" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Sad') ? 'clicked clickedIcon' : ''}`}
+                className={`track-emotion ion-activatable ripple-parent ${clickedEmotion.includes('Sad') ? 'clickedEmotion clickedIcon' : ''}`}
                 onClick={handleEmotionClick}>
-                <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Sad<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={sadOutline} className='colourIcon'></IonIcon><br></br>Sad<IonRippleEffect className="custom-ripple-emotion" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Angry') ? 'clicked clickedIcon' : ''}`}
+                className={` track-emotion ion-activatable ripple-parent ${clickedEmotion.includes('Angry') ? 'clickedEmotion clickedIcon' : ''}`}
                 onClick={handleEmotionClick}>
-                <IonIcon icon={thunderstorm} className='colourIcon'></IonIcon><br></br>Angry<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={thunderstorm} className='colourIcon'></IonIcon><br></br>Angry<IonRippleEffect className="custom-ripple-emotion" /></IonCol>
               <IonCol
                 // clicked css class is added when the column is clicked
-                className={`ion-activatable ripple-parent ${clickedEmotion.includes('Mood Swings') ? 'clicked clickedIcon' : ''}`}
+                className={`track-emotion ion-activatable ripple-parent ${clickedEmotion.includes('Mood Swings') ? 'clickedEmotion clickedIcon' : ''}`}
                 onClick={handleEmotionClick}>
-                <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple" /></IonCol>
+                <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple-emotion" /></IonCol>
             </IonRow>
             <IonRow class="ion-justify-content-center">
               <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>

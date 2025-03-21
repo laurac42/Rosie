@@ -7,18 +7,72 @@
     --fc-today-bg-color: var(--background-color);
 }
 
-    .calendarWidthTrack {
-        height: 250px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 20px;
-    }
+.calendarWidthTrack {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
 
-/* the ion column changes only apply to the track page */
-.track-page ion-col {
+/* pain track page */
+.track-pain {
+    background-color: var(--complementary2-light);
+    border: var(--complementary2-text);
+    border-width: .1em;
+    border-style: solid;
+    color: var(--complementary2-text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.track-pain ion-icon {
+    color: var(--complementary2-text)
+}
+
+
+.custom-ripple-pain {
+    color: var(--complementary2-text);
+}
+
+.ion-activatable.clickedPain {
+    background-color: var(--complementary-colour2);
+    /* Highlight color */
+    color: white;
+    --ion-icon-color: white;
+}
+
+/* Skin track page */
+.track-skin {
+    background-color: var(--complementary-light);
+    border: var(--complementary-text);
+    border-width: .1em;
+    border-style: solid;
+    color: var(--complementary-text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.track-skin ion-icon {
+    color: var(--complementary-text)
+}
+
+
+.custom-ripple-skin {
+    color: var(--complementary-text);
+}
+
+.ion-activatable.clickedSkin {
+    background-color: var(--complementary-colour);
+    /* Highlight color */
+    color: white;
+    --ion-icon-color: white;
+}
+
+/* period track page */
+.track-period {
     background-color: var(--darker-background);
-    border: var(--mid-pink);
+    border: var(--text);
     border-width: .1em;
     border-style: solid;
     color: var(--text);
@@ -26,22 +80,54 @@
     font-family: "Delius", serif;
 }
 
+.track-period ion-icon {
+    color: var(--text)
+}
+
+
+.custom-ripple-period {
+    color: var(--text);
+}
+
+.ion-activatable.clickedPeriod {
+    background-color: var(--darker-pink);
+    /* Highlight color */
+    color: white;
+    --ion-icon-color: white;
+}
+
+/* emotions track page */
+.track-emotion {
+    background-color: var(--complementary3-light);
+    border: var(--complementary3-text);
+    border-width: .1em;
+    border-style: solid;
+    color: var(--complementary3-text);
+    text-align: center;
+    font-family: "Delius", serif;
+}
+
+.track-emotion ion-icon {
+    color: var(--complementary3-text)
+}
+
+
+.custom-ripple-emotion {
+    color: var(--complementary3-text);
+}
+
+.ion-activatable.clickedEmotion {
+    background-color: var(--complementary-colour3);
+    /* Highlight color */
+    color: white;
+    --ion-icon-color: white;
+}
+
 /* colour for clicked icon */
 .clickedIcon ion-icon {
-    color: var(--background-color)
+    color: white
 }
 
-
-.custom-ripple {
-    color: var(--mid-pink);
-}
-
-.ion-activatable.clicked {
-    background-color: var(--mid-pink);
-    /* Highlight color */
-    color: var(--background-color);
-    --ion-icon-color: var(--background-color);
-}
 
 .trackRows {
     padding-bottom: 20px;
@@ -61,12 +147,14 @@
 /*Fix the save button to the bottom at all times */
 .save-btn {
     position: fixed;
-    left: 0;
     bottom: 10px;
-    right: 0;
 }
 
 .track-bottom {
     padding-bottom: 120px;
 }
 
+.photo-button {
+    --background: var(--complementary-colour4) !important;
+    --color: white !important;
+}
