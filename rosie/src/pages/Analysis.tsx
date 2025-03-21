@@ -219,7 +219,7 @@ const Analysis: React.FC = () => {
                 <IonContent fullscreen>
                     <IonGrid fixed={true}>
                         <IonRow><h2>Period Length</h2></IonRow>
-                        <IonRow class="ion-justify-content-center"><p>(Last 5 periods)</p></IonRow>
+                        <IonRow class="ion-justify-content-center"><p>(Last {startDates.length >5 ?5 : startDates.length} periods)</p></IonRow>
                         {periodLengths.length > 0 ? (<IonRow><BarChart
                             dataset={periodLengths}
                             xAxis={[{ scaleType: 'band', dataKey: 'startDate', label: 'Start Date', }]}
@@ -240,7 +240,7 @@ const Analysis: React.FC = () => {
                         <IonRow class="ion-justify-content-between"><p><b>Average Period Length: {averagePeriodLength} days</b></p> </IonRow>
 
                         <IonRow><h2>Cycle Length</h2></IonRow>
-                        <IonRow class="ion-justify-content-center"><p>(Last 5 cycles)</p></IonRow>
+                        <IonRow class="ion-justify-content-center"><p>(Last {startDates.length >6 ?5 : startDates.length-1} cycles)</p></IonRow>
                         {/* Show a message if no cycle length data */}
                         {cycleLengths.length > 0 ? (<IonRow><BarChart
                             dataset={cycleLengths}
