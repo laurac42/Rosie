@@ -17,8 +17,7 @@ self.addEventListener('push', function(event) {
 
   var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
-  './Rosie/SignUp',
-  './Rosie/SignUp/Preferences'
+
 ];
 
 // on install

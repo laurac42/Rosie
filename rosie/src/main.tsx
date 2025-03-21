@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import ReactPWAInstallProvider, { useReactPWAInstall } from "react-pwa-install";
 import App from './App';
 
 const container = document.getElementById('root');
@@ -8,9 +9,9 @@ const root = createRoot(container!);
 // Call the element loader before the render call
 defineCustomElements(window);
 root.render(
-  <React.StrictMode>
+  <ReactPWAInstallProvider enableLogging>
     <App />
-  </React.StrictMode>
+  </ReactPWAInstallProvider>
 );
 
 // register service worker
