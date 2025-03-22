@@ -14,18 +14,18 @@ self.addEventListener('push', function (event) {
 
 var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
-  './',
-  './SignUp',
-  './SignUp/Preferences',
-  './SignUp/EnterDetails',
-  './SignUp/Welcome',
-  './SignUp/PrivacyPolicy',
-  './Menu/AboutUs',
-  './Analysis',
-  './Menu/Appearance',
-  './Calendar',
-  './Cycle',
-  './Track'
+  './Rosie',
+  './Rosie/SignUp',
+  './Rosie/SignUp/Preferences',
+  './Rosie/SignUp/EnterDetails',
+  './Rosie/SignUp/Welcome',
+  './Rosie/SignUp/PrivacyPolicy',
+  './Rosie/Menu/AboutUs',
+  './Rosie/Analysis',
+  './Rosie/Menu/Appearance',
+  './Rosie/Calendar',
+  './Rosie/Cycle',
+  './Rosie/Track'
 ];
 
 // on install
