@@ -2,10 +2,10 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIco
 import { flower } from 'ionicons/icons';
 import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
-import cycle from '/Rosie/Cycle.png'
-import analysis from '/Rosie/Analysis.png'
-import calendar from '/Rosie/Calendar.png'
-import track from '/Rosie/Track.png'
+import cycle from "../assets/Cycle.png";
+import analysis from "../assets/Analysis.png";
+import calendar from "../assets/Calendar.png";
+import track from "../assets/Track.png";
 import './Welcome.css'
 import { useState } from 'react';
 
