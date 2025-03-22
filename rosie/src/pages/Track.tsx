@@ -27,8 +27,6 @@ const Track: React.FC = () => {
   const [endDates, setEndDates] = useState<string[]>([]);
   const [cycleLengths, setCycleLengths] = useState<{ length: number, startDate: string }[]>([]);
   const [periodPrediction, setPeriodPrediction] = useState<any>();
-  const calendarRef = useRef<FullCalendar | null>(null);
-
 
   useEffect(() => {
     // when the page loads, set the selected date to today as default
@@ -42,11 +40,6 @@ const Track: React.FC = () => {
         className: 'date-event'
       }
     ]);
-    // re render the calendar
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.refetchEvents();
-    }
   }, []);
 
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
@@ -361,7 +354,6 @@ const Track: React.FC = () => {
         </IonRefresher>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidthTrack">
             <FullCalendar
-              ref={calendarRef}
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView='dayGridWeek'
               weekends={true}
@@ -492,10 +484,9 @@ const Track: React.FC = () => {
                 onClick={handleEmotionClick}>
                 <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple-emotion" /></IonCol>
             </IonRow>
-            <IonFooter><IonRow class="ion-justify-content-center">
-              <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
-            </IonRow>
-            </IonFooter>
+            <><IonRow class="ion-justify-content-center">
+              <IonButton className='save' href="/Rosie/Calendar" size="large">Save All</IonButton>
+            </IonRow></>
           </IonGrid>
         </IonContent>
       </IonPage >
