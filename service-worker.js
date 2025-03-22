@@ -14,16 +14,16 @@ self.addEventListener('push', function (event) {
 
 var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
-  './SignUp',
-  './SignUp/Preferences',
-  './SignUp/EnterDetails',
-  './SignUp/Welcome',
-  './SignUp/PrivacyPolicy',
-  './Menu/AboutUs',
-  './Analysis',
-  './Menu/Appearance',
-  './Calendar',
-  './Cycle'
+  'SignUp',
+  'SignUp/Preferences',
+  'SignUp/EnterDetails',
+  'SignUp/Welcome',
+  'SignUp/PrivacyPolicy',
+  'Menu/AboutUs',
+  'Analysis',
+  'Menu/Appearance',
+  'Calendar',
+  'Cycle'
 
 ];
 
