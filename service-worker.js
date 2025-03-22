@@ -14,10 +14,18 @@ self.addEventListener('push', function (event) {
 
 var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
-  'https://laurac42.github.io/Rosie/Cycle',
-  'https://laurac42.github.io/Rosie/',
-  'https://laurac42.github.io/Rosie/Calendar'
-
+  './',
+  './SignUp',
+  './SignUp/Preferences',
+  './SignUp/EnterDetails',
+  './SignUp/Welcome',
+  './SignUp/PrivacyPolicy',
+  './Menu/AboutUs',
+  './Analysis',
+  './Menu/Appearance',
+  './Calendar',
+  './Cycle',
+  './Track'
 ];
 
 // on install
