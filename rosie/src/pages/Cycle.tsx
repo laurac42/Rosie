@@ -42,25 +42,38 @@ const Cycle: React.FC = () => {
       periodDates.forEach((flow: string, date: string) => {
         if (!periods.includes(date)) { periods.push(date); }
       });
-      periods.sort((a, b) => (new Date(a).getTime() - new Date(b).getTime())); // from oldest
-
-      // the first period is definitely a start date
-      if (!startDates.includes(periods[0])) { startDates.push(periods[0]); }
-
-      for (let i = 1; i < periods.length; i++) {
-        // for date 1 onward, check if day before was a period, if yes, i is not a start date
-        // if day before was not a period, periods[i] is a start date
-        var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
-        if (periods[i - 1] != dayBefore) {
-          // periods i is a start date
-          if (!startDates.includes(periods[i])) { startDates.push(periods[i]); }
+      periods.sort((a, b) => (new Date(b).getTime() - new Date(a).getTime())); // from newest
+      // the first period is definitely a end date as they are ordered newest first
+      if (!endDates.includes(periods[0])) {
+        endDates.push(periods[0]);
+        // check that periods 0 is not a one day period, which would mean it is also a start date
+        var dayBefore = moment(periods[0]).subtract(1, 'day').format("YYYY-MM-DD");
+        if (periods.length == 1 || periods[1] != dayBefore) {
+          // periods i is also a start date
+          if (!startDates.includes(periods[0])) {
+            startDates.push(periods[0]);
+          }
         }
+      }
+      for (let i = 1; i < periods.length; i++) {
+        // only calculate the last 6 periods
+        if (startDates.length < 6) {
+          // for date 1 onward, check if day before was a period, if yes, i is not a start date
+          // if day before was not a period, periods[i] is a start date
+          var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
+          if (periods[i - 1] != dayAfter)
 
-        // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
-        var dayAfter = moment(periods[i]).add(1, 'day').format("YYYY-MM-DD");
-        if (i + 1 > periods.length || periods[i + 1] != dayAfter) {
-          // periods i is an end date
-          if (!endDates.includes(periods[i])) { endDates.push(periods[i]); }
+            if (!endDates.includes(periods[i])) {
+              endDates.push(periods[i]);
+            }
+          // if periods[i+1] either does not exist or is not the next day, periods[i] is an end date
+          var dayBefore = moment(periods[i]).subtract(1, 'day').format("YYYY-MM-DD");
+          if (i + 1 > periods.length || periods[i + 1] != dayBefore) {
+            // periods i is an end date
+            if (!startDates.includes(periods[i])) {
+              startDates.push(periods[i]);
+            }
+          }
         }
       }
 
@@ -71,7 +84,7 @@ const Cycle: React.FC = () => {
         for (let i = 1; i < startDates.length; i++) {
           const startMoment = moment(startDates[i - 1]);
           const endMoment = moment(startDates[i]);
-          const cycleLength = endMoment.diff(startMoment, 'days');
+          const cycleLength = startMoment.diff(endMoment, 'days');
           //console.log(cycleLength);
           cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
         }
@@ -99,7 +112,7 @@ const Cycle: React.FC = () => {
     // if there are some periods stored,
     if (startDates.length > 0) {
       // calculate the number of days since start of last period and today
-      const lastPeriodStartDate = moment(startDates.findLast(() => true)); // theyre ordered in reverse so needs to be the last day
+      const lastPeriodStartDate = moment(startDates[0]); // theyre ordered from recent, so first day
       const today = moment();
       const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
       setDay(dayOfCycle);
