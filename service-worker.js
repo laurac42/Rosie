@@ -14,18 +14,12 @@ self.addEventListener('push', function (event) {
 
 var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
-  './Rosie',
-  './Rosie/SignUp',
-  './Rosie/SignUp/Preferences',
-  './Rosie/SignUp/EnterDetails',
-  './Rosie/SignUp/Welcome',
-  './Rosie/SignUp/PrivacyPolicy',
-  './Rosie/Menu/AboutUs',
-  './Rosie/Analysis',
-  './Rosie/Menu/Appearance',
-  './Rosie/Calendar',
-  './Rosie/Cycle',
-  './Rosie/Track'
+  './Rosie/rose.png',
+  './Rosie/Cycle.png',
+  './Rosie/Analysis.png',
+  './Rosie/Calendar.png', 
+  './Rosie/Track.png',
+  './Rosie/manifest.json'
 ];
 
 // on install
@@ -47,35 +41,15 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  console.log(event.request);
   event.respondWith(
-    caches.match(event.request)
-      .then(function (response) {
-        // Cache hit - return response
-        if (response) {
-          console.log("response found")
-          return response;
-        }
-        else {
-          console.log("no response found")
-        }
-
-        return fetch(event.request).then(
-          function (response) {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            var responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(function (cache) {
-                cache.put(event.request, responseToCache);
-              });
-            return response;
-          }
-        );
-      })
+    caches.match(event.request).then(function (response) {
+      return response || fetch(event.request).then(fetchResponse => {
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, fetchResponse.clone());
+          return fetchResponse;
+        });
+      });
+    })
   );
 });
 
