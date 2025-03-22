@@ -88,11 +88,15 @@ self.addEventListener('activate', event => {
         return cache.keys()
           .then(cacheNames => {
             return Promise.all(
-              cacheNames.filter(cacheName => {
-                return $FILES.indexOf(cacheName) === -1;
-              }).map(cacheName => {
-                return caches.delete(cacheName);
-              })
+              urlsToCache.map(url => 
+                fetch(url)
+                  .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return cache.put(url, response);
+                  })
+                  .then(() => console.log(`Cached: ${url}`))
+                  .catch(err => console.warn(`Failed to cache: ${url}`, err))
+              )
             );
           })
           .then(() => {
