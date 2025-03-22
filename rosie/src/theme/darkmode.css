@@ -71,13 +71,6 @@ ion-input {
   --ion-tab-bar-color-selected: var(--darker-background);
 }
 
-/* This changes the date picker icon to an image */
-/* This changes the date picker icon to an image */
-.dark .native-input[type=date]::-webkit-calendar-picker-indicator {
-  background-image: url('/calendarDark.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-}
 
 .dark ion-tab-button {
   --background: var(--darker-background);

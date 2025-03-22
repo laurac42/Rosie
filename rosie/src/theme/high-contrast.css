@@ -96,13 +96,6 @@ ion-title {
   padding-bottom: 20px;
 }
 
-/* This changes the date picker icon to an image */
-.contrast .native-input[type=date]::-webkit-calendar-picker-indicator {
-  background-image: url('/calendarContrast.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
 .center-h {
   display: flex;
   justify-content: center;

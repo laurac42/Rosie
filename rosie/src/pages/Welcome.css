@@ -1,0 +1,30 @@
+img {
+    width: 50%;
+    max-height: auto;
+}
+
+.guide {
+    --background: var(--complementary-colour2) !important;
+}
+
+.start {
+    --background: var(--complementary-colour3) !important;
+}
+
+.border-bottom {
+    border-top: solid var(--text) .1em;
+}
+
+.image-row {
+    padding-bottom: 20px;
+}
+
+.bottom-image {
+    padding-bottom: 100px;
+}
+
+/*Fix the done button to the bottom at all times */
+.done-btn {
+    position: fixed;
+    bottom: 60px;
+}
