@@ -81,11 +81,9 @@ const Date: React.FC = () => {
                         )}
 
                         <IonRow class="ion-justify-content-center">
-                            <IonFab >
-                                <IonFabButton href='/Rosie/Calendar'>
-                                    <IonIcon icon={checkmark}></IonIcon>
-                                </IonFabButton>
-                            </IonFab></IonRow>
+                                <IonButton href='/Rosie/Calendar'>
+                                    Done <IonIcon icon={checkmark}></IonIcon>
+                                </IonButton></IonRow>
                     </IonGrid>
                     {/* delete stuff came from here - https://codesandbox.io/p/sandbox/photo-gallery-capacitor-react-85m2c?file=%2Fsrc%2Fpages%2FTab2.tsx%3A54%2C27 */}
                     <IonActionSheet
