@@ -15,6 +15,10 @@
     padding-top: 70px;
 }
 
+.track-main {
+    padding-bottom: 50px;
+}
+
 /* pain track page */
 .track-pain {
     background-color: var(--complementary2-light);
@@ -196,6 +200,7 @@
 .save-btn {
     position: fixed;
     bottom: 10px;
+    width: 400px;
 }
 
 .track-bottom {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonMenu, IonList, IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonMenu, IonList, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonRefresher, IonRefresherContent, RefresherEventDetail } from '@ionic/react';
 import { personCircle } from 'ionicons/icons';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -15,6 +15,7 @@ const Calendar: React.FC = () => {
   const [events, setEvents] = useState<{ title: string, date: string, className: string }[]>([]);
   const history = useHistory();
   const [isMounted, setIsMounted] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0); // State to trigger re-render
 
   useEffect(() => {
     setIsMounted(true);
@@ -76,6 +77,12 @@ const Calendar: React.FC = () => {
   }
 
 
+ function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+    setTimeout(() => {
+        setRefreshKey((prevKey) => prevKey + 1); // Increment refreshKey to trigger re-render
+        event.detail.complete();
+    }, 500);
+  }
 
 
   /* Render the period onto the calendar */
@@ -106,11 +113,13 @@ const Calendar: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
           <IonRow class="ion-justify-content-center"><h3 className='calendar-heading'>Click on a date to view details</h3></IonRow>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
             {isMounted && (
               <FullCalendar
-                key={events.length}
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView='dayGridMonth'
                 weekends={true}
