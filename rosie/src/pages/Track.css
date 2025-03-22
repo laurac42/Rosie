@@ -109,7 +109,7 @@
 }
 
 .dark .track-period ion-icon {
-    color:black;
+    color: black;
 }
 
 
@@ -133,7 +133,7 @@
 }
 
 .contrast .track-period ion-icon {
-    color:black;
+    color: black;
 }
 
 
@@ -197,14 +197,13 @@
 }
 
 /*Fix the save button to the bottom at all times */
-.save-btn {
-    position: fixed;
-    bottom: 10px;
+.save {
+    bottom: 10;
     width: 400px;
 }
 
 .track-bottom {
-    padding-bottom: 120px;
+    padding-bottom: 50px;
 }
 
 .photo-button {
@@ -215,5 +214,5 @@
 .back {
     position: fixed;
     top: 60px;
-    left:0;
+    left: 0;
 }

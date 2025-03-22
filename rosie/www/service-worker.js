@@ -30,6 +30,7 @@ self.addEventListener('install', function (event) {
     .then(cache => {
       return Promise.all(
         urlsToCache.map(url => 
+          // cache them one by one to catch errors
           cache.add(url).catch(err => console.log(`Failed to cache ${url}`, err))
         )
       );
