@@ -72,7 +72,7 @@ export function usePhotoGallery() {
     const takePhoto = async (selectedDate: string) => {
         const photo = await Camera.getPhoto({
             resultType: CameraResultType.Uri,
-            source: CameraSource.Camera,
+            source: CameraSource.Prompt, // prompt so users are less likely to get stuck if they dont want to take a photo
             quality: 100,
             direction: CameraDirection.Front //default to front camera
         });

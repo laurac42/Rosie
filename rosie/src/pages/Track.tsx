@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
 import { add, backspace, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -10,7 +10,6 @@ import moment from 'moment';
 import { IonRippleEffect } from '@ionic/react';
 import { usePhotoGallery } from './hooks/usePhotoGallery';
 import Menu from '../components/Menu'
-import Tabs from '../components/Tabs'
 
 const Track: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -28,6 +27,7 @@ const Track: React.FC = () => {
   const [endDates, setEndDates] = useState<string[]>([]);
   const [cycleLengths, setCycleLengths] = useState<{ length: number, startDate: string }[]>([]);
   const [periodPrediction, setPeriodPrediction] = useState<any>();
+  const calendarRef = useRef<FullCalendar | null>(null);
 
 
   useEffect(() => {
@@ -42,6 +42,11 @@ const Track: React.FC = () => {
         className: 'date-event'
       }
     ]);
+    // re render the calendar
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.refetchEvents();
+    }
   }, []);
 
   // so when a date is clicked, an event is created for that date
@@ -182,6 +187,9 @@ const Track: React.FC = () => {
       }
 
       // update the server with a period prediction when the user tracks a period
+      calculateAverageCycleLength();
+      calculateDay();
+      calculatePeriodPrediction();
     }
   }
 
@@ -342,6 +350,7 @@ const Track: React.FC = () => {
         <IonContent fullscreen>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidthTrack">
             <FullCalendar
+              ref={calendarRef}
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView='dayGridWeek'
               weekends={true}
