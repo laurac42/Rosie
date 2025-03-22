@@ -17,7 +17,7 @@ const Calendar: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-      setIsMounted(true);
+    setIsMounted(true);
   }, []);
 
 
@@ -76,7 +76,7 @@ const Calendar: React.FC = () => {
   }
 
 
-  
+
 
   /* Render the period onto the calendar */
   function renderEventContent(eventInfo: any) {
@@ -106,26 +106,27 @@ const Calendar: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
+          <IonRow class="ion-justify-content-center"><h3 className='calendar-heading'>Click on a date to view details</h3></IonRow>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidth">
-             {isMounted && (
-            <FullCalendar
-            key={events.length}
-              plugins={[dayGridPlugin, interactionPlugin]}
-              initialView='dayGridMonth'
-              weekends={true}
-              events={events}
-              headerToolbar={{
-                right: 'today',
-                center: 'title',
-                left: 'prev,next'
-              }}
-              eventContent={renderEventContent} // Custom function to render the event content
-              dateClick={handleDateClick}
-              eventClick={handleEventClick}
-            />)}
+            {isMounted && (
+              <FullCalendar
+                key={events.length}
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView='dayGridMonth'
+                weekends={true}
+                events={events}
+                headerToolbar={{
+                  right: 'today',
+                  center: 'title',
+                  left: 'prev,next'
+                }}
+                eventContent={renderEventContent} // Custom function to render the event content
+                dateClick={handleDateClick}
+                eventClick={handleEventClick}
+              />)}
           </IonGrid>
         </IonContent>
-        <Tabs/>
+        <Tabs />
       </IonPage >
     </>
   );
