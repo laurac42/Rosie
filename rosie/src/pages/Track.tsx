@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonFooter, RefresherEventDetail, IonRefresher, IonRefresherContent } from '@ionic/react';
 import { add, backspace, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
 import { useState, useEffect, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
@@ -48,6 +48,14 @@ const Track: React.FC = () => {
       calendarApi.refetchEvents();
     }
   }, []);
+
+  function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.detail.complete();
+    }, 500);
+  }
+
 
   // so when a date is clicked, an event is created for that date
   function handleDateClick(info: any) {
@@ -348,6 +356,9 @@ const Track: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidthTrack">
             <FullCalendar
               ref={calendarRef}
@@ -481,9 +492,10 @@ const Track: React.FC = () => {
                 onClick={handleEmotionClick}>
                 <IonIcon icon={pulse} className='colourIcon'></IonIcon><br></br>Mood Swings<IonRippleEffect className="custom-ripple-emotion" /></IonCol>
             </IonRow>
-            <IonRow class="ion-justify-content-center">
+            <IonFooter><IonRow class="ion-justify-content-center">
               <IonButton className="save-btn" href="/Rosie/Calendar" onClick={saveTracking} size="large">Save All</IonButton>
             </IonRow>
+            </IonFooter>
           </IonGrid>
         </IonContent>
       </IonPage >
