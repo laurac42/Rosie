@@ -299,9 +299,7 @@ const Analysis: React.FC = () => {
                                 />
                             </IonRow>
                         )}
-
                     </IonGrid>
-
                 </IonContent>
                 <Tabs />
             </IonPage>
