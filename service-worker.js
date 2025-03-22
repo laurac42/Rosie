@@ -15,10 +15,10 @@ self.addEventListener('push', function (event) {
 var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
   './Rosie/rose.png',
-  './Rosie/Cycle.png',
-  './Rosie/Analysis.png',
-  './Rosie/Calendar.png', 
-  './Rosie/Track.png',
+  './Rosie/Cycle-p.png',
+  './Rosie/Analysis-p.png',
+  './Rosie/Calendar-p.png', 
+  './Rosie/Track-p.png',
   './Rosie/manifest.json'
 ];
 
