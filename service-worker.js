@@ -7,19 +7,19 @@ self.addEventListener('push', function (event) {
   event.waitUntil(
     self.registration.showNotification('Period Notification', {
       body: payload,
-      icon: "/Rosie/rose.png"
+      icon: "/rose.png"
     })
   );
 });
 
 var CACHE_NAME = 'rosie-PWA-localStorage';
 var urlsToCache = [
-  './Rosie/rose.png',
-  './Rosie/Cycle-p.png',
-  './Rosie/Analysis-p.png',
-  './Rosie/Calendar-p.png', 
-  './Rosie/Track-p.png',
-  './Rosie/manifest.json'
+  './rose.png',
+  './cyc.png',
+  './analyse.png',
+  './calend.png', 
+  './trk.png',
+  './manifest.json'
 ];
 
 // on install
