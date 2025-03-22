@@ -134,3 +134,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.calendar-heading {
+    padding-top: 0px !important;
+}
