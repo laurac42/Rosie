@@ -13,6 +13,7 @@ root.render(
     <App />
   </ReactPWAInstallProvider>
 );
+// clear other servcie workers
 
 // register service worker
 if ('serviceWorker' in navigator) {
