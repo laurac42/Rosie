@@ -8,11 +8,11 @@
 }
 
 .calendarWidthTrack {
-    height: 250px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 70px;
+    padding-top: 30px;
 }
 
 .track-main {
@@ -196,7 +196,6 @@
     padding-top: 0px;
 }
 
-/*Fix the save button to the bottom at all times */
 .save {
     bottom: 10;
     width: 400px;
@@ -208,11 +207,10 @@
 
 .photo-button {
     --background: var(--complementary-colour4) !important;
-    --color: var(--contrast) !important;
+    --color: white !important;
 }
 
 .back {
-    position: fixed;
-    top: 60px;
-    left: 0;
+    padding-top: 10px;
+    width: 200px;
 }

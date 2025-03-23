@@ -226,6 +226,9 @@ const Track: React.FC = () => {
           <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
+          <IonRow>
+              <IonButton className='back' href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
+            </IonRow>
           <IonGrid fixed={true} class="ion-justify-content-center calendarWidthTrack">
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]}
@@ -243,9 +246,6 @@ const Track: React.FC = () => {
             />
           </IonGrid>
           <IonGrid fixed={true}>
-            <IonRow>
-              <IonButton className='back' href="/Rosie/Cycle" size="default"><IonIcon icon={backspace}></IonIcon>Back</IonButton>
-            </IonRow>
             <IonRow><h3 className="h3-padding">Select a date and track your symptoms (you don't need to track them all)</h3></IonRow>
             <IonRow class="ion-justify-content-start">
               <h2><b>Period Flow</b></h2>
