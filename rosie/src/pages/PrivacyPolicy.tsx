@@ -20,7 +20,7 @@ const Privacy: React.FC = () => {
                     <IonRow class="ion-justify-content-start"><p><b>2. Information We Collect</b>
                         <br></br>When you use the App, we may collect the following information:
 
-                        Personal details you provide, such as your name, date of birth, and menstrual cycle data.
+                        Personal details you provide, such as your name, age, and menstrual cycle data.
 
                         Device and usage data, including IP addresses, device identifiers, and app activity.
 

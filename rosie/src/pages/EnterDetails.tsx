@@ -12,7 +12,6 @@ import moment from 'moment';
 
 const Details: React.FC = () => {
     const [showPeriodInput, setShowPeriodInput] = useState(false);
-    const [Birthday, setBirthday] = useState<any>();
     const today = dayjs();
     const [periodStart1, setPeriodStart1] = useState<any>();
     const [periodStart2, setPeriodStart2] = useState<any>();
@@ -46,12 +45,6 @@ const Details: React.FC = () => {
             console.log("finished", finished);
         }
 
-        if (!Birthday) {
-            alert('Birthday Required');
-            finished = false;
-            console.log("finished", finished);
-        }
-        localStorage.setItem('Birthday', Birthday);
         // only move to the next page if the user has entered all details 
         console.log("finished after reading", finished);
         if (finished == true) {
@@ -81,13 +74,6 @@ const Details: React.FC = () => {
             finished = false;
             console.log("finished", finished);
         }
-
-        if (!Birthday) {
-            alert('Birthday Required');
-            finished = false;
-            console.log("finished", finished);
-        }
-        localStorage.setItem('Birthday', Birthday);
 
         // now do the extra things for periods
         if (!periodStart1 || !periodStart2 || !periodStart3 || !periodEnd1 || !periodEnd2 || !periodEnd3) {
@@ -196,21 +182,6 @@ const Details: React.FC = () => {
                         <IonRow> <IonItem>
                             <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder="Enter Your Age"></IonInput>
                         </IonItem>
-                        </IonRow>
-                        <IonRow>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <MobileDatePicker
-                                        views={['year', 'month', 'day']}
-                                        maxDate={today}
-                                        label="Enter Birthday"
-                                        value={Birthday ? dayjs(Birthday) : null} // Ensure value is a valid dayjs object
-                                        onChange={(newValue) => {
-                                            setBirthday(newValue ? newValue.format("YYYY-MM-DD") : null);
-                                        }}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
                         </IonRow>
                     </IonGrid>
                     {/* This content disappears when showPeriodInput is set to true*/}
