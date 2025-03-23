@@ -7,7 +7,7 @@ import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
 import './Date.css'
 
-const Date: React.FC = () => {
+const DateComponent: React.FC = () => {
     const { date } = useParams<{ date: string }>();
     const { deletePhoto, photos, takePhoto } = usePhotoGallery();
     const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
@@ -114,4 +114,4 @@ const Date: React.FC = () => {
     );
 };
 
-export default Date;
+export default DateComponent;

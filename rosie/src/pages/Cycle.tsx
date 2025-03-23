@@ -15,29 +15,23 @@ const Cycle: React.FC = () => {
   const [endDates, setEndDates] = useState<string[]>([]);
   const [cycleLengths, setCycleLengths] = useState<{ length: number, startDate: string }[]>([]);
   const [periodPrediction, setPeriodPrediction] = useState<any>();
+  const [previousPrediction, setPreviousPrediction] = useState<any>(localStorage.getItem("previousPrediction") || "none");
 
   // calculate the average cycle length only on first render
   useEffect(() => {
-    calculateAverageCycleLength();
-    calculateDay();
-    calculatePeriodPrediction();
+    calculateAverageCycleLengthAndDay();
   }, []);
 
   // calculate average period length when either of the things it is based on update so it updates properly
-  useEffect(() => {
-    calculatePeriodPrediction();
-  }, [averageCycleLength, day]);
-
 
   /* Calculate the users average cycle length based on past periods, to make this the maximum for the cycle */
-  function calculateAverageCycleLength() {
-    console.log("calculating cycle length")
+  function calculateAverageCycleLengthAndDay() {
     // clear any old data first:
     periods.length = 0;
     startDates.length = 0;
+    endDates.length = 0;
     // first, load in all period data and make sure it is sorted by date
     if (localStorage.periodMap) {
-      console.log("period map exists")
       var periodDates = new Map<string, string>(JSON.parse(localStorage.periodMap));
       periodDates.forEach((flow: string, date: string) => {
         if (!periods.includes(date)) { periods.push(date); }
@@ -79,13 +73,13 @@ const Cycle: React.FC = () => {
 
       // then calculate the average based on the start and end dates
       // can only calculate the cycle length if there are two start dates
+      var averageCycleLength;
       if (startDates.length > 1) {
         cycleLengths.length = 0; // reset it each time it is calculated
         for (let i = 1; i < startDates.length; i++) {
           const startMoment = moment(startDates[i - 1]);
           const endMoment = moment(startDates[i]);
           const cycleLength = startMoment.diff(endMoment, 'days');
-          //console.log(cycleLength);
           cycleLengths.push({ length: cycleLength, startDate: startDates[i - 1] });
         }
 
@@ -94,67 +88,77 @@ const Cycle: React.FC = () => {
         for (let i = 0; i < cycleLengths.length; i++) {
           sum += cycleLengths[i].length;
         }
-        var averageCycleLength = (sum / cycleLengths.length) || 0;
+        averageCycleLength = (sum / cycleLengths.length) || 0;
 
         setAverageCycleLength(Math.round(averageCycleLength));// want whole number predictions on this page
-        console.log("average cycle length", averageCycleLength);
       }
       else {
-        // if the user hasn't had more than 2 periods, assume that their next cycle could be in 28 days
+        // if the user hasn't had more than 1 period, assume that their next cycle could be in 28 days
         setAverageCycleLength(28);
+        averageCycleLength = 28;
       }
-    }
 
-  }
-
-  /* Calculate what day of their cycle the user is currently on */
-  function calculateDay() {
-    // if there are some periods stored,
-    if (startDates.length > 0) {
+      // calculate day of period part
       // calculate the number of days since start of last period and today
-      const lastPeriodStartDate = moment(startDates[0]); // theyre ordered from recent, so first day
-      const today = moment();
-      const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
-      setDay(dayOfCycle);
+      if (startDates.length > 0) {
+        const lastPeriodStartDate = moment(startDates[0]); // theyre ordered from recent, so first day
+        const today = moment();
+        const dayOfCycle = today.diff(lastPeriodStartDate, 'days') + 1; // +1 as otherwise it doesn't include the start day as a day of this cycle
+        setDay(dayOfCycle);
+        // call function to calculate period prediction
+        calculatePeriodPrediction(dayOfCycle, averageCycleLength)
+      }
+
     }
   }
 
-  function calculatePeriodPrediction() {
 
-    if (averageCycleLength - day > 0) {
-      setPeriodPrediction(averageCycleLength - day + 1);
-    }
-    else if (averageCycleLength - day == 0) {
-      setPeriodPrediction("Today")
-    }
-    else {
-      setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
-    }
-    var predictionNumber = averageCycleLength - day;
-
-    // should just update the existing notifications rather than trying to create a new one
-    navigator.serviceWorker.ready.then(async function (registration) {
-      const subscription = await registration.pushManager.getSubscription(); // get the user's subscription
-      var notifications = localStorage.chosenNotifications;
-      if (subscription && (notifications.includes("upcoming"))) {
-        console.log("updating prediction")
-        // Send the updates period prediction to the server every time it updates
-        fetch('https://rosie-production.up.railway.app/updatePrediction', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subscription: subscription,
-            periodPrediction: predictionNumber
-          }),
-        });
+  function calculatePeriodPrediction(dayOfCycle: number, averageCycle: number) {
+    console.log(dayOfCycle, averageCycle)
+    console.log("prediction calculation")
+    if (startDates.length > 0) {
+      var predictionNumber = 0;
+      if (averageCycle - dayOfCycle > 0) {
+        setPeriodPrediction(averageCycle - dayOfCycle + 1);
+        predictionNumber = averageCycle - dayOfCycle + 1;
+      }
+      else if (averageCycle - dayOfCycle == 0) {
+        setPeriodPrediction("Today")
+        predictionNumber = 0;
       }
       else {
-        console.log("not updating predicion")
+        setPeriodPrediction(dayOfCycle - averageCycle - 1 + " days ago")
+        predictionNumber = 0;
       }
 
-    })
+      // only send the update if it is different
+      if (predictionNumber != Number(previousPrediction)) {
+        localStorage.setItem("previousPrediction", predictionNumber.toString()); // update the local storage
+        // should just update the existing notifications rather than trying to create a new one
+        navigator.serviceWorker.ready.then(async function (registration) {
+          const subscription = await registration.pushManager.getSubscription(); // get the user's subscription
+          var notifications = localStorage.chosenNotifications;
+          if (subscription && (notifications.includes("upcoming"))) {
+            console.log("updating prediction", predictionNumber)
+            // Send the updates period prediction to the server every time it updates
+            fetch('https://rosie-production.up.railway.app/updatePrediction', {
+              method: 'post',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                subscription: subscription,
+                periodPrediction: predictionNumber
+              }),
+            });
+          }
+          else {
+            console.log("not updating prediction")
+          }
+
+        })
+      }
+    }
   }
 
   return (

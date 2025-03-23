@@ -55,6 +55,7 @@ app.post("/register", function (req, res) {
 app.post("/updatePrediction", (req, res) => {
   subscriptions.forEach((storedSubscription) => {
     if (JSON.stringify(storedSubscription.subscription) == JSON.stringify(req.body.subscription)) {
+      console.log("update: ", req.body.periodPrediction)
       storedSubscription.periodPrediction = req.body.periodPrediction;
     }
     else {
@@ -121,6 +122,7 @@ function sendUpcomingNotifications() {
   subscriptions.forEach((storedSubscription) => {
     // check they have subscribed to upcoming notifications and there has been a prediction set
     if ((storedSubscription.upcomingNotifications == "true" || storedSubscription.upcomingNotifications == true) && storedSubscription.periodPrediction != "none") {
+      console.log("period prediction: ", storedSubscription.periodPrediction)
       if (Number(storedSubscription.periodPrediction) <= 3) {
         var payload = `Your period is due in ${storedSubscription.periodPrediction} days`
         if (parseInt(storedSubscription.periodPrediction) <= 0) {
@@ -141,7 +143,7 @@ function sendUpcomingNotifications() {
 }
 
 // send a reminder to track notification at 2 every day
-cron.schedule("0 14 * * *", () => {
+cron.schedule("0 17 * * *", () => {
   sendDailyNotifications();
 });
 
@@ -151,12 +153,13 @@ cron.schedule("0 9 * * *", () => {
   sendUpcomingNotifications();
 });
 
-// schedule all users upcoming period prediction to decrement every day at midnight as tis means they 
+// schedule all users upcoming period prediction to decrement every day at midnight as tis means their period is one day nearer
 cron.schedule("0 0 * * *", () => {
   subscriptions.forEach((storedSubscription) => {
     if (storedSubscription.periodPrediction != "none") {
       var decrement = Number(storedSubscription.periodPrediction) - 1;
       storedSubscription.periodPrediction = decrement;
+      console.log("update:", storedSubscription.periodPrediction)
     }
   })
 });

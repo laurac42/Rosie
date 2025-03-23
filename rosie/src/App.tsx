@@ -28,7 +28,6 @@ import MenuPrivacy from './pages/MenuPrivacy';
 import Notifications from './pages/Notifications';
 import AboutUs from './pages/AboutUs';
 import Resources from './pages/Resources';
-import ReactPWAInstallProvider, { useReactPWAInstall } from "react-pwa-install";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -49,7 +48,6 @@ import '@ionic/react/css/display.css';
 import './theme/darkmode.css';
 import './theme/lightmode.css';
 import './theme/high-contrast.css'
-import { radioButtonOff, calendar, clipboard, trendingUp } from 'ionicons/icons';
 
 setupIonicReact();
 

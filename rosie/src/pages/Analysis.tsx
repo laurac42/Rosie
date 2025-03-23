@@ -60,8 +60,6 @@ const Analysis: React.FC = () => {
 
             periodLengths.push({ length: periodLength, startDate: startMoment.format("DD/MM") });
         }
-
-        console.log(periodLengths.length)
         // calculate average
         var sum = 0;
         for (let i = 0; i < periodLengths.length; i++) {
@@ -70,7 +68,6 @@ const Analysis: React.FC = () => {
         var averagePeriodLength = (sum / periodLengths.length) || 0;
         periodLengths.reverse();
         setAveragePeriodLength(Math.round(averagePeriodLength * 10) / 10);
-
     }
 
     /**
@@ -86,7 +83,7 @@ const Analysis: React.FC = () => {
                 const endMoment = moment(startDates[i]);
                 const cycleLength = startMoment.diff(endMoment, 'days');
 
-                cycleLengths.push({ length: cycleLength, startDate: startMoment.format("DD/MM") });
+                cycleLengths.push({ length: cycleLength, startDate: endMoment.format("DD/MM") });
             }
 
             // calculate average
