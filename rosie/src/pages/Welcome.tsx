@@ -44,28 +44,28 @@
                                         <p><b>View your cycle at a glance on the cycle page: </b></p>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center image-row">
-                                        <img src={cycle} />
+                                        <img src={cycle} alt="On the cycle page you can view data on which day of your cycle you are on, how long your average cycle is, and how long until your next period" />
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center border-bottom"> </IonRow>
                                     <IonRow class="ion-justify-content-center">
                                         <p><b>Choose a day, and  your symptoms on the track page:</b></p>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center image-row">
-                                        <img src={track} />
+                                        <img src={track} alt="On the track page you can select a date, and then choose any symptoms (including period, skin, emotions, pain and a photo of your skin) you would like to track and click save to save them to your calendar"/>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center border-bottom"> </IonRow>
                                     <IonRow class="ion-justify-content-center">
                                         <p><b>View your symptoms at a glance, and click a date to see more information and photos on the calendar page:</b></p>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center image-row">
-                                        <img src={calendar} />
+                                        <img src={calendar} alt="On the calendar page, view all tracked data at a glance, and click a specific date to see more about what you tracked that day, and any photos of your skin you took"/>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center border-bottom"> </IonRow>
                                     <IonRow class="ion-justify-content-center">
                                         <p><b>View your period analysis from the analysis page:</b></p>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center bottom-image">
-                                        <img src={analysis} />
+                                        <img src={analysis} alt="On the analysis page, get insights into the average length of your period and cycle, and the types of pain you normally experience"/>
                                     </IonRow>
                                     <IonRow class="ion-justify-content-center">
                                         <IonButton className="done-btn" href="/Rosie/Cycle" size="large">Done</IonButton>
