@@ -26,7 +26,7 @@ const SignUp: React.FC = () => {
                 {install == "true" ?(
                     <IonGrid className='install-grid' fixed={true}>
                         <IonRow className='ion-justify-content-center'><h2>Installation Instructions:</h2></IonRow>
-                        <IonRow className='ion-justify-content-center'>
+                        <IonRow className='ion-justify-content-center install-text'>
                         <p><b>Apple:</b>
                         <br></br>
                         • Click the share button at the bottom of the screen <IonIcon className='colourIcon' icon={shareOutline}></IonIcon>
@@ -41,7 +41,7 @@ const SignUp: React.FC = () => {
                         • Choose 'Add to Home Screen'
                         </p></IonRow>
                         <IonRow className='ion-justify-content-center'>
-                        <IonButton onClick={() => setInstall("false")}>Done</IonButton>
+                        <IonButton className='done-button' onClick={() => setInstall("false")}>Done</IonButton>
                         </IonRow>
                     </IonGrid>
                 ):(

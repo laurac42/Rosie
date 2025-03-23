@@ -12,3 +12,13 @@ h1 {
 .install-grid {
     background-color: var(--darker-background);
 }
+
+/* to make it look good on the contrast colour scheme*/
+.contrast .install-text p, h2{
+    color: var(--contrast-text) !important;
+}
+
+.contrast .done-button {
+    color: var(--text);
+    --background: white !important;
+}
