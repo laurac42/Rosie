@@ -27,7 +27,7 @@ const Appearance: React.FC = () => {
                         </IonButtons>
                         <IonTitle>Appearance</IonTitle>
                         <IonButtons slot="end">
-                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                            <IonButton className='profileButton' href="/Rosie/Profile">
                                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
                             </IonButton>
                         </IonButtons>

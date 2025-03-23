@@ -4,15 +4,15 @@ import { radioButtonOff, calendar, clipboard, trendingUp } from "ionicons/icons"
 const Tabs: React.FC = () => {
     return (
         <IonTabBar slot="bottom">
-            <IonTabButton aria-label="Cycle" tab="Cycle" href="/Rosie/Cycle">
+            <IonTabButton tab="Cycle" href="/Rosie/Cycle">
                 <IonIcon icon={radioButtonOff} />
                 <IonLabel>Cycle</IonLabel>
             </IonTabButton>
-            <IonTabButton aria-label="Calendar" tab="Calendar" href="/Rosie/Calendar" >
+            <IonTabButton tab="Calendar" href="/Rosie/Calendar" >
                 <IonIcon icon={calendar} />
                 <IonLabel>Calendar</IonLabel>
             </IonTabButton>
-            <IonTabButton aria-label="Track" tab="Track" href="/Rosie/Track">
+            <IonTabButton tab="Track" href="/Rosie/Track">
                 <IonIcon icon={clipboard} />
                 <IonLabel>Track</IonLabel>
             </IonTabButton>
