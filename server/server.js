@@ -149,24 +149,17 @@ cron.schedule("0 17 * * *", () => {
 
 
 // send an upcoming period notification at 9 if the user's period is upcoming
-cron.schedule("48 16 * * *", () => {
+cron.schedule("0 9 * * *", () => {
   sendUpcomingNotifications();
 });
 
-cron.schedule("50 16 * * *", () => {
-  sendUpcomingNotifications();
-});
-
-cron.schedule("43 16 * * *", () => {
-  sendUpcomingNotifications();
-});
-
-// schedule all users upcoming period prediction to decrement every day at midnight as tis means they 
-cron.schedule("16 16 * * *", () => {
+// schedule all users upcoming period prediction to decrement every day at midnight as tis means their period is one day nearer
+cron.schedule("0 0 * * *", () => {
   subscriptions.forEach((storedSubscription) => {
     if (storedSubscription.periodPrediction != "none") {
       var decrement = Number(storedSubscription.periodPrediction) - 1;
       storedSubscription.periodPrediction = decrement;
+      console.log("update:", storedSubscription.periodPrediction)
     }
   })
 });
