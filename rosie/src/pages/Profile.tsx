@@ -13,41 +13,7 @@ import dayjs from 'dayjs';
 const Profile: React.FC = () => {
     const [name, setName] = useState<string>(localStorage.Name || 'No name');
     const [age, setAge] = useState<any>("No Age Available");
-    const [birthday, setBirthday] = useState<string>(localStorage.Birthday || "No Birthday");
     const [editDetailsBool, setEditDetailsBool] = useState<boolean>(false);
-    const [today, setToday] = useState<any>();
-
-    useEffect(() => {
-        if (birthday) {
-            // use birthday to calculate age, checking it is a number first
-            var age = getAge(birthday)
-            console.log(age)
-            if (isNaN(age)) {
-                setAge("No age availale")
-            }
-            else {
-                setAge(getAge(birthday))
-            }
-        }
-
-        // only allow the user to choose up to today
-        const today = moment().format("YYYY-MM-DD")
-        setToday(today);
-
-    }, [editDetailsBool]);
-
-    // function to get age from birthday - taken from: https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
-    function getAge(dateString: string) {
-        var today = new Date();
-        var birthDate = new Date(dateString);
-        var age = today.getFullYear() - birthDate.getFullYear();
-
-        var m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    }
 
     // changes the value of the edit details variable to change what content appears
     function editDetails() {
@@ -69,10 +35,6 @@ const Profile: React.FC = () => {
             localStorage.setItem('Age', age.value);
         }
 
-        // check if birthday has changed and if it has, update
-        if (birthday != localStorage.Birthday) {
-            localStorage.setItem('Birthday', birthday);
-        }
         setEditDetailsBool(false);
     }
 
@@ -118,9 +80,6 @@ const Profile: React.FC = () => {
                                 <p><b>Name: </b>{name} </p>
                             </IonRow>
                             <IonRow class='ion-justify-content-start'>
-                                <p><b>Birthday: </b>{birthday} </p>
-                            </IonRow>
-                            <IonRow class='ion-justify-content-start'>
                                 <p><b>Age: </b>{age} </p>
                             </IonRow>
                             <IonRow class="ion-justify-content-center">
@@ -142,21 +101,6 @@ const Profile: React.FC = () => {
                             <IonRow> <IonItem>
                                 <IonInput required className="custom-font" label="Age:" id='age' type="number" placeholder={age}></IonInput>
                             </IonItem>
-                            </IonRow>
-                            <IonRow>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <MobileDatePicker
-                                            views={['year', 'month', 'day']}
-                                            maxDate={today}
-                                            label="Enter Birthday"
-                                            value={birthday ? dayjs(birthday) : null} // Ensure value is a valid dayjs object
-                                            onChange={(newValue) => {
-                                                setBirthday(newValue ? newValue.format("YYYY-MM-DD") : null);
-                                            }}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
                             </IonRow>
                             <IonRow class="ion-justify-content-center">
                                 <IonButton className="btn" onClick={saveDetails} size="large">Save Details</IonButton>
