@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap');
 
-h1
-{
+h1 {
     font-family: "Playwrite IT Moderna", serif;
 }
 
 .installButton {
     padding-top: 50px;
     --background: var(--complementary-colour3) !important;
+}
+
+.install-grid {
+    background-color: var(--darker-background);
 }
