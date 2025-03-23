@@ -120,41 +120,42 @@ const Cycle: React.FC = () => {
   }
 
   function calculatePeriodPrediction() {
-
-    if (averageCycleLength - day > 0) {
-      setPeriodPrediction(averageCycleLength - day + 1);
-    }
-    else if (averageCycleLength - day == 0) {
-      setPeriodPrediction("Today")
-    }
-    else {
-      setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
-    }
-    var predictionNumber = averageCycleLength - day;
-
-    // should just update the existing notifications rather than trying to create a new one
-    navigator.serviceWorker.ready.then(async function (registration) {
-      const subscription = await registration.pushManager.getSubscription(); // get the user's subscription
-      var notifications = localStorage.chosenNotifications;
-      if (subscription && (notifications.includes("upcoming"))) {
-        console.log("updating prediction")
-        // Send the updates period prediction to the server every time it updates
-        fetch('https://rosie-production.up.railway.app/updatePrediction', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subscription: subscription,
-            periodPrediction: predictionNumber
-          }),
-        });
+    if (startDates.length > 0) {
+      if (averageCycleLength - day > 0) {
+        setPeriodPrediction(averageCycleLength - day + 1);
+      }
+      else if (averageCycleLength - day == 0) {
+        setPeriodPrediction("Today")
       }
       else {
-        console.log("not updating predicion")
+        setPeriodPrediction(day - averageCycleLength - 1 + " days ago")
       }
+      var predictionNumber = averageCycleLength - day;
 
-    })
+      // should just update the existing notifications rather than trying to create a new one
+      navigator.serviceWorker.ready.then(async function (registration) {
+        const subscription = await registration.pushManager.getSubscription(); // get the user's subscription
+        var notifications = localStorage.chosenNotifications;
+        if (subscription && (notifications.includes("upcoming"))) {
+          console.log("updating prediction")
+          // Send the updates period prediction to the server every time it updates
+          fetch('https://rosie-production.up.railway.app/updatePrediction', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              subscription: subscription,
+              periodPrediction: predictionNumber
+            }),
+          });
+        }
+        else {
+          console.log("not updating prediction")
+        }
+
+      })
+    }
   }
 
   return (

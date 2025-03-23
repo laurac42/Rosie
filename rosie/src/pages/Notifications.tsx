@@ -2,10 +2,15 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMe
 import { checkmarkDoneOutline, flower, personCircle, saveOutline } from 'ionicons/icons';
 import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Notifications: React.FC = () => {
-    const [notifications, setNotifications] = useState<string[]>(JSON.parse(localStorage.getItem("chosenNotifications") || "[]")); // get notifications on load
+    const [notifications, setNotifications] = useState<string[]>([]); // get notifications on load
+
+    useEffect(() => {
+        var notify = JSON.parse(localStorage.getItem("chosenNotifications") || "[]")
+        setNotifications(notify);
+    },[])
 
     /**
      * Store which notifications the user has clicked so we know which to send them 
