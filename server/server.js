@@ -143,13 +143,13 @@ function sendUpcomingNotifications() {
 }
 
 // send a reminder to track notification at 2 every day
-cron.schedule("0 17 * * *", () => {
+cron.schedule("8 14 * * *", () => {
   sendDailyNotifications();
 });
 
 
 // send an upcoming period notification at 9 if the user's period is upcoming
-cron.schedule("0 9 * * *", () => {
+cron.schedule("9 14 * * *", () => {
   sendUpcomingNotifications();
 });
 

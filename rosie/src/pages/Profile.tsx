@@ -24,15 +24,17 @@ const Profile: React.FC = () => {
      *  Check if any details were updated and save them to local storage if they were
      */
     function saveDetails() {
-        const name = document.getElementById('name') as HTMLInputElement;
+        const newname = document.getElementById('name') as HTMLInputElement;
         // only change in local storage if something has been entered
-        if (name.value) {
-            localStorage.setItem('Name', name.value);
+        if (newname.value) {
+            localStorage.setItem('Name', newname.value);
+            setName(newname.value);
         }
 
-        const age = document.getElementById('age') as HTMLInputElement;
-        if (age.value) {
-            localStorage.setItem('Age', age.value);
+        const newage = document.getElementById('age') as HTMLInputElement;
+        if (newage.value) {
+            localStorage.setItem('Age', newage.value);
+            setAge(newage.value)
         }
 
         setEditDetailsBool(false);
