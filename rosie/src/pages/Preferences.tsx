@@ -8,6 +8,7 @@ import ExploreContainer from '../components/ExploreContainer';
 const Preferences: React.FC = () => {
     const [theme, setTheme] = useState<string>('');
     const [notifications, setNotifications] = useState<string[]>([]);
+    const [notificationsSaved, setNotificationsSaved] = useState(false);
 
     // to handle the selection of a theme change radio button
     // sets the theme constant to whatever was the theme selected by the radio buttons
@@ -72,7 +73,7 @@ const Preferences: React.FC = () => {
                 }
             })
         }
-        window.location.href="/Rosie/SignUp/PrivacyPolicy"
+        setNotificationsSaved(true);
     }
 
     // This function is needed because Chrome doesn't accept a base64 encoded string
@@ -138,8 +139,13 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Preferences</IonButton>
+                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Notifications</IonButton>
                     </IonRow>
+                    { notificationsSaved && (
+                        <IonRow class="ion-justify-content-center">
+                        <IonButton href='/Rosie/SignUp/PrivacyPolicy' className="btn" size="large">Next Page</IonButton>
+                    </IonRow>
+                    )}
                 </IonGrid>
             </IonContent>
         </IonPage>
