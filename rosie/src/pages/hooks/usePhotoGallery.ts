@@ -31,7 +31,8 @@ export function usePhotoGallery() {
             var allPhoto: UserPhoto[] = [];
             photosInPreferences.forEach(photo => {
                 // all photos should get added to the all photos array - they are being pushed twice???
-                if (!allPhoto.includes(photo)) {
+                if (!allPhoto.includes(photo))
+                {
                     allPhoto.push(photo);
                 }
                 // ok it likes it when you hard code the date, but doesn't like it if you use the date variable
@@ -78,50 +79,33 @@ export function usePhotoGallery() {
         });
         // need to store the date and Date().getTime() so that multiple photos for the same day don't get overwritten
         const fileName = selectedDate + new Date().getTime() + '.jpeg';
-        return {
-            fileName,
-            photo,
-            selectedDate
-        };
+        const savedFileImage = await savePicture(photo, fileName);
+
+        // get the old photos to make sure it doesn't overwrite them
+        const storedPhotos = await Preferences.get({ key: PHOTO_STORAGE });
+        const oldPhotos = storedPhotos.value ? JSON.parse(storedPhotos.value) : [];
+
+        const newPhotos = [savedFileImage, ...oldPhotos];
+        await Preferences.set({
+            key: PHOTO_STORAGE,
+            value: JSON.stringify(newPhotos)
+        });
+
+        // also save dates to local storage, but only need to save each date once
+        var photoDates: string[] = JSON.parse(localStorage.photoDates || '[]');
+        if (!photoDates.includes(selectedDate)) {
+            photoDates.push(selectedDate);
+            // save them to local storage so we know what dates have photos stored
+            localStorage.setItem("photoDates", JSON.stringify(photoDates));
+            console.log("saved to local storage")
+        }
     };
-
-
-    const setUpSave = async (fileName: string, photo: Photo, selectedDate: string) => {
-        try {
-            console.log("set up save")
-            const savedFileImage = await savePicture(photo, fileName);
-            console.log("after saving photo")
-            console.log(savedFileImage)
-            // get the old photos to make sure it doesn't overwrite them
-            const storedPhotos = await Preferences.get({ key: PHOTO_STORAGE });
-            const oldPhotos = storedPhotos.value ? JSON.parse(storedPhotos.value) : [];
-
-            const newPhotos = [savedFileImage, ...oldPhotos];
-            await Preferences.set({
-                key: PHOTO_STORAGE,
-                value: JSON.stringify(newPhotos)
-            });
-
-            // also save dates to local storage, but only need to save each date once
-            var photoDates: string[] = JSON.parse(localStorage.photoDates || '[]');
-            if (!photoDates.includes(selectedDate)) {
-                photoDates.push(selectedDate);
-                // save them to local storage so we know what dates have photos stored
-                localStorage.setItem("photoDates", JSON.stringify(photoDates));
-                console.log("saved to local storage")
-            }
-        }
-        catch (error) {
-            console.log(error)
-        }
-    }
 
     /**
      * Save picture
      */
     const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
         let base64Data: string;
-        console.log("saving photo")
         // "hybrid" will detect Cordova or Capacitor;
         if (isPlatform('hybrid')) {
             const file = await Filesystem.readFile({
@@ -131,19 +115,15 @@ export function usePhotoGallery() {
         } else {
             base64Data = await base64FromPath(photo.webPath!);
         }
-        console.log("before saved file")
         const savedFile = await Filesystem.writeFile({
             path: fileName,
             data: base64Data,
             directory: Directory.Data
         });
 
-        console.log("saved file: ", savedFile);
-
         if (isPlatform('hybrid')) {
             // Display the new image by rewriting the 'file://' path to HTTP
             // Details: https://ionicframework.com/docs/building/webview#file-protocol
-            console.log("returning ")
             return {
                 filepath: savedFile.uri,
                 webviewPath: Capacitor.convertFileSrc(savedFile.uri),
@@ -152,13 +132,12 @@ export function usePhotoGallery() {
         else {
             // Use webPath to display the new image instead of base64 since it's
             // already loaded into memory
-            console.log("returngin else")
             return {
                 filepath: fileName,
                 webviewPath: photo.webPath
             };
         }
-    }
+    };
 
     const deletePhoto = async (photo: UserPhoto) => {
         // Remove this photo from the Photos reference data array
@@ -184,8 +163,7 @@ export function usePhotoGallery() {
     return {
         deletePhoto,
         photos,
-        takePhoto,
-        setUpSave
+        takePhoto
     };
 }
 

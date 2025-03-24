@@ -18,7 +18,7 @@ const Track: React.FC = () => {
   const [clickedPain, setClickedPain] = useState<string>('');
   const [clickedSkin, setClickedSkin] = useState<string>('');
   const [clickedEmotion, setClickedEmotion] = useState<string>('');
-  const { deletePhoto, photos, takePhoto, setUpSave } = usePhotoGallery();
+  const { deletePhoto, photos, takePhoto } = usePhotoGallery();
   const [photo, setPhoto] = useState<[string, Photo, string]>();
 
   useEffect(() => {
@@ -153,12 +153,6 @@ const Track: React.FC = () => {
         localStorage.skinMap = JSON.stringify(Array.from(storedSkin.entries()));
       }
     }
-    // if a photo has been taken, save it
-    if (photo) {
-      console.log(photo)
-      await setUpSave(photo[0], photo[1], photo[2]);
-      console.log("save has been set up")
-    }
     savePeriodData();
   }
 
@@ -193,18 +187,6 @@ const Track: React.FC = () => {
         <i>{eventInfo.event.title}</i>
       </>
     );
-  }
-
-  /**
-   * take a photo for the selected date and store the results
-   */
-  function addPhoto() {
-    takePhoto(selectedDate).then(result => {
-      // save the photo
-      setPhoto([result.fileName, result.photo, result.selectedDate])
-    }).catch(error => {
-      console.error('Error taking photo:', error);
-    });
   }
 
   return (
@@ -328,12 +310,12 @@ const Track: React.FC = () => {
               <>
                 <IonRow><p><b>Photo taken successfully. Click save all to save</b></p></IonRow>
                 <IonRow class='ion-justify-content-center'>
-                  <IonButton className='photo-button' onClick={addPhoto} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+                  <IonButton className='photo-button' onClick={() => takePhoto(selectedDate)} size='default'>Change Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
                 </IonRow>
               </>
 
             ) : (<IonRow class='ion-justify-content-center'>
-              <IonButton className='photo-button' onClick={addPhoto} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
+              <IonButton className='photo-button' onClick={() => takePhoto(selectedDate)} size='default'>Add Photo <IonIcon icon={add} className='buttonIcon'></IonIcon></IonButton>
             </IonRow>)}
 
             <IonRow class="ion-justify-content-start">
