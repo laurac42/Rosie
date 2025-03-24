@@ -3,25 +3,72 @@ img {
     max-height: auto;
 }
 
-.guide {
+.light .guide {
     --background: var(--complementary-colour2) !important;
     --ripple-color: var(--complementary2-text);
 }
 
 /* guide button hover */
-.guide ion-button:active, ion-button:hover{
+.light .guide ion-button:active,
+ion-button:hover {
     --background: var(--complementary2-text) !important;
-  }
+}
 
-.start {
+.dark .guide {
+    --background: var(--complementary-colour2) !important;
+    --ripple-color: var(--complementary2-light);
+}
+
+/* guide button hover */
+.dark .guide ion-button:active,
+ion-button:hover {
+    --background: var(--complementary2-light) !important;
+}
+
+.contrast .guide {
+    --background: var(--complementary-colour2) !important;
+    --ripple-color: var(--complementary2-dark);
+}
+
+/* guide button hover */
+.contrast .guide ion-button:active,
+ion-button:hover {
+    --background: var(--complementary2-dark) !important;
+}
+
+
+.light .start {
     --background: var(--complementary-colour3) !important;
     --ripple-color: var(--complementary3-text);
 }
 
 /* start button hover */
-.start ion-button:active, ion-button:hover{
+.light .start ion-button:active,
+ion-button:hover {
     --background: var(--complementary3-text) !important;
-  }
+}
+
+.dark .start {
+    --background: var(--complementary-colour3) !important;
+    --ripple-color: var(--complementary3-light);
+}
+
+/* start button hover */
+.dark .start ion-button:active,
+ion-button:hover {
+    --background: var(--complementary3-light) !important;
+}
+
+/* start button hover */
+.contrast .start ion-button:active,
+ion-button:hover {
+    --background: var(--complementary3-dark) !important;
+}
+
+.contrast .start {
+    --background: var(--complementary-colour3) !important;
+    --ripple-color: var(--complementary3-dark);
+}
 
 .border-bottom {
     border-top: solid var(--text) .1em;

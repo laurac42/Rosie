@@ -7,6 +7,13 @@ h1 {
 .installButton {
     padding-top: 50px;
     --background: var(--complementary-colour3) !important;
+    --ripple-color: var(--complementary3-text);
+}
+
+/* start button hover */
+.installButton ion-button:active,
+ion-button:hover {
+    --background: var(--complementary3-text) !important;
 }
 
 .install-grid {
