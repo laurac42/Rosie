@@ -15,7 +15,7 @@ const AboutUs: React.FC = () => {
             </IonButtons>
             <IonTitle>About Us</IonTitle>
             <IonButtons slot="end">
-              <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+              <IonButton className='profileButton' href="/Rosie/Profile">
                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
               </IonButton>
             </IonButtons>

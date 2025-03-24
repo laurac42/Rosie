@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonFooter, RefresherEventDetail, IonRefresher, IonRefresherContent } from '@ionic/react';
-import { add, backspace, bandage, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
+import { add, backspace, bandage, close, ellipsisHorizontal, flash, happyOutline, man, personCircle, pulse, sadOutline, thunderstorm, water } from 'ionicons/icons';
 import { useState, useEffect, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -207,16 +207,17 @@ const Track: React.FC = () => {
 
   return (
     <>
-      <Menu />
       <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
+              <IonButton className='profileButton' href='/Rosie/Cycle'>
+                <IonIcon className='profileIcon' slot="icon-only" icon={close}></IonIcon>
+              </IonButton>
             </IonButtons>
             <IonTitle>Track</IonTitle>
             <IonButtons slot="end">
-              <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+              <IonButton className='profileButton' href="/Rosie/Profile">
                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
               </IonButton>
             </IonButtons>

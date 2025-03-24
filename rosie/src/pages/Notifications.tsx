@@ -37,7 +37,6 @@ const Notifications: React.FC = () => {
             navigator.serviceWorker.ready.then((reg) => {
                 reg.pushManager.getSubscription().then((subscription) => {
                     if (subscription) {
-
                         console.log("Unsubscribing");
                         fetch('https://rosie-production.up.railway.app/unsubscribe', {
                             method: 'post',
@@ -143,7 +142,7 @@ const Notifications: React.FC = () => {
                         </IonButtons>
                         <IonTitle>Notifications</IonTitle>
                         <IonButtons slot="end">
-                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
+                            <IonButton className='profileButton' href="/Rosie/Profile">
                                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
                             </IonButton>
                         </IonButtons>

@@ -26,5 +26,5 @@ img {
 /*Fix the done button to the bottom at all times */
 .done-btn {
     position: fixed;
-    bottom: 60px;
+    bottom: 90px;
 }
