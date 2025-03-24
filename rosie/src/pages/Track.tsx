@@ -102,7 +102,7 @@ const Track: React.FC = () => {
   /**
    * Function to save all of the data that has been tracked to local storage
    */
-  function saveTracking() {
+  async function saveTracking() {
 
     // check if the pain map exists in local storage or if this is the first pain track
     if (clickedPain) {
@@ -155,7 +155,9 @@ const Track: React.FC = () => {
     }
     // if a photo has been taken, save it
     if (photo) {
-      setUpSave(photo[0], photo[1], photo[2])
+      console.log(photo)
+      await setUpSave(photo[0], photo[1], photo[2]);
+      console.log("save has been set up")
     }
     savePeriodData();
   }
