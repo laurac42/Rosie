@@ -33,6 +33,7 @@ ion-input {
   --lighter-pink: #dc5675;
   --mid-pink: #d42b53;
   --darker-pink: #bb2649;
+  --darkest-pink: #941e3a;
   --darker-background: #f2c0cb;
 
   --complementary-colour: #be4f27;
@@ -48,6 +49,7 @@ ion-input {
   --complementary3-light: #d9c0f2;
 
   --complementary-colour4: #0066ff;
+  --complementary4-dark: #0047b3;
 
   --contrast: white;
 
@@ -162,7 +164,7 @@ ion-button {
 
 /*Hovered and clicked buttons will change colour*/
 ion-button:active, ion-button:hover{
-  --background: var(--darker-pink);
+  --background: var(--darkest-pink) !important;
 }
 
 /* Prevent buttons from turning blue when hovered */

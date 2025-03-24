@@ -5,11 +5,23 @@ img {
 
 .guide {
     --background: var(--complementary-colour2) !important;
+    --ripple-color: var(--complementary2-text);
 }
+
+/* guide button hover */
+.guide ion-button:active, ion-button:hover{
+    --background: var(--complementary2-text) !important;
+  }
 
 .start {
     --background: var(--complementary-colour3) !important;
+    --ripple-color: var(--complementary3-text);
 }
+
+/* start button hover */
+.start ion-button:active, ion-button:hover{
+    --background: var(--complementary3-text) !important;
+  }
 
 .border-bottom {
     border-top: solid var(--text) .1em;
