@@ -31,7 +31,8 @@ export function usePhotoGallery() {
             var allPhoto: UserPhoto[] = [];
             photosInPreferences.forEach(photo => {
                 // all photos should get added to the all photos array - they are being pushed twice???
-                if (!allPhoto.includes(photo)) {
+                if (!allPhoto.includes(photo))
+                {
                     allPhoto.push(photo);
                 }
                 // ok it likes it when you hard code the date, but doesn't like it if you use the date variable
@@ -72,21 +73,12 @@ export function usePhotoGallery() {
     const takePhoto = async (selectedDate: string) => {
         const photo = await Camera.getPhoto({
             resultType: CameraResultType.Uri,
-            source: CameraSource.Prompt, // prompt so users are less likely to get stuck if they dont want to take a photo
+            source: CameraSource.Camera,
             quality: 100,
             direction: CameraDirection.Front //default to front camera
         });
         // need to store the date and Date().getTime() so that multiple photos for the same day don't get overwritten
         const fileName = selectedDate + new Date().getTime() + '.jpeg';
-        return {
-            fileName,
-            photo,
-            selectedDate
-        };
-    };
-
-    const setUpSave = async (fileName: string, photo: Photo, selectedDate: string) =>
-    {
         const savedFileImage = await savePicture(photo, fileName);
 
         // get the old photos to make sure it doesn't overwrite them
@@ -107,7 +99,7 @@ export function usePhotoGallery() {
             localStorage.setItem("photoDates", JSON.stringify(photoDates));
             console.log("saved to local storage")
         }
-    }
+    };
 
     /**
      * Save picture
@@ -171,8 +163,7 @@ export function usePhotoGallery() {
     return {
         deletePhoto,
         photos,
-        takePhoto,
-        setUpSave
+        takePhoto
     };
 }
 
