@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 
 const Profile: React.FC = () => {
     const [name, setName] = useState<string>(localStorage.Name || 'No name');
-    const [age, setAge] = useState<any>("No Age Available");
+    const [age, setAge] = useState<any>(localStorage.Age || "No Age Available");
     const [editDetailsBool, setEditDetailsBool] = useState<boolean>(false);
 
     // changes the value of the edit details variable to change what content appears

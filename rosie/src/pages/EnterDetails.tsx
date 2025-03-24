@@ -149,10 +149,10 @@ const Details: React.FC = () => {
     /* Get the dates between two dates - https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates*/
     function getInBetweenDates(startDate: Date, stopDate: Date): string[] {
         const dateArray: string[] = [];
-        let currentDate = new Date(startDate); // Create a new Date object to avoid mutating the original
+        let currentDate = new Date(startDate); 
         while (currentDate <= stopDate) {
-            dateArray.push(formatDate(currentDate)); // Push the formatted date
-            currentDate.setDate(currentDate.getDate() + 1); // Increment the date by 1 day
+            dateArray.push(formatDate(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
         }
         return dateArray;
     }
