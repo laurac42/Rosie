@@ -42,12 +42,15 @@ ion-input {
   --complementary-colour2: #26004d;
   --complementary2-text: #26004d; 
   --complementary2-light: white;
+  --complementary2-dark: #5A009D;
 
   --complementary-colour3: #00264d; 
   --complementary3-text: #00264d; 
   --complementary3-light: white;
+  --complementary3-dark: #5A009D;
 
   --complementary-colour4: #4d2600; 
+  --complementary4-dark: #5A009D; 
 
   --lighter-background: white;
 

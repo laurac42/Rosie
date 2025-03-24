@@ -207,8 +207,14 @@
 
 .photo-button {
     --background: var(--complementary-colour4) !important;
+    --ripple-color: var(--complementary4-dark);
     --color: white !important;
 }
+
+/*Hovered and clicked buttons will change colour*/
+.photo-button :active, ion-button:hover{
+    --background: var(--complementary4-dark) !important;
+  }
 
 .back {
     padding-top: 10px;
