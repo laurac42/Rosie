@@ -90,8 +90,11 @@ const Details: React.FC = () => {
 
             // check that the start date is always before the end date
             const startMoment1 = moment(periodStart1);
+            console.log(startMoment1);
             const endMoment1 = moment(periodEnd1);
+            console.log(endMoment1);
             const periodLength1 = endMoment1.diff(startMoment1, 'days') + 1;
+            console.log(periodLength1)
 
             const startMoment2 = moment(periodStart2);
             const endMoment2 = moment(periodEnd2);
@@ -104,25 +107,29 @@ const Details: React.FC = () => {
             if (periodLength1 > 0 && periodLength2 > 0 && periodLength3 > 0) {
                 // now create a map of every single date between the dates
                 let periodMap = new Map<string, string>();
-
+                console.log(periodMap)
                 for (var i = 0; i < storedPeriods.length; i++) {
 
                     // find all dates between the start and end dates
+                    console.log(storedPeriods[i]['startDate']);
+                    console.log(storedPeriods[i]['endDate'])
                     var inBetweenDates = getInBetweenDates(new Date(storedPeriods[i]['startDate']), new Date(storedPeriods[i]['endDate']));
+                    console.log(inBetweenDates)
                     inBetweenDates.forEach(newDate => {
                         if (periodMap.get(newDate)) // check if the user is storing overlaping period dates
                         {
+                            console.log("period map: ", periodMap)
+                            console.log(newDate, " is already in period map")
                             console.log("overlapping periods")
                             overlapping = true;
                         }
                         periodMap.set(newDate, "N/A");
                     });
                 }
-
-                // add everything in the periods map to local storage
-                localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
                 if (overlapping == false) {
                     if (finished == true) {
+                        // add everything in the periods map to local storage
+                        localStorage.periodMap = JSON.stringify(Array.from(periodMap.entries()));
                         localStorage.setItem("LoggedIn", "true");
                         window.location.href = '/Rosie/SignUp/Preferences';
                     }
@@ -140,27 +147,22 @@ const Details: React.FC = () => {
     }
 
     /* Get the dates between two dates - https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates*/
-    function getInBetweenDates(startDate: Date, stopDate: Date) {
-        var dateArray = new Array();
-        var currentDate = startDate;
+    function getInBetweenDates(startDate: Date, stopDate: Date): string[] {
+        const dateArray: string[] = [];
+        let currentDate = new Date(startDate); // Create a new Date object to avoid mutating the original
         while (currentDate <= stopDate) {
-            dateArray.push(formatDate(new Date(currentDate)));
-            currentDate.setDate(currentDate.getDate() + 1);
+            dateArray.push(formatDate(currentDate)); // Push the formatted date
+            currentDate.setDate(currentDate.getDate() + 1); // Increment the date by 1 day
         }
         return dateArray;
     }
 
-    /* Format the date to YYYY-MM-DD */
-    function formatDate(date: Date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) month = '0' + day;
-
-        return [year, month, day].join('-');
+    /* Format the date to YYYY-MMM-DD */
+    function formatDate(date: Date): string {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit month
+        const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+        return `${year}-${month}-${day}`;
     }
 
     return (
