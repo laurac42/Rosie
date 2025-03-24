@@ -41,7 +41,7 @@ self.addEventListener('install', function (event) {
   );
 });
 
-self.addEventListener('fetch', function (event) {
+/*self.addEventListener('fetch', function (event) {
   event.respondWith(
     caches.match(event.request).then(function (response) {
       return response || fetch(event.request).then(fetchResponse => {
@@ -52,7 +52,7 @@ self.addEventListener('fetch', function (event) {
       });
     })
   );
-});
+});*/
 
 
 // this is used to clean cache - https://www.monterail.com/blog/pwa-working-offline

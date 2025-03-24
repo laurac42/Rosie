@@ -139,9 +139,9 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Notifications</IonButton>
+                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Preferences</IonButton>
                     </IonRow>
-                    { notificationsSaved && (
+                    { notificationsSaved == true && (
                         <IonRow class="ion-justify-content-center">
                         <IonButton href='/Rosie/SignUp/PrivacyPolicy' className="btn" size="large">Next Page</IonButton>
                     </IonRow>
