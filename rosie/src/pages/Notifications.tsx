@@ -102,7 +102,6 @@ const Notifications: React.FC = () => {
                 }
             });
         }
-        window.location.href="/Rosie/Cycle"
 }
 
 
