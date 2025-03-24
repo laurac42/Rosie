@@ -7,10 +7,11 @@ import Menu from '../components/Menu'
 import Tabs from '../components/Tabs'
 import './Date.css'
 
-const DateComponent: React.FC = () => {
+const Date: React.FC = () => {
     const { date } = useParams<{ date: string }>();
     const { deletePhoto, photos, takePhoto } = usePhotoGallery();
     const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
+
 
     // get data for the clicked date from local storage
     const periodMap = new Map<string, string>(JSON.parse(localStorage.periodMap || '[]'));
@@ -23,21 +24,6 @@ const DateComponent: React.FC = () => {
     const emotion = emotionsMap.get(date);
     const skin = skinMap.get(date);
 
-    /**
-     * Delete the photo and also handle deleting from the dates array
-     * @param photo the photo to delete
-     */
-    const handleDeletePhoto = (photo: UserPhoto) => {
-        // check if there are other photos on the page
-        const remainingPhotos = photos.filter((p) => p !== photo);
-        if (remainingPhotos.length === 0) {
-            // if there are no other photos on the page, remove the date from the photo dates in local storage
-            const photoDates = JSON.parse(localStorage.getItem("photoDates") || "[]");
-            const updatedPhotoDates = photoDates.filter((d: string) => d !== date);
-            localStorage.setItem("photoDates", JSON.stringify(updatedPhotoDates));
-        }
-    };
-
     return (
         <>
             <Menu />
@@ -49,7 +35,7 @@ const DateComponent: React.FC = () => {
                         </IonButtons>
                         <IonTitle>Date Details</IonTitle>
                         <IonButtons slot="end">
-                            <IonButton className='profileButton' href="/Rosie/Profile">
+                            <IonButton aria-label="Profile" className='profileButton' href="/Rosie/Profile">
                                 <IonIcon className='profileIcon' slot="icon-only" icon={personCircle}></IonIcon>
                             </IonButton>
                         </IonButtons>
@@ -81,9 +67,11 @@ const DateComponent: React.FC = () => {
                         )}
 
                         <IonRow class="ion-justify-content-center">
-                                <IonButton href='/Rosie/Calendar'>
-                                    Done <IonIcon icon={checkmark}></IonIcon>
-                                </IonButton></IonRow>
+                            <IonFab >
+                                <IonFabButton href='/Rosie/Calendar'>
+                                    <IonIcon icon={checkmark}></IonIcon>
+                                </IonFabButton>
+                            </IonFab></IonRow>
                     </IonGrid>
                     {/* delete stuff came from here - https://codesandbox.io/p/sandbox/photo-gallery-capacitor-react-85m2c?file=%2Fsrc%2Fpages%2FTab2.tsx%3A54%2C27 */}
                     <IonActionSheet
@@ -95,7 +83,6 @@ const DateComponent: React.FC = () => {
                             handler: () => {
                                 if (photoToDelete) {
                                     deletePhoto(photoToDelete);
-                                    handleDeletePhoto(photoToDelete);
                                     setPhotoToDelete(undefined);
                                 }
                             }
@@ -114,4 +101,4 @@ const DateComponent: React.FC = () => {
     );
 };
 
-export default DateComponent;
+export default Date;

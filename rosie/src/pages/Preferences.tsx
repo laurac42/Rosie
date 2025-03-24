@@ -37,7 +37,7 @@ const Preferences: React.FC = () => {
                                     const response = await fetch('https://rosie-production.up.railway.app/vapidPublicKey');
                                     //console.log(response.text())
                                     const vapidPublicKey = await response.text();
-
+                                    console.log(vapidPublicKey)
                                     const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey); // convert it from base 64
 
                                     return registration.pushManager.subscribe({
@@ -71,9 +71,8 @@ const Preferences: React.FC = () => {
                         })
                 }
             })
-
         }
-
+        window.location.href="/Rosie/SignUp/PrivacyPolicy"
     }
 
     // This function is needed because Chrome doesn't accept a base64 encoded string
@@ -139,7 +138,7 @@ const Preferences: React.FC = () => {
                     <IonRow class="checkbox"><IonCheckbox onIonChange={clickedNotification} value="upcoming" labelPlacement="end">Upcoming Period Reminder</IonCheckbox></IonRow>
                     <IonRow><IonCheckbox onIonChange={clickedNotification} value="daily" labelPlacement="end">Daily Track Reminder</IonCheckbox></IonRow>
                     <IonRow class="ion-justify-content-center">
-                        <IonButton onClick={setUpNotifications} href='/Rosie/Signup/PrivacyPolicy' className="btn" size="large">Save Preferences</IonButton>
+                        <IonButton onClick={setUpNotifications} className="btn" size="large">Save Preferences</IonButton>
                     </IonRow>
                 </IonGrid>
             </IonContent>
